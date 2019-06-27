@@ -51,8 +51,8 @@ def downsample_short(data_dir, save_dir, verbose=False):
         parts = f.split('.')
         new_f = parts[0] + '.' + parts[1] + '.png'
         new_f = ''.join(c for c in new_f)
-        parts = new_f.split('_')
-        new_f = parts[0] +'_' + parts[1] +'_' + parts[2]
+        # parts = new_f.split('_')
+        # new_f = parts[0] +'_' + parts[1] +'_' + parts[2]
 
         #io.imsave(save_dir + new_f, downsample_image)
         downsample_image.save(save_dir + new_f)
