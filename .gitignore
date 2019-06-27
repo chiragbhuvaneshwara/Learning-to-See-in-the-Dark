@@ -1,0 +1,15 @@
+XDG_CACHE_HOME
+.vscode
+
+dataset/Sony/long/*.ARW
+dataset/Sony/long_temp/*.ARW
+dataset/Sony/short/*.ARW
+dataset/Sony/short_temp/*.ARW
+
+dataset/Sony/long_down/*.png
+dataset/Sony/long_temp_down/*.png
+dataset/Sony/short_down/*.png
+dataset/Sony/short_temp_down/*.png
+
+dataset/Sony/*.txt
+dataset/images
