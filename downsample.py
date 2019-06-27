@@ -31,8 +31,8 @@ def downsample(in_path):
 
 def downsample_short(data_dir, save_dir, verbose=False):
     
-    dl = os.listdir(data_dir)
-    
+    dl = sorted(os.listdir(data_dir))[1:]
+
     imageNameCount = {}
     i = 0
     for f in dl:
@@ -46,12 +46,14 @@ def downsample_short(data_dir, save_dir, verbose=False):
         else: 
             imageNameCount[imageName] += 1
         
-
         downsample_image = downsample(os.path.join(data_dir, f))
         
         parts = f.split('.')
         new_f = parts[0] + '.' + parts[1] + '.png'
-       
+        new_f = ''.join(c for c in new_f)
+        parts = new_f.split('_')
+        new_f = parts[0] +'_' + parts[1] +'_' + parts[2]
+
         #io.imsave(save_dir + new_f, downsample_image)
         downsample_image.save(save_dir + new_f)
 
@@ -63,8 +65,8 @@ def downsample_short(data_dir, save_dir, verbose=False):
 
 def downsample_long(data_dir, save_dir, imageCountFromShort, verbose = False):
     
-    dl = os.listdir(data_dir)
-    
+    dl = sorted(os.listdir(data_dir))[1:]
+
     imageNameCount = {}
     i = 0
     for f in dl:
@@ -80,7 +82,7 @@ def downsample_long(data_dir, save_dir, imageCountFromShort, verbose = False):
 
         for j in range(count):
             new_f = parts[0] +'_'+ str(int(parts[1])+j) +'_'+ parts[2][:-3] + 'png'
-       
+            new_f = ''.join(c for c in new_f)
             #io.imsave(save_dir + new_f, downsample_image)
             downsample_image.save(save_dir + new_f)
 
@@ -94,6 +96,10 @@ print('##################################')
 
 downsample_long('dataset/Sony/long_temp/', 'dataset/Sony/long_temp_down/', imageNameCount_short, verbose = True)
 
-         
+d1 = sorted(os.listdir('dataset/Sony/short_temp_down/'))
+d2 = sorted(os.listdir('dataset/Sony/long_temp_down/'))
+
+print(d1[1].split('_'))
+print(d2[1])
 
 

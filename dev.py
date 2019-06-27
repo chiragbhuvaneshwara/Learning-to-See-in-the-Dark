@@ -24,5 +24,10 @@ def downsample(in_path):
 
     #return rgb_downsample
 
-in_path = 'dataset/Sony/short/00001_00_0.1s.ARW'
-downsample(in_path)
+#in_path = 'dataset/Sony/short/00001_00_0.1s.ARW'
+#downsample(in_path)
+import os
+d1 = sorted(os.listdir('dataset/Sony/short_temp_down/'))
+d2 = sorted(os.listdir('dataset/Sony/long_temp_down/'))
+
+print(d1[1].split('_'))
