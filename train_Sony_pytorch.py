@@ -107,7 +107,8 @@ class unet(nn.Module):
 
     def __init__(self):
         super(unet,self).__init__()
-
+        
+        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         #Input Tensor Dimensions = 256x256x3
         #Convolution 1
         self.conv1=nn.Conv2d(in_channels=3,out_channels=16, kernel_size=5,stride=1, padding=2)
@@ -161,7 +162,7 @@ class unet(nn.Module):
 
         #Input Tensor Dimensions= 256x256x19
         #DeConvolution 3
-        self.deconv3=nn.ConvTranspose2d(in_channels=19,out_channels=1,kernel_size=5,padding=2)
+        self.deconv3=nn.ConvTranspose2d(in_channels=19,out_channels=3,kernel_size=5,padding=2)
         nn.init.xavier_uniform(self.deconv3.weight)
         self.activ_6=nn.Sigmoid()
         ##Output Tensor Dimensions = 256x256x1
@@ -232,11 +233,6 @@ for epoch in range(num_epochs):
         # Forward pass
         outputs = model(in_images)
 
-        print(in_images.size())
-        print(outputs.size())
-        print(exp_images.size())
-        print('###########################################')
-
         loss = criterion(outputs, exp_images)
 
         # Backward and optimize
@@ -244,7 +240,7 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if (i+1) % 100 == 0:
+        if (i+1) % 1 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                    .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
 
@@ -269,5 +265,5 @@ for epoch in range(num_epochs):
         if current_MSE <= np.amin(valMSE):
             torch.save(model.state_dict(),'model'+str(epoch+1)+'.ckpt')
 
-        print('Validataion accuracy is: {} %'.format(current_MSE))
+        print('Validataion MSE is: {} %'.format(current_MSE))
 
