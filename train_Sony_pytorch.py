@@ -263,7 +263,7 @@ for epoch in range(num_epochs):
         current_MSE = MSE
         valMSE.append(current_MSE)
         if current_MSE <= np.amin(valMSE):
-            torch.save(model.state_dict(),'model'+str(epoch+1)+'.ckpt')
+            torch.save(model.state_dict(),'models/ESmodel'+str(epoch+1)+'.ckpt')
 
-        print('Validataion MSE is: {} %'.format(current_MSE))
+        print('Validataion MSE is: {} '.format(current_MSE))
 
