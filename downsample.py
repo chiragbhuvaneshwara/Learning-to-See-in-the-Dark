@@ -16,8 +16,8 @@ def downsample(in_path):
     with rawpy.imread(in_path) as raw:
         rgb = raw.postprocess(use_camera_wb=True, half_size=False, no_auto_bright=True, output_bps=8)
 
-    #rgb_downsample = resize(rgb, (1280 , 720), anti_aliasing=True)
-    reqd_shape = (rgb.shape[1]//4, rgb.shape[0]//4 )
+    # reqd_shape = (rgb.shape[1]//4, rgb.shape[0]//4 )
+    reqd_shape = (1280 , 720)
     rgb = Image.fromarray(rgb)
     rgb_downsample = rgb.resize(reqd_shape, resample=Image.LANCZOS)
 
@@ -57,7 +57,7 @@ def downsample_short(data_dir, save_dir, verbose=False):
         #io.imsave(save_dir + new_f, downsample_image)
         downsample_image.save(save_dir + new_f)
 
-        if verbose and i%10 == 0:
+        if verbose and i%100 == 0:
             print(i, 'images downsampled out of', len(dl))
     print('All images in',data_dir,'are downsampled')
 
@@ -86,20 +86,22 @@ def downsample_long(data_dir, save_dir, imageCountFromShort, verbose = False):
             #io.imsave(save_dir + new_f, downsample_image)
             downsample_image.save(save_dir + new_f)
 
-        if verbose and i%10 == 0:
+        if verbose and i%50 == 0:
             print(i, 'images downsampled out of', len(dl))
     
     print('All images in',data_dir,'are downsampled')
 
-imageNameCount_short = downsample_short('dataset/Sony/short_temp/', 'dataset/Sony/short_temp_down/', verbose=True)
+# imageNameCount_short = downsample_short('dataset/Sony/short_temp/', 'dataset/Sony/short_temp_down/', verbose=True)
+imageNameCount_short = downsample_short('dataset/Sony/short/', 'dataset/Sony/short_down/', verbose=True)
 print('##################################')
 
-downsample_long('dataset/Sony/long_temp/', 'dataset/Sony/long_temp_down/', imageNameCount_short, verbose = True)
+# downsample_long('dataset/Sony/long_temp/', 'dataset/Sony/long_temp_down/', imageNameCount_short, verbose = True)
+downsample_long('dataset/Sony/long/', 'dataset/Sony/long_down/', imageNameCount_short, verbose = True)
 
-d1 = sorted(os.listdir('dataset/Sony/short_temp_down/'))
-d2 = sorted(os.listdir('dataset/Sony/long_temp_down/'))
+# d1 = sorted(os.listdir('dataset/Sony/short_temp_down/'))
+# d2 = sorted(os.listdir('dataset/Sony/long_temp_down/'))
 
-print(d1[1].split('_'))
-print(d2[1])
+# print(d1[1].split('_'))
+# print(d2[1])
 
 
