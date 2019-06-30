@@ -40,6 +40,7 @@ class SeeingIntTheDarkDataset(Dataset):
 
 # sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
 sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+
 print(sitd_dataset[0][0].size())
 
 n = 1234
@@ -221,7 +222,7 @@ class unet(nn.Module):
         x = self.out1(x)
         x = self.out2(x)
 
-        return out
+        return x
 ##################################################################################################
 class simpleUNET(nn.Module):
 
