@@ -209,7 +209,9 @@ class unet(nn.Module):
         self.out2 = DepthToSpace(2)
 
     def forward(self,x):
-
+        
+        print('#################################')
+        print(x.size())
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
@@ -221,6 +223,7 @@ class unet(nn.Module):
         x = self.up4(x, x1)
         x = self.out1(x)
         x = self.out2(x)
+        print(x.size())
 
         return x
 ##################################################################################################
