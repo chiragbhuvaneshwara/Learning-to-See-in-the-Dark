@@ -1,6 +1,9 @@
 XDG_CACHE_HOME
 .vscode
 
+checkpoint/Fuji
+checkpoint/Sony
+
 dataset/Sony/long/*.ARW
 dataset/Sony/long_temp/*.ARW
 dataset/Sony/short/*.ARW

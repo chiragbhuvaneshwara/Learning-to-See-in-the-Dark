@@ -74,17 +74,14 @@ print('Using device: %s'%device)
 # num_test = 8
 
 #### dev params
-input_size = 32 * 32 * 3
-layer_config= [512, 256]
-num_classes = 10
 num_epochs = 30
-learning_rate = 0.01 #1e-3
+learning_rate = 1e-3
 learning_rate_decay = 0.99
-reg=0#0.001
+reg=0.001
 
-num_training= 20
-num_validation = 6
-num_test = 8
+num_training= 2100
+num_validation = 200
+num_test = 397
 batch_size = 2
 
 mask = list(range(num_training))
@@ -211,8 +208,8 @@ class unet(nn.Module):
 
     def forward(self,x):
         
-        print('#################################')
-        print(x.size())
+        #print('#################################')
+        #print(x.size())
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
@@ -224,7 +221,7 @@ class unet(nn.Module):
         x = self.up4(x, x1)
         x = self.out1(x)
         #x = self.out2(x)
-        print(x.size())
+        #print(x.size())
 
         return x
 ##################################################################################################
@@ -306,7 +303,7 @@ print(model)
 model.to(device)
 
 # Loss and optimizer
-criterion = nn.BCELoss()
+criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=reg)
 
 # Train the model
