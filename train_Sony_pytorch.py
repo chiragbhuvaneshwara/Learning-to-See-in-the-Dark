@@ -65,6 +65,7 @@ def update_lr(optimizer, lr):
 # Device configuration
 #--------------------------------
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.cuda.set_device(1)
 print('Using device: %s'%device)
 
 #### final params
@@ -205,8 +206,8 @@ class unet(nn.Module):
         self.up2 = up(512, 128)
         self.up3 = up(256, 64)
         self.up4 = up(128, 64)
-        self.out1 = nn.Conv2d(64, 12, 3, padding=1)
-        self.out2 = DepthToSpace(2)
+        self.out1 = nn.Conv2d(64, 3, 3, padding=1)
+        #self.out2 = DepthToSpace(2)
 
     def forward(self,x):
         
@@ -222,7 +223,7 @@ class unet(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
-        x = self.out2(x)
+        #x = self.out2(x)
         print(x.size())
 
         return x
