@@ -38,7 +38,8 @@ class SeeingIntTheDarkDataset(Dataset):
         return [in_image, out_image]
 
 
-sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
+# sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
 print(sitd_dataset[0][0].size())
 
 n = 1234
