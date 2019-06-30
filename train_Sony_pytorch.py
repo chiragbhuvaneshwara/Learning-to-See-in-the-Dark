@@ -196,16 +196,16 @@ class unet(nn.Module):
         super(unet,self).__init__()
         
         # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
-        self.inc = double_conv(3, 32)
-        self.down1 = down(32, 64)
-        self.down2 = down(64, 128)
-        self.down3 = down(128, 256)
-        self.down4 = down(256, 512)
-        self.up1 = up(768, 256)
-        self.up2 = up(384, 128)
-        self.up3 = up(192, 64)
-        self.up4 = up(96, 32)
-        self.out1 = nn.Conv2d(32, 12, 3, padding=1)
+        self.inc = double_conv(3, 64)
+        self.down1 = down(64, 128)
+        self.down2 = down(128, 256)
+        self.down3 = down(256, 512)
+        self.down4 = down(512, 512)
+        self.up1 = up(1024, 256)
+        self.up2 = up(512, 128)
+        self.up3 = up(256, 64)
+        self.up4 = up(128, 64)
+        self.out1 = nn.Conv2d(64, 12, 3, padding=1)
         self.out2 = DepthToSpace(2)
 
     def forward(self,x):
