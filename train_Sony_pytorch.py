@@ -353,5 +353,9 @@ for epoch in range(num_epochs):
         if current_MSE <= np.amin(valMSE):
             torch.save(model.state_dict(),'models/ESmodel'+str(epoch+1)+'.ckpt')
 
-        print('Validataion MSE is: {} '.format(current_MSE))
+        print('Validation MSE is: {} '.format(current_MSE))
+plt.plot(valMSE)
+plt.ylabel('Validation MSE')
+plt.savefig('Validation.png')
+
 
