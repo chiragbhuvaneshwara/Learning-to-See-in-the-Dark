@@ -19,3 +19,5 @@ dataset/Sony/short_temp_down/*.png
 dataset/Sony/*.txt
 images
 models/*.ckpt
+
+!plots

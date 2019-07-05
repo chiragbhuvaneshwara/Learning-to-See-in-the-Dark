@@ -82,7 +82,7 @@ reg=0.001
 num_training= 2100
 num_validation = 200
 num_test = 397
-batch_size = 2
+batch_size = 1
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -354,8 +354,19 @@ for epoch in range(num_epochs):
             torch.save(model.state_dict(),'models/ESmodel'+str(epoch+1)+'.ckpt')
 
         print('Validation MSE is: {} '.format(current_MSE))
+
 plt.plot(valMSE)
+title='ValMSE_vs_Epochs'
 plt.ylabel('Validation MSE')
-plt.savefig('Validation.png')
+plt.xlabel('Epochs')
+plt.title(title)
+plt.savefig('plots/'+title+'.png')
+
+plt.plot(Loss)
+title='Loss_vs_Iterations'
+plt.ylabel('Validation MSE')
+plt.xlabel('Epochs')
+plt.title(title)
+plt.savefig('plots/'+title+'.png')
 
 
