@@ -1,6 +1,8 @@
 XDG_CACHE_HOME
 .vscode
 
+result_Sony/*
+
 checkpoint/Fuji
 checkpoint/Sony
 
