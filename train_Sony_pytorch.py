@@ -75,7 +75,7 @@ print('Using device: %s'%device)
 
 #### dev params
 num_epochs = 30
-learning_rate = 1e-3
+learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
 
@@ -328,7 +328,7 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if (i+1) % 1 == 0:
+        if (i+1) % 100 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                    .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
 
