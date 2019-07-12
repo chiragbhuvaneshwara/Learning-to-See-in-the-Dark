@@ -31,8 +31,8 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
-# sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+#sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
 print(sitd_dataset[0][0].size())
 
 #--------------------------------
@@ -45,20 +45,20 @@ if device == 'cuda':
 print('Using device: %s'%device)
 
 #### final params
-# num_training= 2100
-# num_validation = 200
-# num_test = 397
+#num_training= 2100
+#num_validation = 200
+#num_test = 397
 
-num_epochs = 1
+num_epochs = 3
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
-batch_size = 1
+batch_size = 10
 
 #### dev params
-num_training= 2
-num_validation = 1
-num_test = 1
+num_training= 200
+num_validation = 50
+num_test = 50
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -131,8 +131,7 @@ def trainAndTestModel(name):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-
-            if (i+1) % 100 == 0:
+            if (i+1) % 10 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                     .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
         
@@ -149,9 +148,9 @@ def trainAndTestModel(name):
                 exp_images = exp_images.to(device)
                 outputs = model(in_images)
                 MSE += torch.sum((outputs - exp_images) ** 2)
-            
-                outputs_np = outputs.permute(0, 2, 3, 1).numpy() 
-                exp_images_np = exp_images.permute(0,2,3,1).numpy()
+                #outputs = outputs.cpu()
+                outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy() 
+                exp_images_np = exp_images.permute(0,2,3,1).cpu().numpy()
 
                 SSIM = 0
                 for i in range(len(outputs_np)):
@@ -205,19 +204,39 @@ def trainAndTestModel(name):
 
     # last_model.eval()
     bestESmodel.eval()
+    trans = transforms.ToPILImage()
         
     with torch.no_grad():
 
         overallSSIM = 0
-        MSE = 0 
+        MSE = 0
+        count = 0 
         for in_images, exp_images in test_loader:
+            count += 1
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
             outputs = bestESmodel(in_images)
+            #print(outputs.size())
             MSE += torch.sum((outputs - exp_images) ** 2)
-            
-            outputs_np = outputs.permute(0, 2, 3, 1).numpy() 
-            exp_images_np = exp_images.permute(0,2,3,1).numpy()
+            # Visualize the output of the best model against ground truth
+            # print('Saving image_%d.png'%(count))
+            outputs_py = outputs.cpu()
+            print(outputs_py[0].size())
+            #print(outputs_py.size)
+            exp_images_py = exp_images.cpu()
+            print(exp_images_py[0].size())
+            #outputs_py = outputs_py.cpu()
+            #exp_images_py = exp_images_py.cpu()
+            f, axarr = plt.subplots(1,2)
+            title='Output of the best model vs Ground truth Image'
+            plt.suptitle(title)
+            axarr[0].imshow(trans(outputs_py[0].permute(1,2,0)))
+            axarr[1].imshow(trans(exp_images_py[0].permute(1,2,0)))
+            print('Saving image_%d.png'%(count))
+            plt.savefig('images/'+name+'_%d.png'%(count))
+
+            outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
+            exp_images_np = exp_images.permute(0,2,3,1).cpu().numpy()
 
             SSIM = 0
             for i in range(len(outputs_np)):
@@ -234,8 +253,8 @@ def trainAndTestModel(name):
 
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-name = 'simpleUNET'
-# name = 'unet'
+# name = 'simpleUNET'
+name = 'unet'
 
 trainAndTestModel(name)
 

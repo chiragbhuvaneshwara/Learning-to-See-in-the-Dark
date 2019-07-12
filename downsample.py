@@ -17,7 +17,8 @@ def downsample(in_path):
         rgb = raw.postprocess(use_camera_wb=True, half_size=False, no_auto_bright=True, output_bps=8)
 
     # reqd_shape = (rgb.shape[1]//4, rgb.shape[0]//4 )
-    reqd_shape = (1280 , 720)
+    # reqd_shape = (1280 , 720)
+    reqd_shape = (720,480)    
     rgb = Image.fromarray(rgb)
     rgb_downsample = rgb.resize(reqd_shape, resample=Image.LANCZOS)
 

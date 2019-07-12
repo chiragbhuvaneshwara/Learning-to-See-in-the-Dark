@@ -23,3 +23,5 @@ images
 models/*.ckpt
 
 !plots
+!images/*.png
+!images/*.png
