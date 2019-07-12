@@ -45,20 +45,20 @@ if device == 'cuda':
 print('Using device: %s'%device)
 
 #### final params
-#num_training= 2100
-#num_validation = 200
-#num_test = 397
+num_training= 2100
+num_validation = 200
+num_test = 397
 
-num_epochs = 3
+num_epochs = 100
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
 batch_size = 10
 
 #### dev params
-num_training= 200
-num_validation = 50
-num_test = 50
+#num_training= 200
+#num_validation = 50
+#num_test = 50
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -230,8 +230,8 @@ def trainAndTestModel(name):
             f, axarr = plt.subplots(1,2)
             title='Output of the best model vs Ground truth Image'
             plt.suptitle(title)
-            axarr[0].imshow(trans(outputs_py[0].permute(1,2,0)))
-            axarr[1].imshow(trans(exp_images_py[0].permute(1,2,0)))
+            axarr[0].imshow(trans(outputs_py[0]))
+            axarr[1].imshow(trans(exp_images_py[0]))
             print('Saving image_%d.png'%(count))
             plt.savefig('images/'+name+'_%d.png'%(count))
 
