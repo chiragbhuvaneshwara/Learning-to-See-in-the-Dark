@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
+from torchvision.transforms.transforms import ToPILImage as trans
 from torch.autograd import Variable
 import torch.nn.functional as F
 from skimage.measure import compare_ssim
@@ -31,8 +32,8 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-#sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
-sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
+# sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
 print(sitd_dataset[0][0].size())
 
 #--------------------------------
@@ -49,16 +50,20 @@ print('Using device: %s'%device)
 #num_validation = 200
 #num_test = 397
 
-num_epochs = 3
+num_epochs = 1
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
-batch_size = 10
+batch_size = 2
 
 #### dev params
-num_training= 200
-num_validation = 50
-num_test = 50
+# num_training= 200
+# num_validation = 50
+# num_test = 50
+
+num_training= 20
+num_validation = 7
+num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -204,7 +209,7 @@ def trainAndTestModel(name):
 
     # last_model.eval()
     bestESmodel.eval()
-    trans = transforms.ToPILImage()
+    
         
     with torch.no_grad():
 
@@ -230,13 +235,13 @@ def trainAndTestModel(name):
             f, axarr = plt.subplots(1,2)
             title='Output of the best model vs Ground truth Image'
             plt.suptitle(title)
-            axarr[0].imshow(trans(outputs_py[0].permute(1,2,0)))
-            axarr[1].imshow(trans(exp_images_py[0].permute(1,2,0)))
+            axarr[0].imshow(trans(outputs_py[0]))
+            axarr[1].imshow(trans(exp_images_py[0]))
             print('Saving image_%d.png'%(count))
             plt.savefig('images/'+name+'_%d.png'%(count))
 
             outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
-            exp_images_np = exp_images.permute(0,2,3,1).cpu().numpy()
+            exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
 
             SSIM = 0
             for i in range(len(outputs_np)):
@@ -253,8 +258,8 @@ def trainAndTestModel(name):
 
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-# name = 'simpleUNET'
-name = 'unet'
+name = 'simpleUNET'
+# name = 'unet'
 
 trainAndTestModel(name)
 

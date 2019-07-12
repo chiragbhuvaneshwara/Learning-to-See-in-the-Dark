@@ -19,9 +19,9 @@ dataset/Sony/short_down/*.png
 dataset/Sony/short_temp_down/*.png
 
 dataset/Sony/*.txt
-images
+images/*.png
 models/*.ckpt
 
 !plots
-!images/*.png
-!images/*.png
+!images/unet_1.png
+!images/unet_2.png
