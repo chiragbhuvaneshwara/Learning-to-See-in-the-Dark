@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
+#from torchvision.transforms.transforms import ToPILImage as trans
 from torch.autograd import Variable
 import torch.nn.functional as F
 from skimage.measure import compare_ssim
@@ -56,9 +57,9 @@ reg=0.001
 batch_size = 10
 
 #### dev params
-#num_training= 200
-#num_validation = 50
-#num_test = 50
+#num_training= 20
+#num_validation = 7
+#num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -92,7 +93,8 @@ def trainAndTestModel(name):
     elif name == 'unet':
         model = unet()
         # selectedModel = unet()
-
+    elif name == 'FPN':
+        model = FPN(Bottleneck, [2,2,2,2])
     else:
         print('Name variable passed is incorrect')
         return None
@@ -254,8 +256,8 @@ def trainAndTestModel(name):
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
 # name = 'simpleUNET'
-name = 'unet'
-
+# name = 'unet'
+name = 'FPN'
 trainAndTestModel(name)
 
 
