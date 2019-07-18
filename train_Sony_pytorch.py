@@ -6,13 +6,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
-from torchvision.transforms.transforms import ToPILImage as trans
+# from torchvision.transforms.transforms import ToPILImage as trans
 from torch.autograd import Variable
 import torch.nn.functional as F
 from skimage.measure import compare_ssim
 
 from models_pytorch import *
 from datasetLoader_pytorch import SeeingIntTheDarkDataset
+
+trans = transforms.ToPILImage()
 
 n = 1234
 np.random.seed(n)
@@ -46,9 +48,9 @@ if device == 'cuda':
 print('Using device: %s'%device)
 
 #### final params
-#num_training= 2100
-#num_validation = 200
-#num_test = 397
+num_training= 2100
+num_validation = 200
+num_test = 397
 
 num_epochs = 1
 learning_rate = 1e-4

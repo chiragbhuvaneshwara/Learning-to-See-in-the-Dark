@@ -342,7 +342,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=
 
 # Train the model
 lr = learning_rate
-Loss = []                           #to save all the model losses
+Loss = []                           # to save all the model losses
 valMSE = []
 total_step = len(train_loader)
 
