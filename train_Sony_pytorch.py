@@ -181,6 +181,7 @@ def trainAndTestModel(name):
     plt.xlabel('Epochs')
     plt.title(title)
     plt.savefig('plots/'+name+title+'.png')
+    plt.close()
 
     plt.plot(valSSIM)
     title='AvgValSSIM_vs_Epochs'
@@ -188,6 +189,7 @@ def trainAndTestModel(name):
     plt.xlabel('Epochs')
     plt.title(title)
     plt.savefig('plots/'+name+title+'.png')
+    plt.close()
 
     plt.plot(Loss)
     title='Loss_vs_Iterations'
@@ -195,6 +197,7 @@ def trainAndTestModel(name):
     plt.xlabel('Iterations')
     plt.title(title)
     plt.savefig('plots/'+name+title+'.png')
+    plt.close()
 
     print('Testing ..............................')
 
@@ -239,6 +242,7 @@ def trainAndTestModel(name):
                 print('Writing model predictions to disk:')
                 print('Saving image_%d.png'%(count))
                 plt.savefig('images/'+name+'_%d.png'%(count))
+                plt.close()
 
             outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
             exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
