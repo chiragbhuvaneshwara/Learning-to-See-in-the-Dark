@@ -1,7 +1,6 @@
 XDG_CACHE_HOME
 .vscode
 *.swp
-
 __pycache__
 
 result_Sony/*
