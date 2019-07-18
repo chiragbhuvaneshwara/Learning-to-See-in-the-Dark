@@ -262,8 +262,8 @@ def trainAndTestModel(name):
 
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-name = 'simpleUNET'
-# name = 'unet'
+# name = 'simpleUNET'
+name = 'unet'
 # name = 'FPN'
 trainAndTestModel(name)
 
