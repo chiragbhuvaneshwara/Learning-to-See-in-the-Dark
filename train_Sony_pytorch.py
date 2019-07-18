@@ -251,11 +251,11 @@ def trainAndTestModel(name):
                 axarr[1].imshow(trans(outputs_py[i]))
                 axarr[2].imshow(trans(exp_images_py[i]))
                 
-                if i % 10 == 0:
-                    print('Saving image_%d.png'%(count))
-
                 plt.savefig('images/'+name+'_%d.png'%(count))
                 plt.close()
+
+                if count % 10 == 0:
+                    print('Saving image_%d.png'%(count))
 
             outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
             exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
