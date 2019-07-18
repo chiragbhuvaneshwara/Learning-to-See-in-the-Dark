@@ -56,7 +56,7 @@ num_epochs = 10
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
-batch_size = 32
+batch_size = 10
 
 # ### dev params
 # num_training= 20
@@ -258,9 +258,9 @@ def trainAndTestModel(name):
 
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-# name = 'simpleUNET'
+name = 'simpleUNET'
 # name = 'unet'
-name = 'FPN'
+# name = 'FPN'
 trainAndTestModel(name)
 
 
