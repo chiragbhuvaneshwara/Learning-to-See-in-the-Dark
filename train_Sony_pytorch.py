@@ -34,8 +34,8 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
-# sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+#sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
 print(sitd_dataset[0][0].size())
 
 #--------------------------------
