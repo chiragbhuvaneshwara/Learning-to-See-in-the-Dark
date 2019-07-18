@@ -222,15 +222,18 @@ def trainAndTestModel(name):
             outputs = bestESmodel(in_images)
             
             MSE += torch.sum((outputs - exp_images) ** 2)
+
             # Visualize the output of the best model against ground truth
+            in_images_py = in_images.cpu()
             outputs_py = outputs.cpu()
             exp_images_py = exp_images.cpu()
             
-            f, axarr = plt.subplots(1,2)
-            title='Output of the best model vs Ground truth Image'
+            f, axarr = plt.subplots(1,3)
+            title='Input vs Model Output vs Ground truth'
             plt.suptitle(title)
-            axarr[0].imshow(trans(outputs_py[0]))
-            axarr[1].imshow(trans(exp_images_py[0]))
+            axarr[0].imshow(trans(in_images_py[0]))
+            axarr[1].imshow(trans(outputs_py[0]))
+            axarr[2].imshow(trans(exp_images_py[0]))
             print('Writing model predictions to disk:')
             print('Saving image_%d.png'%(count))
             plt.savefig('images/'+name+'_%d.png'%(count))

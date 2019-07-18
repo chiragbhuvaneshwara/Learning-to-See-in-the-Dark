@@ -40,5 +40,21 @@ images/*.png
 models/*.ckpt
 
 !plots
+
 !images/unet_1.png
 !images/unet_2.png
+!images/unet_3.png
+!images/unet_4.png
+!images/unet_5.png
+
+!images/FPN_1.png
+!images/FPN_2.png
+!images/FPN_3.png
+!images/FPN_4.png
+!images/FPN_5.png
+
+!images/simpleUNET_1.png
+!images/simpleUNET_2.png
+!images/simpleUNET_3.png
+!images/simpleUNET_4.png
+!images/simpleUNET_5.png
