@@ -6,6 +6,20 @@ result_Sony/*
 checkpoint/Fuji
 checkpoint/Sony
 
+datasets/Sony/long/*.ARW
+datasets/Sony/long_temp/*.ARW
+datasets/Sony/short/*.ARW
+datasets/Sony/short_temp/*.ARW
+
+datasets/Fuji
+
+datasets/Sony/long_down/*.png
+datasets/Sony/long_temp_down/*.png
+datasets/Sony/short_down/*.png
+datasets/Sony/short_temp_down/*.png
+
+datasets/Sony/*.txt
+
 dataset/Sony/long/*.ARW
 dataset/Sony/long_temp/*.ARW
 dataset/Sony/short/*.ARW
