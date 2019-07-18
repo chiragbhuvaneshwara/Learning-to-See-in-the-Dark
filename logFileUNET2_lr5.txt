@@ -1,0 +1,1272 @@
+torch.Size([3, 480, 720])
+Using device: cuda
+unet(
+  (inc): double_conv(
+    (conv): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): LeakyReLU(negative_slope=0.01, inplace)
+      (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (3): LeakyReLU(negative_slope=0.01, inplace)
+    )
+  )
+  (down1): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down2): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down3): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down4): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (up1): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(1024, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up2): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(512, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up3): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(256, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up4): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (out1): Conv2d(64, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+)
+Epoch [1/16], Step [10/210], Loss: 0.0597
+Epoch [1/16], Step [20/210], Loss: 0.0616
+Epoch [1/16], Step [30/210], Loss: 0.0966
+Epoch [1/16], Step [40/210], Loss: 0.0815
+Epoch [1/16], Step [50/210], Loss: 0.0923
+Epoch [1/16], Step [60/210], Loss: 0.0558
+Epoch [1/16], Step [70/210], Loss: 0.0753
+Epoch [1/16], Step [80/210], Loss: 0.0699
+Epoch [1/16], Step [90/210], Loss: 0.0562
+Epoch [1/16], Step [100/210], Loss: 0.0399
+Epoch [1/16], Step [110/210], Loss: 0.0436
+Epoch [1/16], Step [120/210], Loss: 0.0368
+Epoch [1/16], Step [130/210], Loss: 0.0415
+Epoch [1/16], Step [140/210], Loss: 0.0389
+Epoch [1/16], Step [150/210], Loss: 0.0319
+Epoch [1/16], Step [160/210], Loss: 0.0254
+Epoch [1/16], Step [170/210], Loss: 0.0306
+Epoch [1/16], Step [180/210], Loss: 0.0287
+Epoch [1/16], Step [190/210], Loss: 0.0367
+Epoch [1/16], Step [200/210], Loss: 0.0320
+Epoch [1/16], Step [210/210], Loss: 0.0306
+Avg Validation MSE on all the 200 Val images is: 31749.88671875 
+Avg Validation SSIM on all the 200 Val images is: 0.5316423334526712 
+Epoch [2/16], Step [10/210], Loss: 0.0248
+Epoch [2/16], Step [20/210], Loss: 0.0272
+Epoch [2/16], Step [30/210], Loss: 0.0381
+Epoch [2/16], Step [40/210], Loss: 0.0378
+Epoch [2/16], Step [50/210], Loss: 0.0235
+Epoch [2/16], Step [60/210], Loss: 0.0363
+Epoch [2/16], Step [70/210], Loss: 0.0227
+Epoch [2/16], Step [80/210], Loss: 0.0399
+Epoch [2/16], Step [90/210], Loss: 0.0282
+Epoch [2/16], Step [100/210], Loss: 0.0402
+Epoch [2/16], Step [110/210], Loss: 0.0283
+Epoch [2/16], Step [120/210], Loss: 0.0283
+Epoch [2/16], Step [130/210], Loss: 0.0361
+Epoch [2/16], Step [140/210], Loss: 0.0305
+Epoch [2/16], Step [150/210], Loss: 0.0279
+Epoch [2/16], Step [160/210], Loss: 0.0215
+Epoch [2/16], Step [170/210], Loss: 0.0226
+Epoch [2/16], Step [180/210], Loss: 0.0295
+Epoch [2/16], Step [190/210], Loss: 0.0385
+Epoch [2/16], Step [200/210], Loss: 0.0256
+Epoch [2/16], Step [210/210], Loss: 0.0200
+Avg Validation MSE on all the 200 Val images is: 21323.4765625 
+Avg Validation SSIM on all the 200 Val images is: 0.5832052284074879 
+Epoch [3/16], Step [10/210], Loss: 0.0186
+Epoch [3/16], Step [20/210], Loss: 0.0240
+Epoch [3/16], Step [30/210], Loss: 0.0192
+Epoch [3/16], Step [40/210], Loss: 0.0272
+Epoch [3/16], Step [50/210], Loss: 0.0249
+Epoch [3/16], Step [60/210], Loss: 0.0259
+Epoch [3/16], Step [70/210], Loss: 0.0216
+Epoch [3/16], Step [80/210], Loss: 0.0277
+Epoch [3/16], Step [90/210], Loss: 0.0202
+Epoch [3/16], Step [100/210], Loss: 0.0332
+Epoch [3/16], Step [110/210], Loss: 0.0226
+Epoch [3/16], Step [120/210], Loss: 0.0183
+Epoch [3/16], Step [130/210], Loss: 0.0251
+Epoch [3/16], Step [140/210], Loss: 0.0197
+Epoch [3/16], Step [150/210], Loss: 0.0244
+Epoch [3/16], Step [160/210], Loss: 0.0229
+Epoch [3/16], Step [170/210], Loss: 0.0188
+Epoch [3/16], Step [180/210], Loss: 0.0224
+Epoch [3/16], Step [190/210], Loss: 0.0213
+Epoch [3/16], Step [200/210], Loss: 0.0192
+Epoch [3/16], Step [210/210], Loss: 0.0184
+Avg Validation MSE on all the 200 Val images is: 18662.560546875 
+Avg Validation SSIM on all the 200 Val images is: 0.6005149676702536 
+Epoch [4/16], Step [10/210], Loss: 0.0198
+Epoch [4/16], Step [20/210], Loss: 0.0268
+Epoch [4/16], Step [30/210], Loss: 0.0249
+Epoch [4/16], Step [40/210], Loss: 0.0164
+Epoch [4/16], Step [50/210], Loss: 0.0171
+Epoch [4/16], Step [60/210], Loss: 0.0180
+Epoch [4/16], Step [70/210], Loss: 0.0167
+Epoch [4/16], Step [80/210], Loss: 0.0210
+Epoch [4/16], Step [90/210], Loss: 0.0258
+Epoch [4/16], Step [100/210], Loss: 0.0208
+Epoch [4/16], Step [110/210], Loss: 0.0135
+Epoch [4/16], Step [120/210], Loss: 0.0215
+Epoch [4/16], Step [130/210], Loss: 0.0230
+Epoch [4/16], Step [140/210], Loss: 0.0190
+Epoch [4/16], Step [150/210], Loss: 0.0254
+Epoch [4/16], Step [160/210], Loss: 0.0188
+Epoch [4/16], Step [170/210], Loss: 0.0170
+Epoch [4/16], Step [180/210], Loss: 0.0274
+Epoch [4/16], Step [190/210], Loss: 0.0191
+Epoch [4/16], Step [200/210], Loss: 0.0189
+Epoch [4/16], Step [210/210], Loss: 0.0225
+Avg Validation MSE on all the 200 Val images is: 18183.267578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6092828158409942 
+Epoch [5/16], Step [10/210], Loss: 0.0225
+Epoch [5/16], Step [20/210], Loss: 0.0144
+Epoch [5/16], Step [30/210], Loss: 0.0180
+Epoch [5/16], Step [40/210], Loss: 0.0271
+Epoch [5/16], Step [50/210], Loss: 0.0218
+Epoch [5/16], Step [60/210], Loss: 0.0155
+Epoch [5/16], Step [70/210], Loss: 0.0199
+Epoch [5/16], Step [80/210], Loss: 0.0209
+Epoch [5/16], Step [90/210], Loss: 0.0211
+Epoch [5/16], Step [100/210], Loss: 0.0191
+Epoch [5/16], Step [110/210], Loss: 0.0155
+Epoch [5/16], Step [120/210], Loss: 0.0207
+Epoch [5/16], Step [130/210], Loss: 0.0189
+Epoch [5/16], Step [140/210], Loss: 0.0175
+Epoch [5/16], Step [150/210], Loss: 0.0227
+Epoch [5/16], Step [160/210], Loss: 0.0184
+Epoch [5/16], Step [170/210], Loss: 0.0155
+Epoch [5/16], Step [180/210], Loss: 0.0229
+Epoch [5/16], Step [190/210], Loss: 0.0106
+Epoch [5/16], Step [200/210], Loss: 0.0218
+Epoch [5/16], Step [210/210], Loss: 0.0155
+Avg Validation MSE on all the 200 Val images is: 17610.71875 
+Avg Validation SSIM on all the 200 Val images is: 0.6133509899297847 
+Epoch [6/16], Step [10/210], Loss: 0.0167
+Epoch [6/16], Step [20/210], Loss: 0.0142
+Epoch [6/16], Step [30/210], Loss: 0.0163
+Epoch [6/16], Step [40/210], Loss: 0.0195
+Epoch [6/16], Step [50/210], Loss: 0.0178
+Epoch [6/16], Step [60/210], Loss: 0.0222
+Epoch [6/16], Step [70/210], Loss: 0.0194
+Epoch [6/16], Step [80/210], Loss: 0.0147
+Epoch [6/16], Step [90/210], Loss: 0.0191
+Epoch [6/16], Step [100/210], Loss: 0.0199
+Epoch [6/16], Step [110/210], Loss: 0.0259
+Epoch [6/16], Step [120/210], Loss: 0.0186
+Epoch [6/16], Step [130/210], Loss: 0.0166
+Epoch [6/16], Step [140/210], Loss: 0.0194
+Epoch [6/16], Step [150/210], Loss: 0.0198
+Epoch [6/16], Step [160/210], Loss: 0.0179
+Epoch [6/16], Step [170/210], Loss: 0.0218
+Epoch [6/16], Step [180/210], Loss: 0.0200
+Epoch [6/16], Step [190/210], Loss: 0.0172
+Epoch [6/16], Step [200/210], Loss: 0.0174
+Epoch [6/16], Step [210/210], Loss: 0.0128
+Avg Validation MSE on all the 200 Val images is: 18808.01953125 
+Avg Validation SSIM on all the 200 Val images is: 0.6161116849228069 
+Epoch [7/16], Step [10/210], Loss: 0.0206
+Epoch [7/16], Step [20/210], Loss: 0.0218
+Epoch [7/16], Step [30/210], Loss: 0.0227
+Epoch [7/16], Step [40/210], Loss: 0.0185
+Epoch [7/16], Step [50/210], Loss: 0.0146
+Epoch [7/16], Step [60/210], Loss: 0.0196
+Epoch [7/16], Step [70/210], Loss: 0.0175
+Epoch [7/16], Step [80/210], Loss: 0.0176
+Epoch [7/16], Step [90/210], Loss: 0.0186
+Epoch [7/16], Step [100/210], Loss: 0.0204
+Epoch [7/16], Step [110/210], Loss: 0.0250
+Epoch [7/16], Step [120/210], Loss: 0.0185
+Epoch [7/16], Step [130/210], Loss: 0.0220
+Epoch [7/16], Step [140/210], Loss: 0.0160
+Epoch [7/16], Step [150/210], Loss: 0.0179
+Epoch [7/16], Step [160/210], Loss: 0.0246
+Epoch [7/16], Step [170/210], Loss: 0.0160
+Epoch [7/16], Step [180/210], Loss: 0.0164
+Epoch [7/16], Step [190/210], Loss: 0.0218
+Epoch [7/16], Step [200/210], Loss: 0.0191
+Epoch [7/16], Step [210/210], Loss: 0.0141
+Avg Validation MSE on all the 200 Val images is: 16476.029296875 
+Avg Validation SSIM on all the 200 Val images is: 0.6137754411049277 
+Epoch [8/16], Step [10/210], Loss: 0.0181
+Epoch [8/16], Step [20/210], Loss: 0.0177
+Epoch [8/16], Step [30/210], Loss: 0.0181
+Epoch [8/16], Step [40/210], Loss: 0.0202
+Epoch [8/16], Step [50/210], Loss: 0.0164
+Epoch [8/16], Step [60/210], Loss: 0.0177
+Epoch [8/16], Step [70/210], Loss: 0.0184
+Epoch [8/16], Step [80/210], Loss: 0.0139
+Epoch [8/16], Step [90/210], Loss: 0.0192
+Epoch [8/16], Step [100/210], Loss: 0.0125
+Epoch [8/16], Step [110/210], Loss: 0.0238
+Epoch [8/16], Step [120/210], Loss: 0.0175
+Epoch [8/16], Step [130/210], Loss: 0.0162
+Epoch [8/16], Step [140/210], Loss: 0.0153
+Epoch [8/16], Step [150/210], Loss: 0.0157
+Epoch [8/16], Step [160/210], Loss: 0.0184
+Epoch [8/16], Step [170/210], Loss: 0.0273
+Epoch [8/16], Step [180/210], Loss: 0.0189
+Epoch [8/16], Step [190/210], Loss: 0.0245
+Epoch [8/16], Step [200/210], Loss: 0.0152
+Epoch [8/16], Step [210/210], Loss: 0.0225
+Avg Validation MSE on all the 200 Val images is: 17670.2265625 
+Avg Validation SSIM on all the 200 Val images is: 0.617702064170565 
+Epoch [9/16], Step [10/210], Loss: 0.0162
+Epoch [9/16], Step [20/210], Loss: 0.0126
+Epoch [9/16], Step [30/210], Loss: 0.0199
+Epoch [9/16], Step [40/210], Loss: 0.0169
+Epoch [9/16], Step [50/210], Loss: 0.0207
+Epoch [9/16], Step [60/210], Loss: 0.0179
+Epoch [9/16], Step [70/210], Loss: 0.0220
+Epoch [9/16], Step [80/210], Loss: 0.0193
+Epoch [9/16], Step [90/210], Loss: 0.0128
+Epoch [9/16], Step [100/210], Loss: 0.0212
+Epoch [9/16], Step [110/210], Loss: 0.0162
+Epoch [9/16], Step [120/210], Loss: 0.0260
+Epoch [9/16], Step [130/210], Loss: 0.0096
+Epoch [9/16], Step [140/210], Loss: 0.0218
+Epoch [9/16], Step [150/210], Loss: 0.0211
+Epoch [9/16], Step [160/210], Loss: 0.0138
+Epoch [9/16], Step [170/210], Loss: 0.0161
+Epoch [9/16], Step [180/210], Loss: 0.0194
+Epoch [9/16], Step [190/210], Loss: 0.0199
+Epoch [9/16], Step [200/210], Loss: 0.0187
+Epoch [9/16], Step [210/210], Loss: 0.0145
+Avg Validation MSE on all the 200 Val images is: 16131.654296875 
+Avg Validation SSIM on all the 200 Val images is: 0.6131462626153376 
+Epoch [10/16], Step [10/210], Loss: 0.0136
+Epoch [10/16], Step [20/210], Loss: 0.0244
+Epoch [10/16], Step [30/210], Loss: 0.0169
+Epoch [10/16], Step [40/210], Loss: 0.0157
+Epoch [10/16], Step [50/210], Loss: 0.0182
+Epoch [10/16], Step [60/210], Loss: 0.0163
+Epoch [10/16], Step [70/210], Loss: 0.0153
+Epoch [10/16], Step [80/210], Loss: 0.0175
+Epoch [10/16], Step [90/210], Loss: 0.0168
+Epoch [10/16], Step [100/210], Loss: 0.0148
+Epoch [10/16], Step [110/210], Loss: 0.0232
+Epoch [10/16], Step [120/210], Loss: 0.0124
+Epoch [10/16], Step [130/210], Loss: 0.0153
+Epoch [10/16], Step [140/210], Loss: 0.0174
+Epoch [10/16], Step [150/210], Loss: 0.0140
+Epoch [10/16], Step [160/210], Loss: 0.0133
+Epoch [10/16], Step [170/210], Loss: 0.0176
+Epoch [10/16], Step [180/210], Loss: 0.0166
+Epoch [10/16], Step [190/210], Loss: 0.0215
+Epoch [10/16], Step [200/210], Loss: 0.0155
+Epoch [10/16], Step [210/210], Loss: 0.0219
+Avg Validation MSE on all the 200 Val images is: 16320.7255859375 
+Avg Validation SSIM on all the 200 Val images is: 0.6186964447037893 
+Epoch [11/16], Step [10/210], Loss: 0.0163
+Epoch [11/16], Step [20/210], Loss: 0.0163
+Epoch [11/16], Step [30/210], Loss: 0.0213
+Epoch [11/16], Step [40/210], Loss: 0.0159
+Epoch [11/16], Step [50/210], Loss: 0.0216
+Epoch [11/16], Step [60/210], Loss: 0.0145
+Epoch [11/16], Step [70/210], Loss: 0.0205
+Epoch [11/16], Step [80/210], Loss: 0.0213
+Epoch [11/16], Step [90/210], Loss: 0.0201
+Epoch [11/16], Step [100/210], Loss: 0.0147
+Epoch [11/16], Step [110/210], Loss: 0.0156
+Epoch [11/16], Step [120/210], Loss: 0.0119
+Epoch [11/16], Step [130/210], Loss: 0.0181
+Epoch [11/16], Step [140/210], Loss: 0.0213
+Epoch [11/16], Step [150/210], Loss: 0.0180
+Epoch [11/16], Step [160/210], Loss: 0.0171
+Epoch [11/16], Step [170/210], Loss: 0.0156
+Epoch [11/16], Step [180/210], Loss: 0.0177
+Epoch [11/16], Step [190/210], Loss: 0.0181
+Epoch [11/16], Step [200/210], Loss: 0.0149
+Epoch [11/16], Step [210/210], Loss: 0.0226
+Avg Validation MSE on all the 200 Val images is: 15951.4033203125 
+Avg Validation SSIM on all the 200 Val images is: 0.621407899253373 
+Epoch [12/16], Step [10/210], Loss: 0.0188
+Epoch [12/16], Step [20/210], Loss: 0.0190
+Epoch [12/16], Step [30/210], Loss: 0.0179
+Epoch [12/16], Step [40/210], Loss: 0.0139
+Epoch [12/16], Step [50/210], Loss: 0.0106
+Epoch [12/16], Step [60/210], Loss: 0.0172
+Epoch [12/16], Step [70/210], Loss: 0.0167
+Epoch [12/16], Step [80/210], Loss: 0.0185
+Epoch [12/16], Step [90/210], Loss: 0.0188
+Epoch [12/16], Step [100/210], Loss: 0.0135
+Epoch [12/16], Step [110/210], Loss: 0.0144
+Epoch [12/16], Step [120/210], Loss: 0.0151
+Epoch [12/16], Step [130/210], Loss: 0.0141
+Epoch [12/16], Step [140/210], Loss: 0.0202
+Epoch [12/16], Step [150/210], Loss: 0.0213
+Epoch [12/16], Step [160/210], Loss: 0.0148
+Epoch [12/16], Step [170/210], Loss: 0.0162
+Epoch [12/16], Step [180/210], Loss: 0.0175
+Epoch [12/16], Step [190/210], Loss: 0.0168
+Epoch [12/16], Step [200/210], Loss: 0.0171
+Epoch [12/16], Step [210/210], Loss: 0.0135
+Avg Validation MSE on all the 200 Val images is: 15392.201171875 
+Avg Validation SSIM on all the 200 Val images is: 0.6200363820932157 
+Epoch [13/16], Step [10/210], Loss: 0.0177
+Epoch [13/16], Step [20/210], Loss: 0.0178
+Epoch [13/16], Step [30/210], Loss: 0.0115
+Epoch [13/16], Step [40/210], Loss: 0.0109
+Epoch [13/16], Step [50/210], Loss: 0.0178
+Epoch [13/16], Step [60/210], Loss: 0.0168
+Epoch [13/16], Step [70/210], Loss: 0.0184
+Epoch [13/16], Step [80/210], Loss: 0.0135
+Epoch [13/16], Step [90/210], Loss: 0.0169
+Epoch [13/16], Step [100/210], Loss: 0.0105
+Epoch [13/16], Step [110/210], Loss: 0.0193
+Epoch [13/16], Step [120/210], Loss: 0.0176
+Epoch [13/16], Step [130/210], Loss: 0.0141
+Epoch [13/16], Step [140/210], Loss: 0.0218
+Epoch [13/16], Step [150/210], Loss: 0.0167
+Epoch [13/16], Step [160/210], Loss: 0.0203
+Epoch [13/16], Step [170/210], Loss: 0.0159
+Epoch [13/16], Step [180/210], Loss: 0.0130
+Epoch [13/16], Step [190/210], Loss: 0.0241
+Epoch [13/16], Step [200/210], Loss: 0.0136
+Epoch [13/16], Step [210/210], Loss: 0.0210
+Avg Validation MSE on all the 200 Val images is: 15045.7587890625 
+Avg Validation SSIM on all the 200 Val images is: 0.6238535371066758 
+Epoch [14/16], Step [10/210], Loss: 0.0136
+Epoch [14/16], Step [20/210], Loss: 0.0205
+Epoch [14/16], Step [30/210], Loss: 0.0183
+Epoch [14/16], Step [40/210], Loss: 0.0148
+Epoch [14/16], Step [50/210], Loss: 0.0147
+Epoch [14/16], Step [60/210], Loss: 0.0201
+Epoch [14/16], Step [70/210], Loss: 0.0160
+Epoch [14/16], Step [80/210], Loss: 0.0174
+Epoch [14/16], Step [90/210], Loss: 0.0164
+Epoch [14/16], Step [100/210], Loss: 0.0142
+Epoch [14/16], Step [110/210], Loss: 0.0164
+Epoch [14/16], Step [120/210], Loss: 0.0128
+Epoch [14/16], Step [130/210], Loss: 0.0179
+Epoch [14/16], Step [140/210], Loss: 0.0114
+Epoch [14/16], Step [150/210], Loss: 0.0131
+Epoch [14/16], Step [160/210], Loss: 0.0122
+Epoch [14/16], Step [170/210], Loss: 0.0205
+Epoch [14/16], Step [180/210], Loss: 0.0154
+Epoch [14/16], Step [190/210], Loss: 0.0241
+Epoch [14/16], Step [200/210], Loss: 0.0147
+Epoch [14/16], Step [210/210], Loss: 0.0184
+Avg Validation MSE on all the 200 Val images is: 15343.3408203125 
+Avg Validation SSIM on all the 200 Val images is: 0.6203327233773467 
+Epoch [15/16], Step [10/210], Loss: 0.0234
+Epoch [15/16], Step [20/210], Loss: 0.0163
+Epoch [15/16], Step [30/210], Loss: 0.0201
+Epoch [15/16], Step [40/210], Loss: 0.0128
+Epoch [15/16], Step [50/210], Loss: 0.0181
+Epoch [15/16], Step [60/210], Loss: 0.0194
+Epoch [15/16], Step [70/210], Loss: 0.0177
+Epoch [15/16], Step [80/210], Loss: 0.0198
+Epoch [15/16], Step [90/210], Loss: 0.0125
+Epoch [15/16], Step [100/210], Loss: 0.0205
+Epoch [15/16], Step [110/210], Loss: 0.0178
+Epoch [15/16], Step [120/210], Loss: 0.0152
+Epoch [15/16], Step [130/210], Loss: 0.0146
+Epoch [15/16], Step [140/210], Loss: 0.0130
+Epoch [15/16], Step [150/210], Loss: 0.0208
+Epoch [15/16], Step [160/210], Loss: 0.0176
+Epoch [15/16], Step [170/210], Loss: 0.0149
+Epoch [15/16], Step [180/210], Loss: 0.0163
+Epoch [15/16], Step [190/210], Loss: 0.0175
+Epoch [15/16], Step [200/210], Loss: 0.0194
+Epoch [15/16], Step [210/210], Loss: 0.0157
+Avg Validation MSE on all the 200 Val images is: 15795.126953125 
+Avg Validation SSIM on all the 200 Val images is: 0.6220821293853365 
+Epoch [16/16], Step [10/210], Loss: 0.0197
+Epoch [16/16], Step [20/210], Loss: 0.0137
+Epoch [16/16], Step [30/210], Loss: 0.0180
+Epoch [16/16], Step [40/210], Loss: 0.0178
+Epoch [16/16], Step [50/210], Loss: 0.0151
+Epoch [16/16], Step [60/210], Loss: 0.0124
+Epoch [16/16], Step [70/210], Loss: 0.0130
+Epoch [16/16], Step [80/210], Loss: 0.0187
+Epoch [16/16], Step [90/210], Loss: 0.0204
+Epoch [16/16], Step [100/210], Loss: 0.0159
+Epoch [16/16], Step [110/210], Loss: 0.0183
+Epoch [16/16], Step [120/210], Loss: 0.0240
+Epoch [16/16], Step [130/210], Loss: 0.0173
+Epoch [16/16], Step [140/210], Loss: 0.0173
+Epoch [16/16], Step [150/210], Loss: 0.0179
+Epoch [16/16], Step [160/210], Loss: 0.0228
+Epoch [16/16], Step [170/210], Loss: 0.0153
+Epoch [16/16], Step [180/210], Loss: 0.0195
+Epoch [16/16], Step [190/210], Loss: 0.0165
+Epoch [16/16], Step [200/210], Loss: 0.0181
+Epoch [16/16], Step [210/210], Loss: 0.0140
+Avg Validation MSE on all the 200 Val images is: 15100.5869140625 
+Avg Validation SSIM on all the 200 Val images is: 0.618426958624309 
+Testing ..............................
+Writing model predictions to disk:
+Saving image_1.png
+Writing model predictions to disk:
+Saving image_2.png
+Writing model predictions to disk:
+Saving image_3.png
+Writing model predictions to disk:
+Saving image_4.png
+Writing model predictions to disk:
+Saving image_5.png
+Writing model predictions to disk:
+Saving image_6.png
+Writing model predictions to disk:
+Saving image_7.png
+Writing model predictions to disk:
+Saving image_8.png
+Writing model predictions to disk:
+Saving image_9.png
+Writing model predictions to disk:
+Saving image_10.png
+Writing model predictions to disk:
+Saving image_11.png
+Writing model predictions to disk:
+Saving image_12.png
+Writing model predictions to disk:
+Saving image_13.png
+Writing model predictions to disk:
+Saving image_14.png
+Writing model predictions to disk:
+Saving image_15.png
+Writing model predictions to disk:
+Saving image_16.png
+Writing model predictions to disk:
+Saving image_17.png
+Writing model predictions to disk:
+Saving image_18.png
+Writing model predictions to disk:
+Saving image_19.png
+Writing model predictions to disk:
+Saving image_20.png
+Writing model predictions to disk:
+Saving image_21.png
+Writing model predictions to disk:
+Saving image_22.png
+Writing model predictions to disk:
+Saving image_23.png
+Writing model predictions to disk:
+Saving image_24.png
+Writing model predictions to disk:
+Saving image_25.png
+Writing model predictions to disk:
+Saving image_26.png
+Writing model predictions to disk:
+Saving image_27.png
+Writing model predictions to disk:
+Saving image_28.png
+Writing model predictions to disk:
+Saving image_29.png
+Writing model predictions to disk:
+Saving image_30.png
+Writing model predictions to disk:
+Saving image_31.png
+Writing model predictions to disk:
+Saving image_32.png
+Writing model predictions to disk:
+Saving image_33.png
+Writing model predictions to disk:
+Saving image_34.png
+Writing model predictions to disk:
+Saving image_35.png
+Writing model predictions to disk:
+Saving image_36.png
+Writing model predictions to disk:
+Saving image_37.png
+Writing model predictions to disk:
+Saving image_38.png
+Writing model predictions to disk:
+Saving image_39.png
+Writing model predictions to disk:
+Saving image_40.png
+Writing model predictions to disk:
+Saving image_41.png
+Writing model predictions to disk:
+Saving image_42.png
+Writing model predictions to disk:
+Saving image_43.png
+Writing model predictions to disk:
+Saving image_44.png
+Writing model predictions to disk:
+Saving image_45.png
+Writing model predictions to disk:
+Saving image_46.png
+Writing model predictions to disk:
+Saving image_47.png
+Writing model predictions to disk:
+Saving image_48.png
+Writing model predictions to disk:
+Saving image_49.png
+Writing model predictions to disk:
+Saving image_50.png
+Writing model predictions to disk:
+Saving image_51.png
+Writing model predictions to disk:
+Saving image_52.png
+Writing model predictions to disk:
+Saving image_53.png
+Writing model predictions to disk:
+Saving image_54.png
+Writing model predictions to disk:
+Saving image_55.png
+Writing model predictions to disk:
+Saving image_56.png
+Writing model predictions to disk:
+Saving image_57.png
+Writing model predictions to disk:
+Saving image_58.png
+Writing model predictions to disk:
+Saving image_59.png
+Writing model predictions to disk:
+Saving image_60.png
+Writing model predictions to disk:
+Saving image_61.png
+Writing model predictions to disk:
+Saving image_62.png
+Writing model predictions to disk:
+Saving image_63.png
+Writing model predictions to disk:
+Saving image_64.png
+Writing model predictions to disk:
+Saving image_65.png
+Writing model predictions to disk:
+Saving image_66.png
+Writing model predictions to disk:
+Saving image_67.png
+Writing model predictions to disk:
+Saving image_68.png
+Writing model predictions to disk:
+Saving image_69.png
+Writing model predictions to disk:
+Saving image_70.png
+Writing model predictions to disk:
+Saving image_71.png
+Writing model predictions to disk:
+Saving image_72.png
+Writing model predictions to disk:
+Saving image_73.png
+Writing model predictions to disk:
+Saving image_74.png
+Writing model predictions to disk:
+Saving image_75.png
+Writing model predictions to disk:
+Saving image_76.png
+Writing model predictions to disk:
+Saving image_77.png
+Writing model predictions to disk:
+Saving image_78.png
+Writing model predictions to disk:
+Saving image_79.png
+Writing model predictions to disk:
+Saving image_80.png
+Writing model predictions to disk:
+Saving image_81.png
+Writing model predictions to disk:
+Saving image_82.png
+Writing model predictions to disk:
+Saving image_83.png
+Writing model predictions to disk:
+Saving image_84.png
+Writing model predictions to disk:
+Saving image_85.png
+Writing model predictions to disk:
+Saving image_86.png
+Writing model predictions to disk:
+Saving image_87.png
+Writing model predictions to disk:
+Saving image_88.png
+Writing model predictions to disk:
+Saving image_89.png
+Writing model predictions to disk:
+Saving image_90.png
+Writing model predictions to disk:
+Saving image_91.png
+Writing model predictions to disk:
+Saving image_92.png
+Writing model predictions to disk:
+Saving image_93.png
+Writing model predictions to disk:
+Saving image_94.png
+Writing model predictions to disk:
+Saving image_95.png
+Writing model predictions to disk:
+Saving image_96.png
+Writing model predictions to disk:
+Saving image_97.png
+Writing model predictions to disk:
+Saving image_98.png
+Writing model predictions to disk:
+Saving image_99.png
+Writing model predictions to disk:
+Saving image_100.png
+Writing model predictions to disk:
+Saving image_101.png
+Writing model predictions to disk:
+Saving image_102.png
+Writing model predictions to disk:
+Saving image_103.png
+Writing model predictions to disk:
+Saving image_104.png
+Writing model predictions to disk:
+Saving image_105.png
+Writing model predictions to disk:
+Saving image_106.png
+Writing model predictions to disk:
+Saving image_107.png
+Writing model predictions to disk:
+Saving image_108.png
+Writing model predictions to disk:
+Saving image_109.png
+Writing model predictions to disk:
+Saving image_110.png
+Writing model predictions to disk:
+Saving image_111.png
+Writing model predictions to disk:
+Saving image_112.png
+Writing model predictions to disk:
+Saving image_113.png
+Writing model predictions to disk:
+Saving image_114.png
+Writing model predictions to disk:
+Saving image_115.png
+Writing model predictions to disk:
+Saving image_116.png
+Writing model predictions to disk:
+Saving image_117.png
+Writing model predictions to disk:
+Saving image_118.png
+Writing model predictions to disk:
+Saving image_119.png
+Writing model predictions to disk:
+Saving image_120.png
+Writing model predictions to disk:
+Saving image_121.png
+Writing model predictions to disk:
+Saving image_122.png
+Writing model predictions to disk:
+Saving image_123.png
+Writing model predictions to disk:
+Saving image_124.png
+Writing model predictions to disk:
+Saving image_125.png
+Writing model predictions to disk:
+Saving image_126.png
+Writing model predictions to disk:
+Saving image_127.png
+Writing model predictions to disk:
+Saving image_128.png
+Writing model predictions to disk:
+Saving image_129.png
+Writing model predictions to disk:
+Saving image_130.png
+Writing model predictions to disk:
+Saving image_131.png
+Writing model predictions to disk:
+Saving image_132.png
+Writing model predictions to disk:
+Saving image_133.png
+Writing model predictions to disk:
+Saving image_134.png
+Writing model predictions to disk:
+Saving image_135.png
+Writing model predictions to disk:
+Saving image_136.png
+Writing model predictions to disk:
+Saving image_137.png
+Writing model predictions to disk:
+Saving image_138.png
+Writing model predictions to disk:
+Saving image_139.png
+Writing model predictions to disk:
+Saving image_140.png
+Writing model predictions to disk:
+Saving image_141.png
+Writing model predictions to disk:
+Saving image_142.png
+Writing model predictions to disk:
+Saving image_143.png
+Writing model predictions to disk:
+Saving image_144.png
+Writing model predictions to disk:
+Saving image_145.png
+Writing model predictions to disk:
+Saving image_146.png
+Writing model predictions to disk:
+Saving image_147.png
+Writing model predictions to disk:
+Saving image_148.png
+Writing model predictions to disk:
+Saving image_149.png
+Writing model predictions to disk:
+Saving image_150.png
+Writing model predictions to disk:
+Saving image_151.png
+Writing model predictions to disk:
+Saving image_152.png
+Writing model predictions to disk:
+Saving image_153.png
+Writing model predictions to disk:
+Saving image_154.png
+Writing model predictions to disk:
+Saving image_155.png
+Writing model predictions to disk:
+Saving image_156.png
+Writing model predictions to disk:
+Saving image_157.png
+Writing model predictions to disk:
+Saving image_158.png
+Writing model predictions to disk:
+Saving image_159.png
+Writing model predictions to disk:
+Saving image_160.png
+Writing model predictions to disk:
+Saving image_161.png
+Writing model predictions to disk:
+Saving image_162.png
+Writing model predictions to disk:
+Saving image_163.png
+Writing model predictions to disk:
+Saving image_164.png
+Writing model predictions to disk:
+Saving image_165.png
+Writing model predictions to disk:
+Saving image_166.png
+Writing model predictions to disk:
+Saving image_167.png
+Writing model predictions to disk:
+Saving image_168.png
+Writing model predictions to disk:
+Saving image_169.png
+Writing model predictions to disk:
+Saving image_170.png
+Writing model predictions to disk:
+Saving image_171.png
+Writing model predictions to disk:
+Saving image_172.png
+Writing model predictions to disk:
+Saving image_173.png
+Writing model predictions to disk:
+Saving image_174.png
+Writing model predictions to disk:
+Saving image_175.png
+Writing model predictions to disk:
+Saving image_176.png
+Writing model predictions to disk:
+Saving image_177.png
+Writing model predictions to disk:
+Saving image_178.png
+Writing model predictions to disk:
+Saving image_179.png
+Writing model predictions to disk:
+Saving image_180.png
+Writing model predictions to disk:
+Saving image_181.png
+Writing model predictions to disk:
+Saving image_182.png
+Writing model predictions to disk:
+Saving image_183.png
+Writing model predictions to disk:
+Saving image_184.png
+Writing model predictions to disk:
+Saving image_185.png
+Writing model predictions to disk:
+Saving image_186.png
+Writing model predictions to disk:
+Saving image_187.png
+Writing model predictions to disk:
+Saving image_188.png
+Writing model predictions to disk:
+Saving image_189.png
+Writing model predictions to disk:
+Saving image_190.png
+Writing model predictions to disk:
+Saving image_191.png
+Writing model predictions to disk:
+Saving image_192.png
+Writing model predictions to disk:
+Saving image_193.png
+Writing model predictions to disk:
+Saving image_194.png
+Writing model predictions to disk:
+Saving image_195.png
+Writing model predictions to disk:
+Saving image_196.png
+Writing model predictions to disk:
+Saving image_197.png
+Writing model predictions to disk:
+Saving image_198.png
+Writing model predictions to disk:
+Saving image_199.png
+Writing model predictions to disk:
+Saving image_200.png
+Writing model predictions to disk:
+Saving image_201.png
+Writing model predictions to disk:
+Saving image_202.png
+Writing model predictions to disk:
+Saving image_203.png
+Writing model predictions to disk:
+Saving image_204.png
+Writing model predictions to disk:
+Saving image_205.png
+Writing model predictions to disk:
+Saving image_206.png
+Writing model predictions to disk:
+Saving image_207.png
+Writing model predictions to disk:
+Saving image_208.png
+Writing model predictions to disk:
+Saving image_209.png
+Writing model predictions to disk:
+Saving image_210.png
+Writing model predictions to disk:
+Saving image_211.png
+Writing model predictions to disk:
+Saving image_212.png
+Writing model predictions to disk:
+Saving image_213.png
+Writing model predictions to disk:
+Saving image_214.png
+Writing model predictions to disk:
+Saving image_215.png
+Writing model predictions to disk:
+Saving image_216.png
+Writing model predictions to disk:
+Saving image_217.png
+Writing model predictions to disk:
+Saving image_218.png
+Writing model predictions to disk:
+Saving image_219.png
+Writing model predictions to disk:
+Saving image_220.png
+Writing model predictions to disk:
+Saving image_221.png
+Writing model predictions to disk:
+Saving image_222.png
+Writing model predictions to disk:
+Saving image_223.png
+Writing model predictions to disk:
+Saving image_224.png
+Writing model predictions to disk:
+Saving image_225.png
+Writing model predictions to disk:
+Saving image_226.png
+Writing model predictions to disk:
+Saving image_227.png
+Writing model predictions to disk:
+Saving image_228.png
+Writing model predictions to disk:
+Saving image_229.png
+Writing model predictions to disk:
+Saving image_230.png
+Writing model predictions to disk:
+Saving image_231.png
+Writing model predictions to disk:
+Saving image_232.png
+Writing model predictions to disk:
+Saving image_233.png
+Writing model predictions to disk:
+Saving image_234.png
+Writing model predictions to disk:
+Saving image_235.png
+Writing model predictions to disk:
+Saving image_236.png
+Writing model predictions to disk:
+Saving image_237.png
+Writing model predictions to disk:
+Saving image_238.png
+Writing model predictions to disk:
+Saving image_239.png
+Writing model predictions to disk:
+Saving image_240.png
+Writing model predictions to disk:
+Saving image_241.png
+Writing model predictions to disk:
+Saving image_242.png
+Writing model predictions to disk:
+Saving image_243.png
+Writing model predictions to disk:
+Saving image_244.png
+Writing model predictions to disk:
+Saving image_245.png
+Writing model predictions to disk:
+Saving image_246.png
+Writing model predictions to disk:
+Saving image_247.png
+Writing model predictions to disk:
+Saving image_248.png
+Writing model predictions to disk:
+Saving image_249.png
+Writing model predictions to disk:
+Saving image_250.png
+Writing model predictions to disk:
+Saving image_251.png
+Writing model predictions to disk:
+Saving image_252.png
+Writing model predictions to disk:
+Saving image_253.png
+Writing model predictions to disk:
+Saving image_254.png
+Writing model predictions to disk:
+Saving image_255.png
+Writing model predictions to disk:
+Saving image_256.png
+Writing model predictions to disk:
+Saving image_257.png
+Writing model predictions to disk:
+Saving image_258.png
+Writing model predictions to disk:
+Saving image_259.png
+Writing model predictions to disk:
+Saving image_260.png
+Writing model predictions to disk:
+Saving image_261.png
+Writing model predictions to disk:
+Saving image_262.png
+Writing model predictions to disk:
+Saving image_263.png
+Writing model predictions to disk:
+Saving image_264.png
+Writing model predictions to disk:
+Saving image_265.png
+Writing model predictions to disk:
+Saving image_266.png
+Writing model predictions to disk:
+Saving image_267.png
+Writing model predictions to disk:
+Saving image_268.png
+Writing model predictions to disk:
+Saving image_269.png
+Writing model predictions to disk:
+Saving image_270.png
+Writing model predictions to disk:
+Saving image_271.png
+Writing model predictions to disk:
+Saving image_272.png
+Writing model predictions to disk:
+Saving image_273.png
+Writing model predictions to disk:
+Saving image_274.png
+Writing model predictions to disk:
+Saving image_275.png
+Writing model predictions to disk:
+Saving image_276.png
+Writing model predictions to disk:
+Saving image_277.png
+Writing model predictions to disk:
+Saving image_278.png
+Writing model predictions to disk:
+Saving image_279.png
+Writing model predictions to disk:
+Saving image_280.png
+Writing model predictions to disk:
+Saving image_281.png
+Writing model predictions to disk:
+Saving image_282.png
+Writing model predictions to disk:
+Saving image_283.png
+Writing model predictions to disk:
+Saving image_284.png
+Writing model predictions to disk:
+Saving image_285.png
+Writing model predictions to disk:
+Saving image_286.png
+Writing model predictions to disk:
+Saving image_287.png
+Writing model predictions to disk:
+Saving image_288.png
+Writing model predictions to disk:
+Saving image_289.png
+Writing model predictions to disk:
+Saving image_290.png
+Writing model predictions to disk:
+Saving image_291.png
+Writing model predictions to disk:
+Saving image_292.png
+Writing model predictions to disk:
+Saving image_293.png
+Writing model predictions to disk:
+Saving image_294.png
+Writing model predictions to disk:
+Saving image_295.png
+Writing model predictions to disk:
+Saving image_296.png
+Writing model predictions to disk:
+Saving image_297.png
+Writing model predictions to disk:
+Saving image_298.png
+Writing model predictions to disk:
+Saving image_299.png
+Writing model predictions to disk:
+Saving image_300.png
+Writing model predictions to disk:
+Saving image_301.png
+Writing model predictions to disk:
+Saving image_302.png
+Writing model predictions to disk:
+Saving image_303.png
+Writing model predictions to disk:
+Saving image_304.png
+Writing model predictions to disk:
+Saving image_305.png
+Writing model predictions to disk:
+Saving image_306.png
+Writing model predictions to disk:
+Saving image_307.png
+Writing model predictions to disk:
+Saving image_308.png
+Writing model predictions to disk:
+Saving image_309.png
+Writing model predictions to disk:
+Saving image_310.png
+Writing model predictions to disk:
+Saving image_311.png
+Writing model predictions to disk:
+Saving image_312.png
+Writing model predictions to disk:
+Saving image_313.png
+Writing model predictions to disk:
+Saving image_314.png
+Writing model predictions to disk:
+Saving image_315.png
+Writing model predictions to disk:
+Saving image_316.png
+Writing model predictions to disk:
+Saving image_317.png
+Writing model predictions to disk:
+Saving image_318.png
+Writing model predictions to disk:
+Saving image_319.png
+Writing model predictions to disk:
+Saving image_320.png
+Writing model predictions to disk:
+Saving image_321.png
+Writing model predictions to disk:
+Saving image_322.png
+Writing model predictions to disk:
+Saving image_323.png
+Writing model predictions to disk:
+Saving image_324.png
+Writing model predictions to disk:
+Saving image_325.png
+Writing model predictions to disk:
+Saving image_326.png
+Writing model predictions to disk:
+Saving image_327.png
+Writing model predictions to disk:
+Saving image_328.png
+Writing model predictions to disk:
+Saving image_329.png
+Writing model predictions to disk:
+Saving image_330.png
+Writing model predictions to disk:
+Saving image_331.png
+Writing model predictions to disk:
+Saving image_332.png
+Writing model predictions to disk:
+Saving image_333.png
+Writing model predictions to disk:
+Saving image_334.png
+Writing model predictions to disk:
+Saving image_335.png
+Writing model predictions to disk:
+Saving image_336.png
+Writing model predictions to disk:
+Saving image_337.png
+Writing model predictions to disk:
+Saving image_338.png
+Writing model predictions to disk:
+Saving image_339.png
+Writing model predictions to disk:
+Saving image_340.png
+Writing model predictions to disk:
+Saving image_341.png
+Writing model predictions to disk:
+Saving image_342.png
+Writing model predictions to disk:
+Saving image_343.png
+Writing model predictions to disk:
+Saving image_344.png
+Writing model predictions to disk:
+Saving image_345.png
+Writing model predictions to disk:
+Saving image_346.png
+Writing model predictions to disk:
+Saving image_347.png
+Writing model predictions to disk:
+Saving image_348.png
+Writing model predictions to disk:
+Saving image_349.png
+Writing model predictions to disk:
+Saving image_350.png
+Writing model predictions to disk:
+Saving image_351.png
+Writing model predictions to disk:
+Saving image_352.png
+Writing model predictions to disk:
+Saving image_353.png
+Writing model predictions to disk:
+Saving image_354.png
+Writing model predictions to disk:
+Saving image_355.png
+Writing model predictions to disk:
+Saving image_356.png
+Writing model predictions to disk:
+Saving image_357.png
+Writing model predictions to disk:
+Saving image_358.png
+Writing model predictions to disk:
+Saving image_359.png
+Writing model predictions to disk:
+Saving image_360.png
+Writing model predictions to disk:
+Saving image_361.png
+Writing model predictions to disk:
+Saving image_362.png
+Writing model predictions to disk:
+Saving image_363.png
+Writing model predictions to disk:
+Saving image_364.png
+Writing model predictions to disk:
+Saving image_365.png
+Writing model predictions to disk:
+Saving image_366.png
+Writing model predictions to disk:
+Saving image_367.png
+Writing model predictions to disk:
+Saving image_368.png
+Writing model predictions to disk:
+Saving image_369.png
+Writing model predictions to disk:
+Saving image_370.png
+Writing model predictions to disk:
+Saving image_371.png
+Writing model predictions to disk:
+Saving image_372.png
+Writing model predictions to disk:
+Saving image_373.png
+Writing model predictions to disk:
+Saving image_374.png
+Writing model predictions to disk:
+Saving image_375.png
+Writing model predictions to disk:
+Saving image_376.png
+Writing model predictions to disk:
+Saving image_377.png
+Writing model predictions to disk:
+Saving image_378.png
+Writing model predictions to disk:
+Saving image_379.png
+Writing model predictions to disk:
+Saving image_380.png
+Writing model predictions to disk:
+Saving image_381.png
+Writing model predictions to disk:
+Saving image_382.png
+Writing model predictions to disk:
+Saving image_383.png
+Writing model predictions to disk:
+Saving image_384.png
+Writing model predictions to disk:
+Saving image_385.png
+Writing model predictions to disk:
+Saving image_386.png
+Writing model predictions to disk:
+Saving image_387.png
+Writing model predictions to disk:
+Saving image_388.png
+Writing model predictions to disk:
+Saving image_389.png
+Writing model predictions to disk:
+Saving image_390.png
+Writing model predictions to disk:
+Saving image_391.png
+Writing model predictions to disk:
+Saving image_392.png
+Writing model predictions to disk:
+Saving image_393.png
+Writing model predictions to disk:
+Saving image_394.png
+Writing model predictions to disk:
+Saving image_395.png
+Writing model predictions to disk:
+Saving image_396.png
+Writing model predictions to disk:
+Saving image_397.png
