@@ -47,10 +47,10 @@ if device == 'cuda':
 
 print('Using device: %s'%device)
 
-#### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
+# #### final params
+# num_training= 2100
+# num_validation = 200
+# num_test = 397
 
 num_epochs = 1
 learning_rate = 1e-4
@@ -58,10 +58,10 @@ learning_rate_decay = 0.99
 reg=0.001
 batch_size = 2
 
-#### dev params
-#num_training= 20
-#num_validation = 7
-#num_test = 7
+### dev params
+num_training= 20
+num_validation = 7
+num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -220,17 +220,12 @@ def trainAndTestModel(name):
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
             outputs = bestESmodel(in_images)
-            #print(outputs.size())
+            
             MSE += torch.sum((outputs - exp_images) ** 2)
             # Visualize the output of the best model against ground truth
-            # print('Saving image_%d.png'%(count))
             outputs_py = outputs.cpu()
-            print(outputs_py[0].size())
-            #print(outputs_py.size)
             exp_images_py = exp_images.cpu()
-            print(exp_images_py[0].size())
-            #outputs_py = outputs_py.cpu()
-            #exp_images_py = exp_images_py.cpu()
+            
             f, axarr = plt.subplots(1,2)
             title='Output of the best model vs Ground truth Image'
             plt.suptitle(title)
