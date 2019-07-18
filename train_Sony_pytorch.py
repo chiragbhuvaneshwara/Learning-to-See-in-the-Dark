@@ -241,9 +241,9 @@ def trainAndTestModel(name):
             in_images_py = in_images.cpu()
             outputs_py = outputs.cpu()
             exp_images_py = exp_images.cpu()
-          
-	        reqd_size = int(in_images.size()[0])
             
+            reqd_size = int(in_images.size()[0])
+
             for i in range(reqd_size):
                 count += 1 
                 f, axarr = plt.subplots(1,3)
