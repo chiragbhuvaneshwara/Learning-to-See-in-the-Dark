@@ -234,15 +234,16 @@ def trainAndTestModel(name):
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
             outputs = bestESmodel(in_images)
-            
+
             MSE += torch.sum((outputs - exp_images) ** 2)
 
             # Visualize the output of the best model against ground truth
             in_images_py = in_images.cpu()
             outputs_py = outputs.cpu()
             exp_images_py = exp_images.cpu()
-            
-            for i in range(batch_size):
+          
+	    reqd_size = int(in_images.size()[0])
+            for i in range(reqd_size):
                 count += 1 
                 f, axarr = plt.subplots(1,3)
                 title='Input vs Model Output vs Ground truth'
