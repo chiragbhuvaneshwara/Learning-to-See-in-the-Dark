@@ -52,11 +52,11 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 16
+num_epochs = 5
 learning_rate = 1e-5
 learning_rate_decay = 0.99
 reg=0.001
-batch_size = 10
+batch_size = 16
 
 # ### dev params
 # num_training= 20
