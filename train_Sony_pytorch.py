@@ -48,21 +48,21 @@ if device == 'cuda':
 
 print('Using device: %s'%device)
 
-#### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
+# #### final params
+# num_training= 2100
+# num_validation = 200
+# num_test = 397
 
-num_epochs = 7
-learning_rate = 1e-6
+num_epochs = 1
+learning_rate = 1e-5
 learning_rate_decay = 0.9
-reg=0.001
+reg = 0.001
 batch_size = 10
 
-# ### dev params
-# num_training= 20
-# num_validation = 7
-# num_test = 7
+### dev params
+num_training= 20
+num_validation = 7
+num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -246,9 +246,12 @@ def trainAndTestModel(name):
             reqd_size = int(in_images.size()[0])
 
             for i in range(reqd_size):
+
+                img = in_images_py[i].numpy()
+                nonZero = np.count_nonzero(img)
                 count += 1 
                 f, axarr = plt.subplots(1,3)
-                title='Input vs Model Output vs Ground truth'
+                title='Input ('+nonZero+'Px) vs Model Output vs Ground truth'
                 plt.suptitle(title)
                 axarr[0].imshow(trans(in_images_py[i]))
                 axarr[1].imshow(trans(outputs_py[i]))
