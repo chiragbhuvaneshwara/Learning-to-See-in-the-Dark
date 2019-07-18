@@ -52,9 +52,9 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 5
+num_epochs = 2
 learning_rate = 1e-5
-learning_rate_decay = 0.99
+learning_rate_decay = 0.9
 reg=0.001
 batch_size = 16
 
@@ -95,8 +95,19 @@ def trainAndTestModel(name):
     elif name == 'unet':
         model = unet()
         # selectedModel = unet()
+
     elif name == 'FPN':
         model = FPN(Bottleneck, [2,2,2,2])
+
+    elif name == 'unet_bn':
+        model = unet_bn()
+
+    elif name == 'unet_in':
+        model = unet_in()
+    
+    elif name == 'unet_d':
+        model = unet_d()
+
     else:
         print('Name variable passed is incorrect')
         return None
@@ -135,7 +146,7 @@ def trainAndTestModel(name):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            if (i+1) % 10 == 0:
+            if (i+1) % 20 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                     .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
         
@@ -239,8 +250,10 @@ def trainAndTestModel(name):
                 axarr[0].imshow(trans(in_images_py[i]))
                 axarr[1].imshow(trans(outputs_py[i]))
                 axarr[2].imshow(trans(exp_images_py[i]))
-                print('Writing model predictions to disk:')
-                print('Saving image_%d.png'%(count))
+                
+                if i % 10 == 0:
+                    print('Saving image_%d.png'%(count))
+
                 plt.savefig('images/'+name+'_%d.png'%(count))
                 plt.close()
 
