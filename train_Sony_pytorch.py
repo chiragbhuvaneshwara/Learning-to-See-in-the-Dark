@@ -52,11 +52,11 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 100
+num_epochs = 10
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
-batch_size = 2
+batch_size = 32
 
 # ### dev params
 # num_training= 20
@@ -216,7 +216,7 @@ def trainAndTestModel(name):
         MSE = 0
         count = 0 
         for in_images, exp_images in test_loader:
-            count += 1
+            
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
             outputs = bestESmodel(in_images)
@@ -228,15 +228,17 @@ def trainAndTestModel(name):
             outputs_py = outputs.cpu()
             exp_images_py = exp_images.cpu()
             
-            f, axarr = plt.subplots(1,3)
-            title='Input vs Model Output vs Ground truth'
-            plt.suptitle(title)
-            axarr[0].imshow(trans(in_images_py[0]))
-            axarr[1].imshow(trans(outputs_py[0]))
-            axarr[2].imshow(trans(exp_images_py[0]))
-            print('Writing model predictions to disk:')
-            print('Saving image_%d.png'%(count))
-            plt.savefig('images/'+name+'_%d.png'%(count))
+            for i in range(batch_size):
+                count += 1 
+                f, axarr = plt.subplots(1,3)
+                title='Input vs Model Output vs Ground truth'
+                plt.suptitle(title)
+                axarr[0].imshow(trans(in_images_py[0]))
+                axarr[1].imshow(trans(outputs_py[0]))
+                axarr[2].imshow(trans(exp_images_py[0]))
+                print('Writing model predictions to disk:')
+                print('Saving image_%d.png'%(count))
+                plt.savefig('images/'+name+'_%d.png'%(count))
 
             outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
             exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
