@@ -36,6 +36,7 @@ def update_lr(optimizer, lr):
 
 #sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
 sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+print('Input Image Size:')
 print(sitd_dataset[0][0].size())
 
 #--------------------------------
@@ -47,21 +48,21 @@ if device == 'cuda':
 
 print('Using device: %s'%device)
 
-# #### final params
-# num_training= 2100
-# num_validation = 200
-# num_test = 397
+#### final params
+num_training= 2100
+num_validation = 200
+num_test = 397
 
-num_epochs = 2
+num_epochs = 7
 learning_rate = 1e-6
 learning_rate_decay = 0.9
 reg=0.001
 batch_size = 10
 
-### dev params
-num_training= 20
-num_validation = 7
-num_test = 7
+# ### dev params
+# num_training= 20
+# num_validation = 7
+# num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
