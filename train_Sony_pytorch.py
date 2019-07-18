@@ -251,7 +251,7 @@ def trainAndTestModel(name):
                 nonZero = np.count_nonzero(img)
                 count += 1 
                 f, axarr = plt.subplots(1,3)
-                title='Input ('+nonZero+'Px) vs Model Output vs Ground truth'
+                title='Input ('+str(nonZero)+'Px) vs Model Output vs Ground truth'
                 plt.suptitle(title)
                 axarr[0].imshow(trans(in_images_py[i]))
                 axarr[1].imshow(trans(outputs_py[i]))
