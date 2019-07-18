@@ -47,21 +47,21 @@ if device == 'cuda':
 
 print('Using device: %s'%device)
 
-# #### final params
-# num_training= 2100
-# num_validation = 200
-# num_test = 397
+#### final params
+num_training= 2100
+num_validation = 200
+num_test = 397
 
-num_epochs = 1
+num_epochs = 100
 learning_rate = 1e-4
 learning_rate_decay = 0.99
 reg=0.001
 batch_size = 2
 
-### dev params
-num_training= 20
-num_validation = 7
-num_test = 7
+# ### dev params
+# num_training= 20
+# num_validation = 7
+# num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -231,6 +231,7 @@ def trainAndTestModel(name):
             plt.suptitle(title)
             axarr[0].imshow(trans(outputs_py[0]))
             axarr[1].imshow(trans(exp_images_py[0]))
+            print('Writing model predictions to disk:')
             print('Saving image_%d.png'%(count))
             plt.savefig('images/'+name+'_%d.png'%(count))
 
