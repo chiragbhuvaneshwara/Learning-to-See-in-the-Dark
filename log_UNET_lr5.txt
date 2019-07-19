@@ -1,0 +1,930 @@
+Input Image Size:
+torch.Size([3, 480, 720])
+Using device: cuda
+unet(
+  (inc): double_conv(
+    (conv): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): LeakyReLU(negative_slope=0.01, inplace)
+      (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (3): LeakyReLU(negative_slope=0.01, inplace)
+    )
+  )
+  (down1): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down2): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down3): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (down4): down(
+    (mpconv): Sequential(
+      (0): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (1): double_conv(
+        (conv): Sequential(
+          (0): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): LeakyReLU(negative_slope=0.01, inplace)
+          (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (3): LeakyReLU(negative_slope=0.01, inplace)
+        )
+      )
+    )
+  )
+  (up1): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(1024, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up2): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(512, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up3): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(256, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (up4): up(
+    (up): Upsample(scale_factor=2.0, mode=bilinear)
+    (conv): double_conv(
+      (conv): Sequential(
+        (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): LeakyReLU(negative_slope=0.01, inplace)
+        (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (3): LeakyReLU(negative_slope=0.01, inplace)
+      )
+    )
+  )
+  (out1): Conv2d(64, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+)
+Epoch [1/100], Step [20/210], Loss: 0.0616
+Epoch [1/100], Step [40/210], Loss: 0.0815
+Epoch [1/100], Step [60/210], Loss: 0.0558
+Epoch [1/100], Step [80/210], Loss: 0.0699
+Epoch [1/100], Step [100/210], Loss: 0.0399
+Epoch [1/100], Step [120/210], Loss: 0.0368
+Epoch [1/100], Step [140/210], Loss: 0.0389
+Epoch [1/100], Step [160/210], Loss: 0.0254
+Epoch [1/100], Step [180/210], Loss: 0.0287
+Epoch [1/100], Step [200/210], Loss: 0.0320
+Avg Validation MSE on all the 200 Val images is: 31750.384765625 
+Avg Validation SSIM on all the 200 Val images is: 0.5316399767941984 
+Epoch [2/100], Step [20/210], Loss: 0.0272
+Epoch [2/100], Step [40/210], Loss: 0.0379
+Epoch [2/100], Step [60/210], Loss: 0.0366
+Epoch [2/100], Step [80/210], Loss: 0.0401
+Epoch [2/100], Step [100/210], Loss: 0.0406
+Epoch [2/100], Step [120/210], Loss: 0.0294
+Epoch [2/100], Step [140/210], Loss: 0.0313
+Epoch [2/100], Step [160/210], Loss: 0.0234
+Epoch [2/100], Step [180/210], Loss: 0.0299
+Epoch [2/100], Step [200/210], Loss: 0.0271
+Avg Validation MSE on all the 200 Val images is: 22038.5546875 
+Avg Validation SSIM on all the 200 Val images is: 0.5821866608087991 
+Epoch [3/100], Step [20/210], Loss: 0.0243
+Epoch [3/100], Step [40/210], Loss: 0.0287
+Epoch [3/100], Step [60/210], Loss: 0.0262
+Epoch [3/100], Step [80/210], Loss: 0.0278
+Epoch [3/100], Step [100/210], Loss: 0.0347
+Epoch [3/100], Step [120/210], Loss: 0.0186
+Epoch [3/100], Step [140/210], Loss: 0.0198
+Epoch [3/100], Step [160/210], Loss: 0.0227
+Epoch [3/100], Step [180/210], Loss: 0.0224
+Epoch [3/100], Step [200/210], Loss: 0.0190
+Avg Validation MSE on all the 200 Val images is: 19036.763671875 
+Avg Validation SSIM on all the 200 Val images is: 0.5999196491357399 
+Epoch [4/100], Step [20/210], Loss: 0.0268
+Epoch [4/100], Step [40/210], Loss: 0.0162
+Epoch [4/100], Step [60/210], Loss: 0.0186
+Epoch [4/100], Step [80/210], Loss: 0.0214
+Epoch [4/100], Step [100/210], Loss: 0.0214
+Epoch [4/100], Step [120/210], Loss: 0.0216
+Epoch [4/100], Step [140/210], Loss: 0.0198
+Epoch [4/100], Step [160/210], Loss: 0.0190
+Epoch [4/100], Step [180/210], Loss: 0.0295
+Epoch [4/100], Step [200/210], Loss: 0.0195
+Avg Validation MSE on all the 200 Val images is: 18800.29296875 
+Avg Validation SSIM on all the 200 Val images is: 0.609458540017175 
+Epoch [5/100], Step [20/210], Loss: 0.0145
+Epoch [5/100], Step [40/210], Loss: 0.0286
+Epoch [5/100], Step [60/210], Loss: 0.0164
+Epoch [5/100], Step [80/210], Loss: 0.0223
+Epoch [5/100], Step [100/210], Loss: 0.0197
+Epoch [5/100], Step [120/210], Loss: 0.0209
+Epoch [5/100], Step [140/210], Loss: 0.0182
+Epoch [5/100], Step [160/210], Loss: 0.0190
+Epoch [5/100], Step [180/210], Loss: 0.0248
+Epoch [5/100], Step [200/210], Loss: 0.0229
+Avg Validation MSE on all the 200 Val images is: 17714.392578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6103048654517802 
+Epoch [6/100], Step [20/210], Loss: 0.0143
+Epoch [6/100], Step [40/210], Loss: 0.0190
+Epoch [6/100], Step [60/210], Loss: 0.0219
+Epoch [6/100], Step [80/210], Loss: 0.0148
+Epoch [6/100], Step [100/210], Loss: 0.0202
+Epoch [6/100], Step [120/210], Loss: 0.0186
+Epoch [6/100], Step [140/210], Loss: 0.0196
+Epoch [6/100], Step [160/210], Loss: 0.0175
+Epoch [6/100], Step [180/210], Loss: 0.0206
+Epoch [6/100], Step [200/210], Loss: 0.0177
+Avg Validation MSE on all the 200 Val images is: 18266.607421875 
+Avg Validation SSIM on all the 200 Val images is: 0.6141895427009039 
+Epoch [7/100], Step [20/210], Loss: 0.0209
+Epoch [7/100], Step [40/210], Loss: 0.0190
+Epoch [7/100], Step [60/210], Loss: 0.0200
+Epoch [7/100], Step [80/210], Loss: 0.0187
+Epoch [7/100], Step [100/210], Loss: 0.0211
+Epoch [7/100], Step [120/210], Loss: 0.0193
+Epoch [7/100], Step [140/210], Loss: 0.0166
+Epoch [7/100], Step [160/210], Loss: 0.0223
+Epoch [7/100], Step [180/210], Loss: 0.0162
+Epoch [7/100], Step [200/210], Loss: 0.0200
+Avg Validation MSE on all the 200 Val images is: 17146.146484375 
+Avg Validation SSIM on all the 200 Val images is: 0.6117390188357051 
+Epoch [8/100], Step [20/210], Loss: 0.0182
+Epoch [8/100], Step [40/210], Loss: 0.0199
+Epoch [8/100], Step [60/210], Loss: 0.0182
+Epoch [8/100], Step [80/210], Loss: 0.0144
+Epoch [8/100], Step [100/210], Loss: 0.0133
+Epoch [8/100], Step [120/210], Loss: 0.0175
+Epoch [8/100], Step [140/210], Loss: 0.0159
+Epoch [8/100], Step [160/210], Loss: 0.0192
+Epoch [8/100], Step [180/210], Loss: 0.0189
+Epoch [8/100], Step [200/210], Loss: 0.0155
+Avg Validation MSE on all the 200 Val images is: 17711.89453125 
+Avg Validation SSIM on all the 200 Val images is: 0.6148443648779174 
+Epoch [9/100], Step [20/210], Loss: 0.0126
+Epoch [9/100], Step [40/210], Loss: 0.0173
+Epoch [9/100], Step [60/210], Loss: 0.0183
+Epoch [9/100], Step [80/210], Loss: 0.0200
+Epoch [9/100], Step [100/210], Loss: 0.0219
+Epoch [9/100], Step [120/210], Loss: 0.0262
+Epoch [9/100], Step [140/210], Loss: 0.0223
+Epoch [9/100], Step [160/210], Loss: 0.0143
+Epoch [9/100], Step [180/210], Loss: 0.0200
+Epoch [9/100], Step [200/210], Loss: 0.0196
+Avg Validation MSE on all the 200 Val images is: 16591.73046875 
+Avg Validation SSIM on all the 200 Val images is: 0.6129372018798969 
+Epoch [10/100], Step [20/210], Loss: 0.0250
+Epoch [10/100], Step [40/210], Loss: 0.0167
+Epoch [10/100], Step [60/210], Loss: 0.0175
+Epoch [10/100], Step [80/210], Loss: 0.0179
+Epoch [10/100], Step [100/210], Loss: 0.0151
+Epoch [10/100], Step [120/210], Loss: 0.0129
+Epoch [10/100], Step [140/210], Loss: 0.0181
+Epoch [10/100], Step [160/210], Loss: 0.0141
+Epoch [10/100], Step [180/210], Loss: 0.0169
+Epoch [10/100], Step [200/210], Loss: 0.0160
+Avg Validation MSE on all the 200 Val images is: 17430.880859375 
+Avg Validation SSIM on all the 200 Val images is: 0.6162741012371584 
+Epoch [11/100], Step [20/210], Loss: 0.0172
+Epoch [11/100], Step [40/210], Loss: 0.0171
+Epoch [11/100], Step [60/210], Loss: 0.0148
+Epoch [11/100], Step [80/210], Loss: 0.0217
+Epoch [11/100], Step [100/210], Loss: 0.0144
+Epoch [11/100], Step [120/210], Loss: 0.0128
+Epoch [11/100], Step [140/210], Loss: 0.0206
+Epoch [11/100], Step [160/210], Loss: 0.0157
+Epoch [11/100], Step [180/210], Loss: 0.0182
+Epoch [11/100], Step [200/210], Loss: 0.0160
+Avg Validation MSE on all the 200 Val images is: 16711.587890625 
+Avg Validation SSIM on all the 200 Val images is: 0.6183980201290812 
+Epoch [12/100], Step [20/210], Loss: 0.0195
+Epoch [12/100], Step [40/210], Loss: 0.0144
+Epoch [12/100], Step [60/210], Loss: 0.0181
+Epoch [12/100], Step [80/210], Loss: 0.0202
+Epoch [12/100], Step [100/210], Loss: 0.0139
+Epoch [12/100], Step [120/210], Loss: 0.0153
+Epoch [12/100], Step [140/210], Loss: 0.0214
+Epoch [12/100], Step [160/210], Loss: 0.0147
+Epoch [12/100], Step [180/210], Loss: 0.0185
+Epoch [12/100], Step [200/210], Loss: 0.0173
+Avg Validation MSE on all the 200 Val images is: 15903.9697265625 
+Avg Validation SSIM on all the 200 Val images is: 0.6157785810990267 
+Epoch [13/100], Step [20/210], Loss: 0.0181
+Epoch [13/100], Step [40/210], Loss: 0.0116
+Epoch [13/100], Step [60/210], Loss: 0.0167
+Epoch [13/100], Step [80/210], Loss: 0.0139
+Epoch [13/100], Step [100/210], Loss: 0.0112
+Epoch [13/100], Step [120/210], Loss: 0.0174
+Epoch [13/100], Step [140/210], Loss: 0.0230
+Epoch [13/100], Step [160/210], Loss: 0.0229
+Epoch [13/100], Step [180/210], Loss: 0.0134
+Epoch [13/100], Step [200/210], Loss: 0.0143
+Avg Validation MSE on all the 200 Val images is: 15968.73828125 
+Avg Validation SSIM on all the 200 Val images is: 0.6194111438531333 
+Epoch [14/100], Step [20/210], Loss: 0.0205
+Epoch [14/100], Step [40/210], Loss: 0.0148
+Epoch [14/100], Step [60/210], Loss: 0.0209
+Epoch [14/100], Step [80/210], Loss: 0.0183
+Epoch [14/100], Step [100/210], Loss: 0.0145
+Epoch [14/100], Step [120/210], Loss: 0.0135
+Epoch [14/100], Step [140/210], Loss: 0.0120
+Epoch [14/100], Step [160/210], Loss: 0.0124
+Epoch [14/100], Step [180/210], Loss: 0.0159
+Epoch [14/100], Step [200/210], Loss: 0.0151
+Avg Validation MSE on all the 200 Val images is: 15919.0517578125 
+Avg Validation SSIM on all the 200 Val images is: 0.617422040881683 
+Epoch [15/100], Step [20/210], Loss: 0.0171
+Epoch [15/100], Step [40/210], Loss: 0.0132
+Epoch [15/100], Step [60/210], Loss: 0.0208
+Epoch [15/100], Step [80/210], Loss: 0.0198
+Epoch [15/100], Step [100/210], Loss: 0.0214
+Epoch [15/100], Step [120/210], Loss: 0.0163
+Epoch [15/100], Step [140/210], Loss: 0.0129
+Epoch [15/100], Step [160/210], Loss: 0.0189
+Epoch [15/100], Step [180/210], Loss: 0.0170
+Epoch [15/100], Step [200/210], Loss: 0.0205
+Avg Validation MSE on all the 200 Val images is: 16085.9951171875 
+Avg Validation SSIM on all the 200 Val images is: 0.6156133195577671 
+Epoch [16/100], Step [20/210], Loss: 0.0144
+Epoch [16/100], Step [40/210], Loss: 0.0190
+Epoch [16/100], Step [60/210], Loss: 0.0128
+Epoch [16/100], Step [80/210], Loss: 0.0191
+Epoch [16/100], Step [100/210], Loss: 0.0171
+Epoch [16/100], Step [120/210], Loss: 0.0246
+Epoch [16/100], Step [140/210], Loss: 0.0187
+Epoch [16/100], Step [160/210], Loss: 0.0229
+Epoch [16/100], Step [180/210], Loss: 0.0200
+Epoch [16/100], Step [200/210], Loss: 0.0185
+Avg Validation MSE on all the 200 Val images is: 15955.7783203125 
+Avg Validation SSIM on all the 200 Val images is: 0.6159727583676193 
+Epoch [17/100], Step [20/210], Loss: 0.0211
+Epoch [17/100], Step [40/210], Loss: 0.0145
+Epoch [17/100], Step [60/210], Loss: 0.0172
+Epoch [17/100], Step [80/210], Loss: 0.0216
+Epoch [17/100], Step [100/210], Loss: 0.0181
+Epoch [17/100], Step [120/210], Loss: 0.0233
+Epoch [17/100], Step [140/210], Loss: 0.0150
+Epoch [17/100], Step [160/210], Loss: 0.0171
+Epoch [17/100], Step [180/210], Loss: 0.0161
+Epoch [17/100], Step [200/210], Loss: 0.0165
+Avg Validation MSE on all the 200 Val images is: 16037.818359375 
+Avg Validation SSIM on all the 200 Val images is: 0.6192036704738553 
+Epoch [18/100], Step [20/210], Loss: 0.0208
+Epoch [18/100], Step [40/210], Loss: 0.0179
+Epoch [18/100], Step [60/210], Loss: 0.0166
+Epoch [18/100], Step [80/210], Loss: 0.0172
+Epoch [18/100], Step [100/210], Loss: 0.0190
+Epoch [18/100], Step [120/210], Loss: 0.0143
+Epoch [18/100], Step [140/210], Loss: 0.0210
+Epoch [18/100], Step [160/210], Loss: 0.0191
+Epoch [18/100], Step [180/210], Loss: 0.0179
+Epoch [18/100], Step [200/210], Loss: 0.0176
+Avg Validation MSE on all the 200 Val images is: 16028.3095703125 
+Avg Validation SSIM on all the 200 Val images is: 0.6201432474663324 
+Epoch [19/100], Step [20/210], Loss: 0.0130
+Epoch [19/100], Step [40/210], Loss: 0.0178
+Epoch [19/100], Step [60/210], Loss: 0.0135
+Epoch [19/100], Step [80/210], Loss: 0.0126
+Epoch [19/100], Step [100/210], Loss: 0.0185
+Epoch [19/100], Step [120/210], Loss: 0.0191
+Epoch [19/100], Step [140/210], Loss: 0.0207
+Epoch [19/100], Step [160/210], Loss: 0.0150
+Epoch [19/100], Step [180/210], Loss: 0.0117
+Epoch [19/100], Step [200/210], Loss: 0.0159
+Avg Validation MSE on all the 200 Val images is: 15625.12109375 
+Avg Validation SSIM on all the 200 Val images is: 0.618236425543569 
+Epoch [20/100], Step [20/210], Loss: 0.0169
+Epoch [20/100], Step [40/210], Loss: 0.0165
+Epoch [20/100], Step [60/210], Loss: 0.0211
+Epoch [20/100], Step [80/210], Loss: 0.0193
+Epoch [20/100], Step [100/210], Loss: 0.0199
+Epoch [20/100], Step [120/210], Loss: 0.0187
+Epoch [20/100], Step [140/210], Loss: 0.0152
+Epoch [20/100], Step [160/210], Loss: 0.0184
+Epoch [20/100], Step [180/210], Loss: 0.0175
+Epoch [20/100], Step [200/210], Loss: 0.0141
+Avg Validation MSE on all the 200 Val images is: 15568.0732421875 
+Avg Validation SSIM on all the 200 Val images is: 0.6180012331523895 
+Epoch [21/100], Step [20/210], Loss: 0.0208
+Epoch [21/100], Step [40/210], Loss: 0.0242
+Epoch [21/100], Step [60/210], Loss: 0.0208
+Epoch [21/100], Step [80/210], Loss: 0.0166
+Epoch [21/100], Step [100/210], Loss: 0.0190
+Epoch [21/100], Step [120/210], Loss: 0.0121
+Epoch [21/100], Step [140/210], Loss: 0.0189
+Epoch [21/100], Step [160/210], Loss: 0.0233
+Epoch [21/100], Step [180/210], Loss: 0.0133
+Epoch [21/100], Step [200/210], Loss: 0.0150
+Avg Validation MSE on all the 200 Val images is: 15539.3369140625 
+Avg Validation SSIM on all the 200 Val images is: 0.6171766156839809 
+Epoch [22/100], Step [20/210], Loss: 0.0183
+Epoch [22/100], Step [40/210], Loss: 0.0183
+Epoch [22/100], Step [60/210], Loss: 0.0145
+Epoch [22/100], Step [80/210], Loss: 0.0124
+Epoch [22/100], Step [100/210], Loss: 0.0160
+Epoch [22/100], Step [120/210], Loss: 0.0151
+Epoch [22/100], Step [140/210], Loss: 0.0207
+Epoch [22/100], Step [160/210], Loss: 0.0146
+Epoch [22/100], Step [180/210], Loss: 0.0147
+Epoch [22/100], Step [200/210], Loss: 0.0188
+Avg Validation MSE on all the 200 Val images is: 15734.1787109375 
+Avg Validation SSIM on all the 200 Val images is: 0.617026001063373 
+Epoch [23/100], Step [20/210], Loss: 0.0133
+Epoch [23/100], Step [40/210], Loss: 0.0164
+Epoch [23/100], Step [60/210], Loss: 0.0188
+Epoch [23/100], Step [80/210], Loss: 0.0159
+Epoch [23/100], Step [100/210], Loss: 0.0152
+Epoch [23/100], Step [120/210], Loss: 0.0163
+Epoch [23/100], Step [140/210], Loss: 0.0168
+Epoch [23/100], Step [160/210], Loss: 0.0150
+Epoch [23/100], Step [180/210], Loss: 0.0189
+Epoch [23/100], Step [200/210], Loss: 0.0158
+Avg Validation MSE on all the 200 Val images is: 15584.12109375 
+Avg Validation SSIM on all the 200 Val images is: 0.6178407810110618 
+Epoch [24/100], Step [20/210], Loss: 0.0205
+Epoch [24/100], Step [40/210], Loss: 0.0153
+Epoch [24/100], Step [60/210], Loss: 0.0136
+Epoch [24/100], Step [80/210], Loss: 0.0184
+Epoch [24/100], Step [100/210], Loss: 0.0188
+Epoch [24/100], Step [120/210], Loss: 0.0120
+Epoch [24/100], Step [140/210], Loss: 0.0152
+Epoch [24/100], Step [160/210], Loss: 0.0217
+Epoch [24/100], Step [180/210], Loss: 0.0125
+Epoch [24/100], Step [200/210], Loss: 0.0175
+Avg Validation MSE on all the 200 Val images is: 15658.9521484375 
+Avg Validation SSIM on all the 200 Val images is: 0.6183371887346484 
+Epoch [25/100], Step [20/210], Loss: 0.0140
+Epoch [25/100], Step [40/210], Loss: 0.0185
+Epoch [25/100], Step [60/210], Loss: 0.0179
+Epoch [25/100], Step [80/210], Loss: 0.0200
+Epoch [25/100], Step [100/210], Loss: 0.0180
+Epoch [25/100], Step [120/210], Loss: 0.0173
+Epoch [25/100], Step [140/210], Loss: 0.0150
+Epoch [25/100], Step [160/210], Loss: 0.0166
+Epoch [25/100], Step [180/210], Loss: 0.0156
+Epoch [25/100], Step [200/210], Loss: 0.0142
+Avg Validation MSE on all the 200 Val images is: 15559.6025390625 
+Avg Validation SSIM on all the 200 Val images is: 0.6175089561756425 
+Epoch [26/100], Step [20/210], Loss: 0.0184
+Epoch [26/100], Step [40/210], Loss: 0.0171
+Epoch [26/100], Step [60/210], Loss: 0.0172
+Epoch [26/100], Step [80/210], Loss: 0.0158
+Epoch [26/100], Step [100/210], Loss: 0.0134
+Epoch [26/100], Step [120/210], Loss: 0.0145
+Epoch [26/100], Step [140/210], Loss: 0.0179
+Epoch [26/100], Step [160/210], Loss: 0.0155
+Epoch [26/100], Step [180/210], Loss: 0.0131
+Epoch [26/100], Step [200/210], Loss: 0.0145
+Avg Validation MSE on all the 200 Val images is: 15621.3388671875 
+Avg Validation SSIM on all the 200 Val images is: 0.6200971259602623 
+Epoch [27/100], Step [20/210], Loss: 0.0193
+Epoch [27/100], Step [40/210], Loss: 0.0226
+Epoch [27/100], Step [60/210], Loss: 0.0148
+Epoch [27/100], Step [80/210], Loss: 0.0204
+Epoch [27/100], Step [100/210], Loss: 0.0173
+Epoch [27/100], Step [120/210], Loss: 0.0133
+Epoch [27/100], Step [140/210], Loss: 0.0184
+Epoch [27/100], Step [160/210], Loss: 0.0166
+Epoch [27/100], Step [180/210], Loss: 0.0181
+Epoch [27/100], Step [200/210], Loss: 0.0149
+Avg Validation MSE on all the 200 Val images is: 15527.591796875 
+Avg Validation SSIM on all the 200 Val images is: 0.6187440816110877 
+Epoch [28/100], Step [20/210], Loss: 0.0133
+Epoch [28/100], Step [40/210], Loss: 0.0148
+Epoch [28/100], Step [60/210], Loss: 0.0156
+Epoch [28/100], Step [80/210], Loss: 0.0151
+Epoch [28/100], Step [100/210], Loss: 0.0127
+Epoch [28/100], Step [120/210], Loss: 0.0236
+Epoch [28/100], Step [140/210], Loss: 0.0139
+Epoch [28/100], Step [160/210], Loss: 0.0114
+Epoch [28/100], Step [180/210], Loss: 0.0205
+Epoch [28/100], Step [200/210], Loss: 0.0173
+Avg Validation MSE on all the 200 Val images is: 15791.955078125 
+Avg Validation SSIM on all the 200 Val images is: 0.6199849456064329 
+Epoch [29/100], Step [20/210], Loss: 0.0246
+Epoch [29/100], Step [40/210], Loss: 0.0192
+Epoch [29/100], Step [60/210], Loss: 0.0159
+Epoch [29/100], Step [80/210], Loss: 0.0147
+Epoch [29/100], Step [100/210], Loss: 0.0210
+Epoch [29/100], Step [120/210], Loss: 0.0131
+Epoch [29/100], Step [140/210], Loss: 0.0203
+Epoch [29/100], Step [160/210], Loss: 0.0176
+Epoch [29/100], Step [180/210], Loss: 0.0168
+Epoch [29/100], Step [200/210], Loss: 0.0229
+Avg Validation MSE on all the 200 Val images is: 15227.5205078125 
+Avg Validation SSIM on all the 200 Val images is: 0.6171418694909534 
+Epoch [30/100], Step [20/210], Loss: 0.0190
+Epoch [30/100], Step [40/210], Loss: 0.0168
+Epoch [30/100], Step [60/210], Loss: 0.0197
+Epoch [30/100], Step [80/210], Loss: 0.0120
+Epoch [30/100], Step [100/210], Loss: 0.0168
+Epoch [30/100], Step [120/210], Loss: 0.0142
+Epoch [30/100], Step [140/210], Loss: 0.0186
+Epoch [30/100], Step [160/210], Loss: 0.0176
+Epoch [30/100], Step [180/210], Loss: 0.0134
+Epoch [30/100], Step [200/210], Loss: 0.0242
+Avg Validation MSE on all the 200 Val images is: 15553.1787109375 
+Avg Validation SSIM on all the 200 Val images is: 0.6165810948082437 
+Epoch [31/100], Step [20/210], Loss: 0.0132
+Epoch [31/100], Step [40/210], Loss: 0.0173
+Epoch [31/100], Step [60/210], Loss: 0.0167
+Epoch [31/100], Step [80/210], Loss: 0.0208
+Epoch [31/100], Step [100/210], Loss: 0.0156
+Epoch [31/100], Step [120/210], Loss: 0.0143
+Epoch [31/100], Step [140/210], Loss: 0.0114
+Epoch [31/100], Step [160/210], Loss: 0.0235
+Epoch [31/100], Step [180/210], Loss: 0.0210
+Epoch [31/100], Step [200/210], Loss: 0.0175
+Avg Validation MSE on all the 200 Val images is: 15571.7255859375 
+Avg Validation SSIM on all the 200 Val images is: 0.619650061805406 
+Epoch [32/100], Step [20/210], Loss: 0.0156
+Epoch [32/100], Step [40/210], Loss: 0.0166
+Epoch [32/100], Step [60/210], Loss: 0.0183
+Epoch [32/100], Step [80/210], Loss: 0.0187
+Epoch [32/100], Step [100/210], Loss: 0.0223
+Epoch [32/100], Step [120/210], Loss: 0.0257
+Epoch [32/100], Step [140/210], Loss: 0.0176
+Epoch [32/100], Step [160/210], Loss: 0.0099
+Epoch [32/100], Step [180/210], Loss: 0.0168
+Epoch [32/100], Step [200/210], Loss: 0.0159
+Avg Validation MSE on all the 200 Val images is: 15640.828125 
+Avg Validation SSIM on all the 200 Val images is: 0.6200587608908285 
+Epoch [33/100], Step [20/210], Loss: 0.0147
+Epoch [33/100], Step [40/210], Loss: 0.0142
+Epoch [33/100], Step [60/210], Loss: 0.0245
+Epoch [33/100], Step [80/210], Loss: 0.0194
+Epoch [33/100], Step [100/210], Loss: 0.0147
+Epoch [33/100], Step [120/210], Loss: 0.0170
+Epoch [33/100], Step [140/210], Loss: 0.0228
+Epoch [33/100], Step [160/210], Loss: 0.0169
+Epoch [33/100], Step [180/210], Loss: 0.0160
+Epoch [33/100], Step [200/210], Loss: 0.0177
+Avg Validation MSE on all the 200 Val images is: 15442.2998046875 
+Avg Validation SSIM on all the 200 Val images is: 0.6173553693246084 
+Epoch [34/100], Step [20/210], Loss: 0.0159
+Epoch [34/100], Step [40/210], Loss: 0.0170
+Epoch [34/100], Step [60/210], Loss: 0.0114
+Epoch [34/100], Step [80/210], Loss: 0.0199
+Epoch [34/100], Step [100/210], Loss: 0.0219
+Epoch [34/100], Step [120/210], Loss: 0.0189
+Epoch [34/100], Step [140/210], Loss: 0.0141
+Epoch [34/100], Step [160/210], Loss: 0.0216
+Epoch [34/100], Step [180/210], Loss: 0.0170
+Epoch [34/100], Step [200/210], Loss: 0.0193
+Avg Validation MSE on all the 200 Val images is: 15518.759765625 
+Avg Validation SSIM on all the 200 Val images is: 0.6189013239766193 
+Epoch [35/100], Step [20/210], Loss: 0.0164
+Epoch [35/100], Step [40/210], Loss: 0.0154
+Epoch [35/100], Step [60/210], Loss: 0.0164
+Epoch [35/100], Step [80/210], Loss: 0.0135
+Epoch [35/100], Step [100/210], Loss: 0.0196
+Epoch [35/100], Step [120/210], Loss: 0.0172
+Epoch [35/100], Step [140/210], Loss: 0.0159
+Epoch [35/100], Step [160/210], Loss: 0.0137
+Epoch [35/100], Step [180/210], Loss: 0.0158
+Epoch [35/100], Step [200/210], Loss: 0.0216
+Avg Validation MSE on all the 200 Val images is: 15388.54296875 
+Avg Validation SSIM on all the 200 Val images is: 0.6187530893948321 
+Epoch [36/100], Step [20/210], Loss: 0.0166
+Epoch [36/100], Step [40/210], Loss: 0.0182
+Epoch [36/100], Step [60/210], Loss: 0.0176
+Epoch [36/100], Step [80/210], Loss: 0.0221
+Epoch [36/100], Step [100/210], Loss: 0.0125
+Epoch [36/100], Step [120/210], Loss: 0.0149
+Epoch [36/100], Step [140/210], Loss: 0.0213
+Epoch [36/100], Step [160/210], Loss: 0.0171
+Epoch [36/100], Step [180/210], Loss: 0.0153
+Epoch [36/100], Step [200/210], Loss: 0.0195
+Avg Validation MSE on all the 200 Val images is: 15322.634765625 
+Avg Validation SSIM on all the 200 Val images is: 0.6184292294597323 
+Epoch [37/100], Step [20/210], Loss: 0.0234
+Epoch [37/100], Step [40/210], Loss: 0.0108
+Epoch [37/100], Step [60/210], Loss: 0.0184
+Epoch [37/100], Step [80/210], Loss: 0.0124
+Epoch [37/100], Step [100/210], Loss: 0.0180
+Epoch [37/100], Step [120/210], Loss: 0.0202
+Epoch [37/100], Step [140/210], Loss: 0.0140
+Epoch [37/100], Step [160/210], Loss: 0.0134
+Epoch [37/100], Step [180/210], Loss: 0.0133
+Epoch [37/100], Step [200/210], Loss: 0.0172
+Avg Validation MSE on all the 200 Val images is: 15280.2880859375 
+Avg Validation SSIM on all the 200 Val images is: 0.6161797182139064 
+Epoch [38/100], Step [20/210], Loss: 0.0219
+Epoch [38/100], Step [40/210], Loss: 0.0163
+Epoch [38/100], Step [60/210], Loss: 0.0180
+Epoch [38/100], Step [80/210], Loss: 0.0142
+Epoch [38/100], Step [100/210], Loss: 0.0139
+Epoch [38/100], Step [120/210], Loss: 0.0194
+Epoch [38/100], Step [140/210], Loss: 0.0182
+Epoch [38/100], Step [160/210], Loss: 0.0195
+Epoch [38/100], Step [180/210], Loss: 0.0110
+Epoch [38/100], Step [200/210], Loss: 0.0204
+Avg Validation MSE on all the 200 Val images is: 15441.1767578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6188662147791447 
+Epoch [39/100], Step [20/210], Loss: 0.0177
+Epoch [39/100], Step [40/210], Loss: 0.0157
+Epoch [39/100], Step [60/210], Loss: 0.0127
+Epoch [39/100], Step [80/210], Loss: 0.0149
+Epoch [39/100], Step [100/210], Loss: 0.0195
+Epoch [39/100], Step [120/210], Loss: 0.0125
+Epoch [39/100], Step [140/210], Loss: 0.0201
+Epoch [39/100], Step [160/210], Loss: 0.0157
+Epoch [39/100], Step [180/210], Loss: 0.0187
+Epoch [39/100], Step [200/210], Loss: 0.0161
+Avg Validation MSE on all the 200 Val images is: 15408.5234375 
+Avg Validation SSIM on all the 200 Val images is: 0.6184691599895608 
+Epoch [40/100], Step [20/210], Loss: 0.0127
+Epoch [40/100], Step [40/210], Loss: 0.0132
+Epoch [40/100], Step [60/210], Loss: 0.0191
+Epoch [40/100], Step [80/210], Loss: 0.0177
+Epoch [40/100], Step [100/210], Loss: 0.0163
+Epoch [40/100], Step [120/210], Loss: 0.0159
+Epoch [40/100], Step [140/210], Loss: 0.0190
+Epoch [40/100], Step [160/210], Loss: 0.0097
+Epoch [40/100], Step [180/210], Loss: 0.0113
+Epoch [40/100], Step [200/210], Loss: 0.0186
+Avg Validation MSE on all the 200 Val images is: 15447.2509765625 
+Avg Validation SSIM on all the 200 Val images is: 0.6190595507386191 
+Epoch [41/100], Step [20/210], Loss: 0.0140
+Epoch [41/100], Step [40/210], Loss: 0.0144
+Epoch [41/100], Step [60/210], Loss: 0.0168
+Epoch [41/100], Step [80/210], Loss: 0.0195
+Epoch [41/100], Step [100/210], Loss: 0.0174
+Epoch [41/100], Step [120/210], Loss: 0.0152
+Epoch [41/100], Step [140/210], Loss: 0.0142
+Epoch [41/100], Step [160/210], Loss: 0.0133
+Epoch [41/100], Step [180/210], Loss: 0.0139
+Epoch [41/100], Step [200/210], Loss: 0.0196
+Avg Validation MSE on all the 200 Val images is: 15435.609375 
+Avg Validation SSIM on all the 200 Val images is: 0.6190714904844077 
+Epoch [42/100], Step [20/210], Loss: 0.0153
+Epoch [42/100], Step [40/210], Loss: 0.0124
+Epoch [42/100], Step [60/210], Loss: 0.0155
+Epoch [42/100], Step [80/210], Loss: 0.0143
+Epoch [42/100], Step [100/210], Loss: 0.0174
+Epoch [42/100], Step [120/210], Loss: 0.0175
+Epoch [42/100], Step [140/210], Loss: 0.0221
+Epoch [42/100], Step [160/210], Loss: 0.0225
+Epoch [42/100], Step [180/210], Loss: 0.0145
+Epoch [42/100], Step [200/210], Loss: 0.0199
+Avg Validation MSE on all the 200 Val images is: 15354.5810546875 
+Avg Validation SSIM on all the 200 Val images is: 0.6184275878476287 
+Epoch [43/100], Step [20/210], Loss: 0.0245
+Epoch [43/100], Step [40/210], Loss: 0.0180
+Epoch [43/100], Step [60/210], Loss: 0.0165
+Epoch [43/100], Step [80/210], Loss: 0.0205
+Epoch [43/100], Step [100/210], Loss: 0.0123
+Epoch [43/100], Step [120/210], Loss: 0.0137
+Epoch [43/100], Step [140/210], Loss: 0.0215
+Epoch [43/100], Step [160/210], Loss: 0.0166
+Epoch [43/100], Step [180/210], Loss: 0.0124
+Epoch [43/100], Step [200/210], Loss: 0.0148
+Avg Validation MSE on all the 200 Val images is: 15374.2734375 
+Avg Validation SSIM on all the 200 Val images is: 0.6187563550110636 
+Epoch [44/100], Step [20/210], Loss: 0.0156
+Epoch [44/100], Step [40/210], Loss: 0.0248
+Epoch [44/100], Step [60/210], Loss: 0.0160
+Epoch [44/100], Step [80/210], Loss: 0.0203
+Epoch [44/100], Step [100/210], Loss: 0.0138
+Epoch [44/100], Step [120/210], Loss: 0.0156
+Epoch [44/100], Step [140/210], Loss: 0.0180
+Epoch [44/100], Step [160/210], Loss: 0.0152
+Epoch [44/100], Step [180/210], Loss: 0.0184
+Epoch [44/100], Step [200/210], Loss: 0.0237
+Avg Validation MSE on all the 200 Val images is: 15400.3857421875 
+Avg Validation SSIM on all the 200 Val images is: 0.618986984111027 
+Epoch [45/100], Step [20/210], Loss: 0.0195
+Epoch [45/100], Step [40/210], Loss: 0.0188
+Epoch [45/100], Step [60/210], Loss: 0.0188
+Epoch [45/100], Step [80/210], Loss: 0.0134
+Epoch [45/100], Step [100/210], Loss: 0.0203
+Epoch [45/100], Step [120/210], Loss: 0.0193
+Epoch [45/100], Step [140/210], Loss: 0.0125
+Epoch [45/100], Step [160/210], Loss: 0.0194
+Epoch [45/100], Step [180/210], Loss: 0.0161
+Epoch [45/100], Step [200/210], Loss: 0.0185
+Avg Validation MSE on all the 200 Val images is: 15439.912109375 
+Avg Validation SSIM on all the 200 Val images is: 0.6191417508316333 
+Epoch [46/100], Step [20/210], Loss: 0.0208
+Epoch [46/100], Step [40/210], Loss: 0.0141
+Epoch [46/100], Step [60/210], Loss: 0.0139
+Epoch [46/100], Step [80/210], Loss: 0.0212
+Epoch [46/100], Step [100/210], Loss: 0.0116
+Epoch [46/100], Step [120/210], Loss: 0.0186
+Epoch [46/100], Step [140/210], Loss: 0.0209
+Epoch [46/100], Step [160/210], Loss: 0.0239
+Epoch [46/100], Step [180/210], Loss: 0.0163
+Epoch [46/100], Step [200/210], Loss: 0.0196
+Avg Validation MSE on all the 200 Val images is: 15404.951171875 
+Avg Validation SSIM on all the 200 Val images is: 0.6190398931912129 
+Epoch [47/100], Step [20/210], Loss: 0.0108
+Epoch [47/100], Step [40/210], Loss: 0.0151
+Epoch [47/100], Step [60/210], Loss: 0.0198
+Epoch [47/100], Step [80/210], Loss: 0.0200
+Epoch [47/100], Step [100/210], Loss: 0.0249
+Epoch [47/100], Step [120/210], Loss: 0.0134
+Epoch [47/100], Step [140/210], Loss: 0.0154
+Epoch [47/100], Step [160/210], Loss: 0.0160
+Epoch [47/100], Step [180/210], Loss: 0.0171
+Epoch [47/100], Step [200/210], Loss: 0.0204
+Avg Validation MSE on all the 200 Val images is: 15401.8134765625 
+Avg Validation SSIM on all the 200 Val images is: 0.6190515605930768 
+Epoch [48/100], Step [20/210], Loss: 0.0199
+Epoch [48/100], Step [40/210], Loss: 0.0179
+Epoch [48/100], Step [60/210], Loss: 0.0212
+Epoch [48/100], Step [80/210], Loss: 0.0122
+Epoch [48/100], Step [100/210], Loss: 0.0194
+Epoch [48/100], Step [120/210], Loss: 0.0153
+Epoch [48/100], Step [140/210], Loss: 0.0174
+Epoch [48/100], Step [160/210], Loss: 0.0185
+Epoch [48/100], Step [180/210], Loss: 0.0189
+Epoch [48/100], Step [200/210], Loss: 0.0208
+Avg Validation MSE on all the 200 Val images is: 15396.419921875 
+Avg Validation SSIM on all the 200 Val images is: 0.6189846161208148 
+Epoch [49/100], Step [20/210], Loss: 0.0199
+Epoch [49/100], Step [40/210], Loss: 0.0224
+Epoch [49/100], Step [60/210], Loss: 0.0151
+Epoch [49/100], Step [80/210], Loss: 0.0143
+Epoch [49/100], Step [100/210], Loss: 0.0190
+Epoch [49/100], Step [120/210], Loss: 0.0175
+Epoch [49/100], Step [140/210], Loss: 0.0184
+Epoch [49/100], Step [160/210], Loss: 0.0128
+Epoch [49/100], Step [180/210], Loss: 0.0134
+Epoch [49/100], Step [200/210], Loss: 0.0142
+Avg Validation MSE on all the 200 Val images is: 15368.1005859375 
+Avg Validation SSIM on all the 200 Val images is: 0.6187972390826865 
+Epoch [50/100], Step [20/210], Loss: 0.0144
+Epoch [50/100], Step [40/210], Loss: 0.0153
+Epoch [50/100], Step [60/210], Loss: 0.0143
+Epoch [50/100], Step [80/210], Loss: 0.0166
+Epoch [50/100], Step [100/210], Loss: 0.0196
+Epoch [50/100], Step [120/210], Loss: 0.0161
+Epoch [50/100], Step [140/210], Loss: 0.0146
+Epoch [50/100], Step [160/210], Loss: 0.0154
+Epoch [50/100], Step [180/210], Loss: 0.0201
+Epoch [50/100], Step [200/210], Loss: 0.0139
+Avg Validation MSE on all the 200 Val images is: 15395.1142578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6190523330703944 
+Epoch [51/100], Step [20/210], Loss: 0.0166
+Epoch [51/100], Step [40/210], Loss: 0.0235
+Epoch [51/100], Step [60/210], Loss: 0.0125
+Epoch [51/100], Step [80/210], Loss: 0.0189
+Epoch [51/100], Step [100/210], Loss: 0.0149
+Epoch [51/100], Step [120/210], Loss: 0.0144
+Epoch [51/100], Step [140/210], Loss: 0.0168
+Epoch [51/100], Step [160/210], Loss: 0.0213
+Epoch [51/100], Step [180/210], Loss: 0.0159
+Epoch [51/100], Step [200/210], Loss: 0.0235
+Avg Validation MSE on all the 200 Val images is: 15362.0859375 
+Avg Validation SSIM on all the 200 Val images is: 0.6189365598539285 
+Epoch [52/100], Step [20/210], Loss: 0.0138
+Epoch [52/100], Step [40/210], Loss: 0.0170
+Epoch [52/100], Step [60/210], Loss: 0.0157
+Epoch [52/100], Step [80/210], Loss: 0.0140
+Epoch [52/100], Step [100/210], Loss: 0.0163
+Epoch [52/100], Step [120/210], Loss: 0.0172
+Epoch [52/100], Step [140/210], Loss: 0.0214
+Epoch [52/100], Step [160/210], Loss: 0.0147
+Epoch [52/100], Step [180/210], Loss: 0.0150
+Epoch [52/100], Step [200/210], Loss: 0.0174
+Avg Validation MSE on all the 200 Val images is: 15372.298828125 
+Avg Validation SSIM on all the 200 Val images is: 0.6189377924453854 
+Epoch [53/100], Step [20/210], Loss: 0.0259
+Epoch [53/100], Step [40/210], Loss: 0.0179
+Epoch [53/100], Step [60/210], Loss: 0.0160
+Epoch [53/100], Step [80/210], Loss: 0.0160
+Epoch [53/100], Step [100/210], Loss: 0.0186
+Epoch [53/100], Step [120/210], Loss: 0.0246
+Epoch [53/100], Step [140/210], Loss: 0.0166
+Epoch [53/100], Step [160/210], Loss: 0.0205
+Epoch [53/100], Step [180/210], Loss: 0.0228
+Epoch [53/100], Step [200/210], Loss: 0.0143
+Avg Validation MSE on all the 200 Val images is: 15387.578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6191045118358606 
+Epoch [54/100], Step [20/210], Loss: 0.0170
+Epoch [54/100], Step [40/210], Loss: 0.0143
+Epoch [54/100], Step [60/210], Loss: 0.0153
+Epoch [54/100], Step [80/210], Loss: 0.0275
+Epoch [54/100], Step [100/210], Loss: 0.0181
+Epoch [54/100], Step [120/210], Loss: 0.0171
+Epoch [54/100], Step [140/210], Loss: 0.0140
+Epoch [54/100], Step [160/210], Loss: 0.0203
+Epoch [54/100], Step [180/210], Loss: 0.0191
+Epoch [54/100], Step [200/210], Loss: 0.0180
+Avg Validation MSE on all the 200 Val images is: 15367.8154296875 
+Avg Validation SSIM on all the 200 Val images is: 0.6189199323497696 
+Epoch [55/100], Step [20/210], Loss: 0.0152
+Epoch [55/100], Step [40/210], Loss: 0.0144
+Epoch [55/100], Step [60/210], Loss: 0.0163
+Epoch [55/100], Step [80/210], Loss: 0.0131
+Epoch [55/100], Step [100/210], Loss: 0.0161
+Epoch [55/100], Step [120/210], Loss: 0.0155
+Epoch [55/100], Step [140/210], Loss: 0.0257
+Epoch [55/100], Step [160/210], Loss: 0.0145
+Epoch [55/100], Step [180/210], Loss: 0.0142
+Epoch [55/100], Step [200/210], Loss: 0.0112
+Avg Validation MSE on all the 200 Val images is: 15359.6318359375 
+Avg Validation SSIM on all the 200 Val images is: 0.6188409070664378 
+Epoch [56/100], Step [20/210], Loss: 0.0179
+Epoch [56/100], Step [40/210], Loss: 0.0207
+Epoch [56/100], Step [60/210], Loss: 0.0165
+Epoch [56/100], Step [80/210], Loss: 0.0177
+Epoch [56/100], Step [100/210], Loss: 0.0190
+Epoch [56/100], Step [120/210], Loss: 0.0160
+Epoch [56/100], Step [140/210], Loss: 0.0164
+Epoch [56/100], Step [160/210], Loss: 0.0264
+Epoch [56/100], Step [180/210], Loss: 0.0184
+Epoch [56/100], Step [200/210], Loss: 0.0235
+Avg Validation MSE on all the 200 Val images is: 15380.091796875 
+Avg Validation SSIM on all the 200 Val images is: 0.6190302785184371 
+Epoch [57/100], Step [20/210], Loss: 0.0160
+Epoch [57/100], Step [40/210], Loss: 0.0239
+Epoch [57/100], Step [60/210], Loss: 0.0160
+Epoch [57/100], Step [80/210], Loss: 0.0151
+Epoch [57/100], Step [100/210], Loss: 0.0150
+Epoch [57/100], Step [120/210], Loss: 0.0152
+Epoch [57/100], Step [140/210], Loss: 0.0138
+Epoch [57/100], Step [160/210], Loss: 0.0218
+Epoch [57/100], Step [180/210], Loss: 0.0192
+Epoch [57/100], Step [200/210], Loss: 0.0177
+Avg Validation MSE on all the 200 Val images is: 15363.4267578125 
+Avg Validation SSIM on all the 200 Val images is: 0.6188627818853607 
+Epoch [58/100], Step [20/210], Loss: 0.0178
+Epoch [58/100], Step [40/210], Loss: 0.0124
+Epoch [58/100], Step [60/210], Loss: 0.0153
+Epoch [58/100], Step [80/210], Loss: 0.0160
+Epoch [58/100], Step [100/210], Loss: 0.0210
+Epoch [58/100], Step [120/210], Loss: 0.0178
+Epoch [58/100], Step [140/210], Loss: 0.0124
+Epoch [58/100], Step [160/210], Loss: 0.0168
+Epoch [58/100], Step [180/210], Loss: 0.0183
+Epoch [58/100], Step [200/210], Loss: 0.0170
+Avg Validation MSE on all the 200 Val images is: 15364.7568359375 
+Avg Validation SSIM on all the 200 Val images is: 0.6189004930754084 
+Epoch [59/100], Step [20/210], Loss: 0.0236
+Epoch [59/100], Step [40/210], Loss: 0.0137
+Epoch [59/100], Step [60/210], Loss: 0.0162
+Epoch [59/100], Step [80/210], Loss: 0.0159
+Epoch [59/100], Step [100/210], Loss: 0.0170
+Epoch [59/100], Step [120/210], Loss: 0.0165
+Epoch [59/100], Step [140/210], Loss: 0.0256
+Epoch [59/100], Step [160/210], Loss: 0.0162
+Epoch [59/100], Step [180/210], Loss: 0.0174
+Epoch [59/100], Step [200/210], Loss: 0.0130
+Avg Validation MSE on all the 200 Val images is: 15370.7548828125 
+Avg Validation SSIM on all the 200 Val images is: 0.6189482194506122 
+Epoch [60/100], Step [20/210], Loss: 0.0156
+Epoch [60/100], Step [40/210], Loss: 0.0104
+Epoch [60/100], Step [60/210], Loss: 0.0239
+Epoch [60/100], Step [80/210], Loss: 0.0127
+Epoch [60/100], Step [100/210], Loss: 0.0196
+Epoch [60/100], Step [120/210], Loss: 0.0140
+Epoch [60/100], Step [140/210], Loss: 0.0171
+Epoch [60/100], Step [160/210], Loss: 0.0138
+Epoch [60/100], Step [180/210], Loss: 0.0158
+Epoch [60/100], Step [200/210], Loss: 0.0187
+Avg Validation MSE on all the 200 Val images is: 15362.3857421875 
+Avg Validation SSIM on all the 200 Val images is: 0.6189197076377899 
+Epoch [61/100], Step [20/210], Loss: 0.0232
+Epoch [61/100], Step [40/210], Loss: 0.0155
+Epoch [61/100], Step [60/210], Loss: 0.0164
+Epoch [61/100], Step [80/210], Loss: 0.0145
+Epoch [61/100], Step [100/210], Loss: 0.0188
+Epoch [61/100], Step [120/210], Loss: 0.0183
+Epoch [61/100], Step [140/210], Loss: 0.0167
+Epoch [61/100], Step [160/210], Loss: 0.0152
+Epoch [61/100], Step [180/210], Loss: 0.0201
+Epoch [61/100], Step [200/210], Loss: 0.0146
+Avg Validation MSE on all the 200 Val images is: 15358.6025390625 
+Avg Validation SSIM on all the 200 Val images is: 0.6188835879440263 
+Epoch [62/100], Step [20/210], Loss: 0.0125
+Epoch [62/100], Step [40/210], Loss: 0.0233
+Epoch [62/100], Step [60/210], Loss: 0.0193
+Epoch [62/100], Step [80/210], Loss: 0.0230
+Epoch [62/100], Step [100/210], Loss: 0.0177
+Epoch [62/100], Step [120/210], Loss: 0.0159
+Epoch [62/100], Step [140/210], Loss: 0.0146
+Epoch [62/100], Step [160/210], Loss: 0.0123
+Epoch [62/100], Step [180/210], Loss: 0.0187
+Epoch [62/100], Step [200/210], Loss: 0.0148
+Avg Validation MSE on all the 200 Val images is: 15360.1162109375 
+Avg Validation SSIM on all the 200 Val images is: 0.6188720667768597 
+Epoch [63/100], Step [20/210], Loss: 0.0157
+Epoch [63/100], Step [40/210], Loss: 0.0156
+Epoch [63/100], Step [60/210], Loss: 0.0202
+Epoch [63/100], Step [80/210], Loss: 0.0191
+Epoch [63/100], Step [100/210], Loss: 0.0178
+Epoch [63/100], Step [120/210], Loss: 0.0161
+Epoch [63/100], Step [140/210], Loss: 0.0162
+Epoch [63/100], Step [160/210], Loss: 0.0140
+Epoch [63/100], Step [180/210], Loss: 0.0174
+Epoch [63/100], Step [200/210], Loss: 0.0171
+Avg Validation MSE on all the 200 Val images is: 15358.626953125 
+Avg Validation SSIM on all the 200 Val images is: 0.6188735977273022 
+Epoch [64/100], Step [20/210], Loss: 0.0157
+Epoch [64/100], Step [40/210], Loss: 0.0199
+Epoch [64/100], Step [60/210], Loss: 0.0179
+Epoch [64/100], Step [80/210], Loss: 0.0197
+Epoch [64/100], Step [100/210], Loss: 0.0190
+Epoch [64/100], Step [120/210], Loss: 0.0273
+Epoch [64/100], Step [140/210], Loss: 0.0231
+Epoch [64/100], Step [160/210], Loss: 0.0130
+Epoch [64/100], Step [180/210], Loss: 0.0174
+Epoch [64/100], Step [200/210], Loss: 0.0202
+Avg Validation MSE on all the 200 Val images is: 15359.6474609375 
+Avg Validation SSIM on all the 200 Val images is: 0.618892114931488 
+Epoch [65/100], Step [20/210], Loss: 0.0183
+Epoch [65/100], Step [40/210], Loss: 0.0150
+Epoch [65/100], Step [60/210], Loss: 0.0168
+Epoch [65/100], Step [80/210], Loss: 0.0148
+Epoch [65/100], Step [100/210], Loss: 0.0132
+Epoch [65/100], Step [120/210], Loss: 0.0161
+Epoch [65/100], Step [140/210], Loss: 0.0119
+Epoch [65/100], Step [160/210], Loss: 0.0151
+Epoch [65/100], Step [180/210], Loss: 0.0124
+Epoch [65/100], Step [200/210], Loss: 0.0189
+Avg Validation MSE on all the 200 Val images is: 15355.888671875 
+Avg Validation SSIM on all the 200 Val images is: 0.6188686022252106 
+Epoch [66/100], Step [20/210], Loss: 0.0167
+Epoch [66/100], Step [40/210], Loss: 0.0148
+Epoch [66/100], Step [60/210], Loss: 0.0149
+Epoch [66/100], Step [80/210], Loss: 0.0114
+Epoch [66/100], Step [100/210], Loss: 0.0157
+Epoch [66/100], Step [120/210], Loss: 0.0185
+Epoch [66/100], Step [140/210], Loss: 0.0211
+Epoch [66/100], Step [160/210], Loss: 0.0201
+Epoch [66/100], Step [180/210], Loss: 0.0131
+Epoch [66/100], Step [200/210], Loss: 0.0225
+Avg Validation MSE on all the 200 Val images is: 15359.7900390625 
+Avg Validation SSIM on all the 200 Val images is: 0.6188895072812626 
+Epoch [67/100], Step [20/210], Loss: 0.0160
+Epoch [67/100], Step [40/210], Loss: 0.0209
+Epoch [67/100], Step [60/210], Loss: 0.0216
+Epoch [67/100], Step [80/210], Loss: 0.0265
+Epoch [67/100], Step [100/210], Loss: 0.0157
+Epoch [67/100], Step [120/210], Loss: 0.0180
+Epoch [67/100], Step [140/210], Loss: 0.0205
+Epoch [67/100], Step [160/210], Loss: 0.0216
+Epoch [67/100], Step [180/210], Loss: 0.0172
+Epoch [67/100], Step [200/210], Loss: 0.0161
+Avg Validation MSE on all the 200 Val images is: 15360.6826171875 
+Avg Validation SSIM on all the 200 Val images is: 0.6189157367027496 
+Epoch [68/100], Step [20/210], Loss: 0.0186
+Epoch [68/100], Step [40/210], Loss: 0.0175
+Epoch [68/100], Step [60/210], Loss: 0.0150
+Epoch [68/100], Step [80/210], Loss: 0.0185
+Epoch [68/100], Step [100/210], Loss: 0.0139
+Epoch [68/100], Step [120/210], Loss: 0.0147
+Epoch [68/100], Step [140/210], Loss: 0.0175
+Epoch [68/100], Step [160/210], Loss: 0.0199
+Epoch [68/100], Step [180/210], Loss: 0.0187
+Epoch [68/100], Step [200/210], Loss: 0.0185
+Avg Validation MSE on all the 200 Val images is: 15361.1796875 
+Avg Validation SSIM on all the 200 Val images is: 0.6189240261480764 
+Epoch [69/100], Step [20/210], Loss: 0.0143
+Epoch [69/100], Step [40/210], Loss: 0.0179
+Epoch [69/100], Step [60/210], Loss: 0.0176
+Epoch [69/100], Step [80/210], Loss: 0.0101
