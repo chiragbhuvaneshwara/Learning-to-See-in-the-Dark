@@ -133,7 +133,7 @@ class unet(nn.Module):
 ## Unet Batch norm model
 class double_conv_bn(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(double_conv, self).__init__()
+        super(double_conv_bn, self).__init__()
         self.conv = nn.Sequential(
             nn.Conv2d(in_ch, out_ch, 3, padding=1),
             nn.BatchNorm2d(out_ch),
@@ -149,7 +149,7 @@ class double_conv_bn(nn.Module):
 
 class down_bn(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(down, self).__init__()
+        super(down_bn, self).__init__()
         self.mpconv = nn.Sequential(
             nn.MaxPool2d(2),
             double_conv_bn(in_ch, out_ch)
@@ -160,7 +160,7 @@ class down_bn(nn.Module):
 
 class up_bn(nn.Module):
     def __init__(self, in_ch, out_ch, bilinear=True):
-        super(up, self).__init__()
+        super(up_bn, self).__init__()
 
         if bilinear:
             self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
@@ -191,7 +191,7 @@ class up_bn(nn.Module):
 class unet_bn(nn.Module):
 
     def __init__(self):
-        super(unet,self).__init__()
+        super(unet_bn,self).__init__()
         
         # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_bn(3, 64)
@@ -231,7 +231,7 @@ class unet_bn(nn.Module):
 class double_conv_in(nn.Module):
 
     def __init__(self, in_ch, out_ch):
-        super(double_conv, self).__init__()
+        super(double_conv_in, self).__init__()
         self.conv = nn.Sequential(
             nn.Conv2d(in_ch, out_ch, 3, padding=1),
             nn.InstanceNorm2d(out_ch),
@@ -249,7 +249,7 @@ class double_conv_in(nn.Module):
 class down_in(nn.Module):
 
     def __init__(self, in_ch, out_ch):
-        super(down, self).__init__()
+        super(down_in, self).__init__()
         self.mpconv = nn.Sequential(
             nn.MaxPool2d(2),
             double_conv_in(in_ch, out_ch)
@@ -262,7 +262,7 @@ class down_in(nn.Module):
 class up_in(nn.Module):
 
     def __init__(self, in_ch, out_ch, bilinear=True):
-        super(up, self).__init__()
+        super(up_in, self).__init__()
 
         if bilinear:
             self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
@@ -293,7 +293,7 @@ class up_in(nn.Module):
 class unet_in(nn.Module):
 
     def __init__(self):
-        super(unet,self).__init__()
+        super(unet_in,self).__init__()
         
         # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_in(3, 64)
@@ -332,7 +332,7 @@ class unet_in(nn.Module):
 ## Unet dropout model
 class double_conv_d(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(double_conv, self).__init__()
+        super(double_conv_d, self).__init__()
         self.conv = nn.Sequential(
             nn.Conv2d(in_ch, out_ch, 3, padding=1),
             nn.Dropout2d(p=0.3),
@@ -348,7 +348,7 @@ class double_conv_d(nn.Module):
 
 class down_d(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(down, self).__init__()
+        super(down_d, self).__init__()
         self.mpconv = nn.Sequential(
             nn.MaxPool2d(2),
             double_conv_d(in_ch, out_ch)
@@ -359,7 +359,7 @@ class down_d(nn.Module):
 
 class up_d(nn.Module):
     def __init__(self, in_ch, out_ch, bilinear=True):
-        super(up, self).__init__()
+        super(up_d, self).__init__()
 
         if bilinear:
             self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
@@ -390,7 +390,7 @@ class up_d(nn.Module):
 class unet_d(nn.Module):
 
     def __init__(self):
-        super(unet,self).__init__()
+        super(unet_d,self).__init__()
         
         # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_d(3, 64)
