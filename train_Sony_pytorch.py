@@ -192,7 +192,7 @@ def trainAndTestModel(name):
     plt.ylabel('Avg Validation MSE')
     plt.xlabel('Epochs')
     plt.title(title)
-    plt.savefig('plots/'+name+title+'.png')
+    plt.savefig('plots/_'+name+title+'.png')
     plt.close()
 
     plt.plot(valSSIM)
@@ -200,7 +200,7 @@ def trainAndTestModel(name):
     plt.ylabel('Avg Validation SSIM')
     plt.xlabel('Epochs')
     plt.title(title)
-    plt.savefig('plots/'+name+title+'.png')
+    plt.savefig('plots/_'+name+title+'.png')
     plt.close()
 
     plt.plot(Loss)
@@ -208,7 +208,7 @@ def trainAndTestModel(name):
     plt.ylabel('Loss')
     plt.xlabel('Iterations')
     plt.title(title)
-    plt.savefig('plots/'+name+title+'.png')
+    plt.savefig('plots/_'+name+title+'.png')
     plt.close()
 
     print('Testing ..............................')
