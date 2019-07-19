@@ -73,9 +73,9 @@ class up_in(nn.Module):
 class unet_in_generator(nn.Module):
 
     def __init__(self):
-        super(unet_in_generator,self).__init__(train)
+        super(unet_in_generator,self).__init__()
         
-        self.train = train
+        # self.train = train
 
         # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_in(3, 64)
@@ -132,7 +132,7 @@ class Discriminator(nn.Module):
             *discriminator_block(64, 128)
         )
 
-        self.adv_layer = nn.Sequential(nn.Linear(30*45 , 1), nn.Sigmoid())
+        self.adv_layer = nn.Sequential(nn.Linear(12*8 , 1), nn.Sigmoid())
 
     def forward(self, img):
         out = self.model(img)
