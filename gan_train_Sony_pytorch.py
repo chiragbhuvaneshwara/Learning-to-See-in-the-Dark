@@ -59,7 +59,7 @@ print('Using device: %s'%device)
 #### final params
 num_training= 2100
 num_validation = 200
-num_test = 397
+num_test = 396
 
 num_epochs = 10
 learning_rate = 1e-4
