@@ -51,8 +51,11 @@ inImage_ydim = int(inImageSize[2])
 # Device configuration
 #--------------------------------
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-if device == 'cuda':
+if torch.cuda.is_available():
+    print(torch.cuda.current_device())
+   
     torch.cuda.set_device(4)
+    print(torch.cuda.current_device())
 
 print('Using device: %s'%device)
 
@@ -61,11 +64,11 @@ num_training= 2100
 num_validation = 200
 num_test = 396
 
-num_epochs = 10
-learning_rate = 1e-4
-learning_rate_decay = 0.5
+num_epochs = 20
+learning_rate = .5e-3
+learning_rate_decay = 0.7
 reg = 0.001
-batch_size = 10
+batch_size = 2
 
 # ### dev params
 #num_training= 20
@@ -386,7 +389,7 @@ def trainAndTestModel(name):
     plt.xlabel('Epochs')
     plt.title(title)
     plt.savefig(path+'plots/'+name+title+'.png')
-    plt.show()
+    #plt.show()
     plt.close()
 
     plt.plot(valSSIM)
@@ -395,7 +398,7 @@ def trainAndTestModel(name):
     plt.xlabel('Epochs')
     plt.title(title)
     plt.savefig(path+'plots/'+name+title+'.png')
-    plt.show()
+    #plt.show()
     plt.close()
 
     plt.plot(GLoss)
@@ -404,7 +407,7 @@ def trainAndTestModel(name):
     plt.xlabel('Iterations')
     plt.title(title)
     plt.savefig(path+'plots/'+name+title+'.png')
-    plt.show()
+    #plt.show()
     plt.close()
 
     plt.plot(DLoss)
@@ -413,7 +416,7 @@ def trainAndTestModel(name):
     plt.xlabel('Iterations')
     plt.title(title)
     plt.savefig(path+'plots/'+name+title+'.png')
-    plt.show()
+    #plt.show()
     plt.close()
 
     print('Testing ..............................')
