@@ -52,7 +52,7 @@ inImage_ydim = int(inImageSize[2])
 #--------------------------------
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if device == 'cuda':
-    torch.cuda.set_device(1)
+    torch.cuda.set_device(4)
 
 print('Using device: %s'%device)
 
