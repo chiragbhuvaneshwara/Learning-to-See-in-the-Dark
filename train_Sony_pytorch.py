@@ -34,8 +34,8 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-#sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_temp_down/', 'dataset/Sony/long_temp_down/', transforms.ToTensor())
-sitd_dataset = SeeingIntTheDarkDataset('dataset/Sony/short_down/', 'dataset/Sony/long_down/', transforms.ToTensor())
+#sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', transforms.ToTensor())
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
 
@@ -48,21 +48,23 @@ if device == 'cuda':
 
 print('Using device: %s'%device)
 
-#### final params
+
+### final params
 num_training= 2100
 num_validation = 200
 num_test = 397
 
 num_epochs = 100
-learning_rate = 1e-5
-learning_rate_decay = 0.9
-reg = 0.001
-batch_size = 10
+learning_rate = 1e-3
+learning_rate_decay = 1
+reg = 0.005
+batch_size = 20
 
-# ### dev params
-# num_training= 20
-# num_validation = 7
-# num_test = 7
+#### dev params
+#num_training= 20
+#num_validation = 7
+#num_test = 7
+
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -84,6 +86,7 @@ val_loader = torch.utils.data.DataLoader(dataset=val_dataset,
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                           batch_size=batch_size,
                                           shuffle=False)
+
 
 
 def trainAndTestModel(name):
@@ -181,7 +184,7 @@ def trainAndTestModel(name):
             current_MSE = MSE/total
             valMSE.append(current_MSE)
             if current_MSE <= np.amin(valMSE):
-                torch.save(model.state_dict(),'models/ESmodel'+str(epoch+1)+'.ckpt')
+                torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
 
             print('Avg Validation MSE on all the {} Val images is: {} '.format(total, current_MSE))
             print('Avg Validation SSIM on all the {} Val images is: {} '.format(total, overallSSIM/total))
@@ -192,7 +195,8 @@ def trainAndTestModel(name):
     plt.ylabel('Avg Validation MSE')
     plt.xlabel('Epochs')
     plt.title(title)
-    plt.savefig('plots/_'+name+title+'.png')
+    plt.savefig(path+'plots/_'+name+title+'.png')
+    plt.show()
     plt.close()
 
     plt.plot(valSSIM)
@@ -200,7 +204,8 @@ def trainAndTestModel(name):
     plt.ylabel('Avg Validation SSIM')
     plt.xlabel('Epochs')
     plt.title(title)
-    plt.savefig('plots/_'+name+title+'.png')
+    plt.savefig(path+'plots/_'+name+title+'.png')
+    plt.show()
     plt.close()
 
     plt.plot(Loss)
@@ -208,7 +213,8 @@ def trainAndTestModel(name):
     plt.ylabel('Loss')
     plt.xlabel('Iterations')
     plt.title(title)
-    plt.savefig('plots/_'+name+title+'.png')
+    plt.savefig(path+'plots/_'+name+title+'.png')
+    plt.show()
     plt.close()
 
     print('Testing ..............................')
@@ -217,7 +223,7 @@ def trainAndTestModel(name):
     best_id = np.argmin(valMSE)
     bestESmodel = model
 
-    bestESmodel.load_state_dict(torch.load('models/ESmodel'+str(best_id+1)+'.ckpt'))
+    bestESmodel.load_state_dict(torch.load(path+'models/ESmodel'+str(best_id+1)+'.ckpt'))
     bestESmodel = bestESmodel.to(device)
 
 
@@ -251,13 +257,13 @@ def trainAndTestModel(name):
                 nonZero = np.count_nonzero(img)
                 count += 1 
                 f, axarr = plt.subplots(1,3)
-                title='Input ('+str(nonZero)+'Px) vs Model Output vs Ground truth'
+                title='Input ('+str(round((nonZero*100)/(192*128*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
                 plt.suptitle(title)
                 axarr[0].imshow(trans(in_images_py[i]))
                 axarr[1].imshow(trans(outputs_py[i]))
                 axarr[2].imshow(trans(exp_images_py[i]))
                 
-                plt.savefig('images/'+name+'_%d.png'%(count))
+                plt.savefig(path+'images/'+name+'_%d.png'%(count))
                 plt.close()
 
                 if count % 10 == 0:
@@ -277,7 +283,9 @@ def trainAndTestModel(name):
         print('Avg Test SSIM of the best ES network on all the {} test images: {} '.format(total, overallSSIM/total))
         print("Best Epoch with lowest Avg Validation MSE: ", best_id+1)
 
-    torch.save(bestESmodel.state_dict(), 'models/bestESModel_'+name+'.ckpt')
+    torch.save(bestESmodel.state_dict(), path+'models/bestESModel_'+name+'.ckpt')
+
+
 
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
