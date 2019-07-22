@@ -108,7 +108,7 @@ class unet(nn.Module):
         self.up4 = up(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
-
+        self.sigmoid = nn.Sigmoid()
     def forward(self,x):
         
         #print('#################################')
@@ -123,6 +123,7 @@ class unet(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+        x = self.sigmoid(x)
         #x = self.out2(x)
         #print(x.size())
 
@@ -205,6 +206,7 @@ class unet_bn(nn.Module):
         self.up4 = up_bn(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self,x):
         
@@ -220,6 +222,7 @@ class unet_bn(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+        x = self.sigmoid(x)
         #x = self.out2(x)
         #print(x.size())
 
@@ -307,6 +310,7 @@ class unet_in(nn.Module):
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self,x):
         
@@ -322,6 +326,7 @@ class unet_in(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+        x = self.sigmoid(x)
         #x = self.out2(x)
         #print(x.size())
 
@@ -404,6 +409,7 @@ class unet_d(nn.Module):
         self.up4 = up_d(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self,x):
         
@@ -419,6 +425,7 @@ class unet_d(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+        x = self.sigmoid(x)
         #x = self.out2(x)
         #print(x.size())
 

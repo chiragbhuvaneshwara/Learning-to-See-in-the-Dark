@@ -34,6 +34,17 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
+# forwardTrans = transforms.Compose([ transforms.Normalize(mean = [ 0.5, 0.5, 0.5],
+#                                                          std = [ 0.5, 0.5, 0.5]),
+#                                     transforms.ToTensor()
+#                                     ])
+
+# invTrans = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0. ],
+#                                                      std = [ 1/0.5, 1/0.5, 1/0.5 ]),
+#                                 transforms.Normalize(mean = [ -0.5, -0.5, -0.5 ],
+#                                                      std = [ 1., 1., 1. ]),
+#                                ])
+
 #sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', transforms.ToTensor())
 sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', transforms.ToTensor())
 print('Input Image Size:')
@@ -44,7 +55,10 @@ print(sitd_dataset[0][0].size())
 #--------------------------------
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if device == 'cuda':
-    torch.cuda.set_device(4)
+    print('Initial GPU:',torch.cuda.current_device())
+   
+    torch.cuda.set_device(1)
+    print('Selected GPU:', torch.cuda.current_device())
 
 print('Using device: %s'%device)
 
@@ -52,7 +66,7 @@ print('Using device: %s'%device)
 ### final params
 num_training= 2100
 num_validation = 200
-num_test = 396
+num_test = 397
 
 num_epochs = 100
 learning_rate = 1e-3

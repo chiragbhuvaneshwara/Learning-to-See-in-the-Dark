@@ -76,13 +76,13 @@ print('Using device: %s'%device)
 #### final params
 num_training= 2100
 num_validation = 200
-num_test = 396
+num_test = 397
 
-num_epochs = 20
+num_epochs = 10
 learning_rate = .5e-3
 learning_rate_decay = 0.7
 reg = 0.001
-batch_size = 2
+batch_size = 10
 
 # ### dev params
 #num_training= 20
@@ -230,7 +230,7 @@ class unet_in_generator(nn.Module):
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
-	self.sigmoid = nn.Sigmoid()	
+	    self.sigmoid = nn.Sigmoid()	
 
     def forward(self,x):
         
@@ -253,7 +253,7 @@ class unet_in_generator(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
-	x = self.sigmoid(x)
+	    x = self.sigmoid(x)
         #x = self.out2(x)
         #print(x.size())	
 
