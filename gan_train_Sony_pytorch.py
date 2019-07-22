@@ -37,11 +37,25 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
+# forwardTrans = transforms.Compose([ transforms.Normalize(mean = [ 0.5, 0.5, 0.5],
+#                                                          std = [ 0.5, 0.5, 0.5]),
+#                                     transforms.ToTensor()
+#                                     ])
+
+# invTrans = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0. ],
+#                                                      std = [ 1/0.5, 1/0.5, 1/0.5 ]),
+#                                 transforms.Normalize(mean = [ -0.5, -0.5, -0.5 ],
+#                                                      std = [ 1., 1., 1. ]),
+#                                ])
 
 #sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', transforms.ToTensor())
 sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', transforms.ToTensor())
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
+print(sitd_dataset[0][0])
+print('#################################################')
+print('min: ',torch.min(sitd_dataset[0][0]))
+print('max: ',torch.max(sitd_dataset[0][0]))
 
 inImageSize = sitd_dataset[0][0].size()
 inImage_xdim = int(inImageSize[1])
@@ -230,10 +244,8 @@ class unet_in_generator(nn.Module):
         #print(x5.size())
         #print(z.size())
         
-        x5_modified = self.noise(x5)
-        
-        # if self.train == True:
-        #     x5 += torch.rand(x5.size())
+        # if self.train:
+            # x5_modified = self.noise(x5)
 
         x = self.up1(x5_modified, x4)
         x = self.up2(x, x3)
