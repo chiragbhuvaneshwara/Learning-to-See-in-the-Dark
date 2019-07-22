@@ -66,10 +66,10 @@ inImage_ydim = int(inImageSize[2])
 #--------------------------------
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if torch.cuda.is_available():
-    print(torch.cuda.current_device())
+    print('Initial GPU:',torch.cuda.current_device())
    
-    torch.cuda.set_device(4)
-    print(torch.cuda.current_device())
+    torch.cuda.set_device(1)
+    print('Selected GPU:', torch.cuda.current_device())
 
 print('Using device: %s'%device)
 
@@ -230,6 +230,7 @@ class unet_in_generator(nn.Module):
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
+	self.sigmoid = nn.Sigmoid()	
 
     def forward(self,x):
         
@@ -245,15 +246,16 @@ class unet_in_generator(nn.Module):
         #print(z.size())
         
         # if self.train:
-            # x5_modified = self.noise(x5)
+            # x5 = self.noise(x5)
 
-        x = self.up1(x5_modified, x4)
+        x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+	x = self.sigmoid(x)
         #x = self.out2(x)
-        #print(x.size())
+        #print(x.size())	
 
         return x
 ##################################################################################################
