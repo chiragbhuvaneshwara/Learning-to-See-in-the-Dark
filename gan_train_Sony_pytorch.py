@@ -37,19 +37,19 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-# forwardTrans = transforms.Compose([ transforms.Normalize(mean = [ 0.5, 0.5, 0.5],
-#                                                          std = [ 0.5, 0.5, 0.5]),
-#                                     transforms.ToTensor()
-#                                     ])
+forwardTransform = transforms.Compose([  transforms.ToTensor(),
+                                         transforms.Normalize(  mean = [ 0.5, 0.5, 0.5],
+                                                                std = [ 0.5, 0.5, 0.5]    )
+                                    ])
 
-# invTrans = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0. ],
-#                                                      std = [ 1/0.5, 1/0.5, 1/0.5 ]),
-#                                 transforms.Normalize(mean = [ -0.5, -0.5, -0.5 ],
-#                                                      std = [ 1., 1., 1. ]),
-#                                ])
+inverseTransform = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0. ],
+                                                     std = [ 1/0.5, 1/0.5, 1/0.5 ]),
+                                transforms.Normalize(mean = [ -0.5, -0.5, -0.5 ],
+                                                     std = [ 1., 1., 1. ]),
+                               ])
 
-#sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', transforms.ToTensor())
-sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', transforms.ToTensor())
+#sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTrans)
+sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTrans)
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
 print(sitd_dataset[0][0])
@@ -78,7 +78,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 10
+num_epochs = 100
 learning_rate = .5e-3
 learning_rate_decay = 0.7
 reg = 0.001
@@ -301,6 +301,7 @@ def trainAndTestModel(name):
 
     # Loss and optimizer
     criterion = nn.BCELoss()
+    criterion_2 = nn.MSELoss()
     optimizer_G = torch.optim.Adam(generator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
     optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
 
@@ -322,18 +323,14 @@ def trainAndTestModel(name):
 
             # Adversarial ground truths
             valid = torch.ones([batch_size, 1]).to(device) # Discriminator Label to real
-            fake = torch.zeros([batch_size, 1]).to(device) # Discriminator Lab
-            # valid = Variable(torch.Tensor(1).fill_(1.0), requires_grad=False)
-            # fake = Variable(torch.Tensor(1).fill_(0.0), requires_grad=False)
+            fake = torch.zeros([batch_size, 1]).to(device) # Discriminator Label to fake
 
             ###############################
             # Generator update
             # Forward pass
-            #z = Variable(torch.rand((batch_size, 512, 8, 12))).to(device)
-
             gen_images = generator(in_images)
-            g_loss = criterion(discriminator(gen_images), valid)
-            GLoss.append(g_loss)               #save the loss so we can get accuracies later
+            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images, exp_images)
+            GLoss.append(g_loss)               
 
             # Backward and optimize
             optimizer_G.zero_grad()
@@ -462,10 +459,23 @@ def trainAndTestModel(name):
 
             MSE += torch.sum((outputs - exp_images) ** 2)
 
+            outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
+            exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
+
+            SSIM = 0
+            for i in range(len(outputs_np)):
+                SSIM += compare_ssim(exp_images_np[i], outputs_np[i], multichannel=True)
+
+            overallSSIM += SSIM
+
             # Visualize the output of the best model against ground truth
-            in_images_py = in_images.cpu()
-            outputs_py = outputs.cpu()
-            exp_images_py = exp_images.cpu()
+            # in_images_py = in_images.cpu()
+            # outputs_py = outputs.cpu()
+            # exp_images_py = exp_images.cpu()
+
+            in_images_py = inverseTransform( in_images ).cpu()
+            outputs_py = inverseTransform( outputs ).cpu()
+            exp_images_py = inverseTransform( exp_images ).cpu()
             
             reqd_size = int(in_images.size()[0])
 
@@ -487,14 +497,6 @@ def trainAndTestModel(name):
                 if count % 10 == 0:
                     print('Saving image_%d.png'%(count))
 
-            outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy()
-            exp_images_np = exp_images.permute(0, 2, 3, 1).cpu().numpy()
-
-            SSIM = 0
-            for i in range(len(outputs_np)):
-                SSIM += compare_ssim(exp_images_np[i], outputs_np[i], multichannel=True)
-
-            overallSSIM += SSIM
 
         total = len(test_dataset)
         print('Avg Test MSE of the best ES network on all the {} test images: {} '.format(total, MSE/total))
