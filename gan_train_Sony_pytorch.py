@@ -262,6 +262,7 @@ def trainAndTestModel(name):
     criterion = nn.BCELoss()
     criterion_2 = nn.MSELoss()
     vgg_feature_extractor = VggModelFeatures(feature_extracting=True)
+    vgg_feature_extractor.to(device) # Send the model to GPU
     optimizer_G = torch.optim.Adam(generator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
     optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
 
@@ -407,8 +408,7 @@ def trainAndTestModel(name):
 
     # last_model.eval()
     bestESmodel.eval()
-    
-        
+       
     with torch.no_grad():
 
         overallSSIM = 0
