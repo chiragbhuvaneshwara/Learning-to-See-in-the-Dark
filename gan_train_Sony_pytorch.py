@@ -51,7 +51,6 @@ inverseTransform = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0.
 sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
-print(sitd_dataset[0][0])
 print('#################################################')
 print('min: ',torch.min(sitd_dataset[0][0]))
 print('max: ',torch.max(sitd_dataset[0][0]))
@@ -73,20 +72,20 @@ if torch.cuda.is_available():
 print('Using device: %s'%device)
 
 # #### final params
-# num_training= 2100
-# num_validation = 200
-# num_test = 397
+num_training= 2100
+num_validation = 200
+num_test = 397
 
-num_epochs = 1
+num_epochs = 20
 learning_rate = 1e-5
 learning_rate_decay = 0.7
 reg = 0.001
 batch_size = 1
 
 ### dev params
-num_training= 20
-num_validation = 7
-num_test = 7
+# num_training= 20
+# num_validation = 7
+# num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -436,10 +435,6 @@ def trainAndTestModel(name):
             # in_images_py = in_images.cpu()
             # outputs_py = outputs.cpu()
             # exp_images_py = exp_images.cpu()
-
-            # in_images_py = inverseTransform( in_images ).cpu()
-            # outputs_py = inverseTransform( outputs ).cpu()
-            # exp_images_py = inverseTransform( exp_images ).cpu()
             
             reqd_size = int(in_images.size()[0])
 
@@ -450,7 +445,7 @@ def trainAndTestModel(name):
                 count += 1 
                 
                 # title='Input ('+str(round((nonZero*100)/(inImage_xdim*inImage_ydim*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
-                title = 'Input vs Model_Output vs Ground_truth'
+                title = '###Input### vs ###Model_Output### vs ###Ground_truth###'
                 plt.title(title)
                 
                 # plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
