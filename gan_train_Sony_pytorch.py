@@ -1,20 +1,17 @@
 import os
 import torch
 import torch.nn as nn
-from skimage import io
+# from skimage import io
 import numpy as np
 import matplotlib.pyplot as plt
-from torch.utils.data import Dataset, DataLoader
-from torchvision.transforms import transforms
-# from torchvision.transforms.transforms import ToPILImage as trans
-from torch.autograd import Variable
 import torch.nn.functional as F
 from skimage.measure import compare_ssim
 import torchvision.utils as vutils
-
+from torch.utils.data import Dataset, DataLoader
+from torchvision.transforms import transforms
 # from gan_models import *
 from datasetLoader_pytorch import SeeingIntTheDarkDataset
-
+from perceptual_loss_models import VggModelFeatures
 trans = transforms.ToPILImage()
 
 path = '/media/chirag/Chirag/Learning-to-See-in-the-Dark/'
@@ -76,20 +73,20 @@ if torch.cuda.is_available():
 print('Using device: %s'%device)
 
 # #### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
+# num_training= 2100
+# num_validation = 200
+# num_test = 397
 
-num_epochs = 20
-learning_rate = 1e-4
+num_epochs = 1
+learning_rate = 1e-5
 learning_rate_decay = 0.7
 reg = 0.001
 batch_size = 2
 
 ### dev params
-# num_training= 20
-# num_validation = 7
-# num_test = 7
+num_training= 20
+num_validation = 7
+num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
@@ -111,14 +108,6 @@ val_loader = torch.utils.data.DataLoader(dataset=val_dataset,
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                           batch_size=batch_size,
                                           shuffle=False)
-
-import os
-import torch
-import torch.nn as nn
-from skimage import io
-import numpy as np
-from torch.autograd import Variable
-import torch.nn.functional as F
 
 ##################################################################################################
 ## Unet Instance norm model
@@ -168,47 +157,25 @@ class up_in(nn.Module):
     def forward(self, x1, x2):
         x1 = self.up(x1)
         
-        # input is CHW
         diffY = x2.size()[2] - x1.size()[2]
         diffX = x2.size()[3] - x1.size()[3]
 
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
-        
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
 
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
 
 class GaussianNoise(nn.Module):
-    """Gaussian noise regularizer.
-
-    Args:
-        sigma (float, optional): relative standard deviation used to generate the
-            noise. Relative means that it will be multiplied by the magnitude of
-            the value your are adding the noise to. This means that sigma can be
-            the same regardless of the scale of the vector.
-        is_relative_detach (bool, optional): whether to detach the variable before
-            computing the scale of the noise. If `False` then the scale of the noise
-            won't be seen as a constant but something to optimize: this will bias the
-            network to generate vectors with smaller values.
-    """
 
     def __init__(self, sigma=1, is_relative_detach=True):
         super().__init__()
         self.sigma = sigma
-        #self.is_relative_detach = is_relative_detach
-        #self.noise = torch.tensor(0).to(device)
 
     def forward(self, x):
         if self.training and self.sigma != 0:
-            #x = x.detach() if self.is_relative_detach else x
-            #scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
             sampled_noise = torch.rand(x.size()).to(device) * self.sigma
-            #sampled_noise = self.noise.repeat(*x.size()).normal_() * scale
             x = x + sampled_noise
         return x 
 
@@ -219,7 +186,6 @@ class unet_in_generator(nn.Module):
         
         # self.train = train
 
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_in(3, 64)
         self.down1 = down_in(64, 128)
         self.down2 = down_in(128, 256)
@@ -231,36 +197,26 @@ class unet_in_generator(nn.Module):
         self.up3 = up_in(256, 64)
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
-        #self.out2 = DepthToSpace(2)
-        self.sigmoid = nn.Sigmoid()	
+
+        # self.sigmoid = nn.Sigmoid()	
         self.tanh = nn.Tanh()
 
     def forward(self,x):
         
-        #print('#################################')
-        #print(x.size())
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
         x5 = self.down4(x4)
-        #print('########################')
-        #print(x5.size())
-        #print(z.size())
-        
-        # if self.train:
-            # x5 = self.noise(x5)
 
         x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
+
         # x = self.sigmoid(x)
         x = self.tanh(x)
-
-        #x = self.out2(x)
-        #print(x.size())	
 
         return x
 ##################################################################################################
@@ -286,9 +242,7 @@ class Discriminator(nn.Module):
 
     def forward(self, img):
         out = self.model(img)
-        #print(img.size())
         out = out.view(out.shape[0], -1)
-        #print('Here',out.size())
         validity = self.adv_layer(out)
 
         return validity 
@@ -307,21 +261,23 @@ def trainAndTestModel(name):
     # Loss and optimizer
     criterion = nn.BCELoss()
     criterion_2 = nn.MSELoss()
+    vgg_feature_extractor = VggModelFeatures(feature_extracting=True)
     optimizer_G = torch.optim.Adam(generator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
     optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=learning_rate, weight_decay=reg, betas=(0.5, 0.999))
 
     # Train the model
     lr = learning_rate
-    GLoss = []                           #to save all the model losses
+    GLoss = []                           
     DLoss = []
     valMSE = []
     valSSIM = []
     total_step = len(train_loader)
 
     for epoch in range(num_epochs):
-        generator.train()
+        
         for i, (in_images, exp_images) in enumerate(train_loader):
-          
+            generator.train()
+
             # Move tensors to the configured device
             in_images = in_images.type(torch.FloatTensor).to(device)
             exp_images = exp_images.type(torch.FloatTensor).to(device)
@@ -334,7 +290,12 @@ def trainAndTestModel(name):
             # Generator update
             # Forward pass
             gen_images = generator(in_images)
-            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images, exp_images)
+
+            # Vgg Features
+            gen_images_vgg_features = vgg_feature_extractor(gen_images)
+            exp_images_vgg_features = vgg_feature_extractor(exp_images)
+
+            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images_vgg_features, exp_images_vgg_features)
             GLoss.append(g_loss)               
 
             # Backward and optimize
@@ -372,11 +333,10 @@ def trainAndTestModel(name):
             for in_images, exp_images in val_loader:
                 in_images = in_images.to(device)
                 exp_images = exp_images.to(device)
-                #z = torch.zeros((batch_size, 512, 8, 12)).to(device)
                 outputs = generator(in_images)
 
                 MSE += torch.sum((outputs - exp_images) ** 2)
-                #outputs = outputs.cpu()
+                
                 outputs_np = outputs.permute(0, 2, 3, 1).cpu().numpy() 
                 exp_images_np = exp_images.permute(0,2,3,1).cpu().numpy()
 
@@ -459,7 +419,6 @@ def trainAndTestModel(name):
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
             
-            #z = torch.zeros((batch_size, 512, 8, 12)).to(device)
             outputs = bestESmodel(in_images)
 
             MSE += torch.sum((outputs - exp_images) ** 2)
@@ -474,9 +433,9 @@ def trainAndTestModel(name):
             overallSSIM += SSIM
 
             # Visualize the output of the best model against ground truth
-            in_images_py = in_images.cpu()
-            outputs_py = outputs.cpu()
-            exp_images_py = exp_images.cpu()
+            # in_images_py = in_images.cpu()
+            # outputs_py = outputs.cpu()
+            # exp_images_py = exp_images.cpu()
 
             # in_images_py = inverseTransform( in_images ).cpu()
             # outputs_py = inverseTransform( outputs ).cpu()
@@ -486,17 +445,17 @@ def trainAndTestModel(name):
 
             for i in range(reqd_size):
 
-                img = in_images_py[i].numpy()
-                nonZero = np.count_nonzero(img)
+                # img = in_images_py[i].numpy()
+                # nonZero = np.count_nonzero(img)
                 count += 1 
-                # f, axarr = plt.subplots(1,3)
-
-                title='Input ('+str(round((nonZero*100)/(inImage_xdim*inImage_ydim*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
-                plt.suptitle(title)
+                
+                # title='Input ('+str(round((nonZero*100)/(inImage_xdim*inImage_ydim*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
+                title = 'Input vs Model_Output vs Ground_truth'
+                plt.title(title)
                 
                 # plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
-                plt.imshow(np.transpose( vutils.make_grid([in_images_py[i], outputs_py[i], exp_images_py[i]], padding=5, normalize=True) , (1,2,0)))
+                plt.imshow(np.transpose( vutils.make_grid([in_images[i], outputs[i], exp_images[i]], padding=5, normalize=True).cpu() , (1,2,0)))
 
                 # axarr[0].imshow(trans(in_images_py[i]))
                 # axarr[1].imshow(trans(outputs_py[i]))
