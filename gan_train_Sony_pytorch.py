@@ -78,7 +78,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 50
+num_epochs = 10
 learning_rate = .5e-3
 learning_rate_decay = 0.7
 reg = 0.001
