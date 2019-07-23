@@ -48,8 +48,8 @@ inverseTransform = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0.
                                                      std = [ 1., 1., 1. ]),
                                ])
 
-#sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTrans)
-sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTrans)
+#sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTransform)
+sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
 print(sitd_dataset[0][0])
@@ -78,7 +78,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 100
+num_epochs = 50
 learning_rate = .5e-3
 learning_rate_decay = 0.7
 reg = 0.001
@@ -329,7 +329,7 @@ def trainAndTestModel(name):
             # Generator update
             # Forward pass
             gen_images = generator(in_images)
-            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images, exp_images)
+            g_loss = criterion(discriminator(gen_images), valid) #+ criterion_2(gen_images, exp_images)
             GLoss.append(g_loss)               
 
             # Backward and optimize
