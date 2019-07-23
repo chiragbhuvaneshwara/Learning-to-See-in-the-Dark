@@ -231,6 +231,7 @@ class unet_in_generator(nn.Module):
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
         #self.out2 = DepthToSpace(2)
         self.sigmoid = nn.Sigmoid()	
+        self.tanh = nn.Tanh()
 
     def forward(self,x):
         
@@ -253,7 +254,9 @@ class unet_in_generator(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
-        x = self.sigmoid(x)
+        # x = self.sigmoid(x)
+        x = self.tanh(x)
+
         #x = self.out2(x)
         #print(x.size())	
 
@@ -329,7 +332,7 @@ def trainAndTestModel(name):
             # Generator update
             # Forward pass
             gen_images = generator(in_images)
-            g_loss = criterion(discriminator(gen_images), valid) #+ criterion_2(gen_images, exp_images)
+            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images, exp_images)
             GLoss.append(g_loss)               
 
             # Backward and optimize
