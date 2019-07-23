@@ -16,6 +16,8 @@ from datasetLoader_pytorch import SeeingIntTheDarkDataset
 
 trans = transforms.ToPILImage()
 
+path = ''
+
 n = 1234
 np.random.seed(n)
 torch.cuda.manual_seed_all(n)
@@ -49,6 +51,9 @@ def update_lr(optimizer, lr):
 sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', transforms.ToTensor())
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
+inImageSize = sitd_dataset[0][0].size()
+inImage_xdim = int(inImageSize[1])
+inImage_ydim = int(inImageSize[2])
 
 #--------------------------------
 # Device configuration
@@ -271,7 +276,7 @@ def trainAndTestModel(name):
                 nonZero = np.count_nonzero(img)
                 count += 1 
                 f, axarr = plt.subplots(1,3)
-                title='Input ('+str(round((nonZero*100)/(192*128*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
+                title='Input ('+str(round((nonZero*100)/(inImage_xdim*inImage_ydim*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
                 plt.suptitle(title)
                 axarr[0].imshow(trans(in_images_py[i]))
                 axarr[1].imshow(trans(outputs_py[i]))
