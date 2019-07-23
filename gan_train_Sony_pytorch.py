@@ -496,7 +496,7 @@ def trainAndTestModel(name):
                 
                 # plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
-                plt.imshow(np.transpose( vutils.make_grid([in_images_py[i], outputs_py[i], exp_images_py[i]], padding=5, normalize=True)) , (1,2,0))
+                plt.imshow(np.transpose( vutils.make_grid([in_images_py[i], outputs_py[i], exp_images_py[i]], padding=5, normalize=True) , (1,2,0)))
 
                 # axarr[0].imshow(trans(in_images_py[i]))
                 # axarr[1].imshow(trans(outputs_py[i]))
