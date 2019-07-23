@@ -489,18 +489,19 @@ def trainAndTestModel(name):
                 img = in_images_py[i].numpy()
                 nonZero = np.count_nonzero(img)
                 count += 1 
-                f, axarr = plt.subplots(1,3)
-                title='Input ('+str(round((nonZero*100)/(192*128*3), 2))+'% Non Zero) vs Model Output vs Ground truth'
+                # f, axarr = plt.subplots(1,3)
+
+                title='Input ('+str(round((nonZero*100)/(inImage_xdim*inImage_ydim*3) , 2))+'% Non Zero) vs Model Output vs Ground truth'
                 plt.suptitle(title)
                 
                 # plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
-                plt.imshow(vutils.make_grid([in_images_py[i], outputs_py[i], exp_images_py[i]], padding=5, normalize=True))
+                plt.imshow(np.transpose( vutils.make_grid([in_images_py[i], outputs_py[i], exp_images_py[i]], padding=5, normalize=True)) , (1,2,0))
 
-                axarr[0].imshow(trans(in_images_py[i]))
-                axarr[1].imshow(trans(outputs_py[i]))
-                axarr[2].imshow(trans(exp_images_py[i]))
-                
+                # axarr[0].imshow(trans(in_images_py[i]))
+                # axarr[1].imshow(trans(outputs_py[i]))
+                # axarr[2].imshow(trans(exp_images_py[i]))
+                 
                 plt.savefig(path+'images/'+name+'_%d.png'%(count))
                 plt.close()
 
