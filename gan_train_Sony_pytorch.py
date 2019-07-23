@@ -17,7 +17,7 @@ from datasetLoader_pytorch import SeeingIntTheDarkDataset
 trans = transforms.ToPILImage()
 
 path = '/media/chirag/Chirag/Learning-to-See-in-the-Dark/'
-# path = ''
+path = ''
 
 #n = 1234
 #np.random.seed(n)
@@ -49,8 +49,8 @@ inverseTransform = transforms.Compose([ transforms.Normalize(mean = [ 0., 0., 0.
                                                      std = [ 1., 1., 1. ]),
                                ])
 
-sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTransform)
-# sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
+# sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTransform)
+sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
 print('Input Image Size:')
 print(sitd_dataset[0][0].size())
 print(sitd_dataset[0][0])
@@ -80,7 +80,7 @@ print('Using device: %s'%device)
 # num_test = 397
 
 num_epochs = 1
-learning_rate = .5e-3
+learning_rate = 1e-4
 learning_rate_decay = 0.7
 reg = 0.001
 batch_size = 1
