@@ -276,20 +276,20 @@ if torch.cuda.is_available():
 print('Using device: %s'%device)
 
 ### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
+# num_training= 2100
+# num_validation = 200
+# num_test = 397
 
-num_epochs = 100
+num_epochs = 1
 learning_rate = 1e-3
 learning_rate_decay = 1
 reg = 0.005
-batch_size = 20
+batch_size = 2
 
-#### dev params
-#num_training= 20
-#num_validation = 7
-#num_test = 7
+### dev params
+num_training= 20
+num_validation = 7
+num_test = 7
 
 
 mask = list(range(num_training))

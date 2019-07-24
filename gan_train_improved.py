@@ -282,20 +282,20 @@ if torch.cuda.is_available():
 print('Using device: %s'%device)
 
 # #### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
+# num_training= 2100
+# num_validation = 200
+# num_test = 397
 
-num_epochs = 20
+num_epochs = 1
 learning_rate = 1e-5
 learning_rate_decay = 0.7
 reg = 0.001
 batch_size = 1
 
 ### dev params
-# num_training= 20
-# num_validation = 7
-# num_test = 7
+num_training= 20
+num_validation = 7
+num_test = 7
 
 mask = list(range(num_training))
 train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
