@@ -15,7 +15,7 @@ from datasetLoader import SeeingIntTheDarkDataset
 from perceptual_loss_models import VggModelFeatures
 from utils_train import weights_init, update_lr
 
-def trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize,train_loader, val_loader, use_perceptual_loss = True):
+def trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize,train_loader, val_loader, train_dataset, val_dataset,use_perceptual_loss = True):
     
     generator = unet_in_generator(device)
     discriminator = Discriminator(inImageSize)
@@ -182,7 +182,7 @@ def trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_d
 
     return generator, valSSIM
     
-def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader):
+def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, test_dataset):
 
     best_id = np.argmax(valSSIM)
     bestESmodel = model
@@ -308,8 +308,12 @@ val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=batch_s
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-name = 'gan'
-
-model, list_valSSIM = trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, use_perceptual_loss = True)
+name = 'gan_perceptual_loss'
+model, list_valSSIM = trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = True)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+
+name = 'gan_mse_loss'
+model, list_valSSIM = trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = False)
+print('Testing ..............................')
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)

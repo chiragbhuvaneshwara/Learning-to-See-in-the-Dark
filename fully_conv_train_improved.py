@@ -18,7 +18,7 @@ from perceptual_loss_models import VggModelFeatures
 from utils_train import weights_init, update_lr
 # trans = transforms.ToPILImage()
 
-def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, use_perceptual_loss = True):
+def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = True):
 
     # Initialize the model for this run
     if name == 'simpleUNET':
@@ -179,7 +179,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
 
     return model, valSSIM
 
-def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader):
+def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, test_dataset):
 
     best_id = np.argmax(valSSIM)
     bestESmodel = model
@@ -312,6 +312,6 @@ name = 'unet'
 # name = 'unet_in'
 # name = 'unet_d'
 # name = 'FPN'
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = True)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
