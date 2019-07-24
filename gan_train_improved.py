@@ -80,6 +80,8 @@ def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, l
             else: # use just MSE Loss
                 g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images, exp_images)
             
+            g_loss = g_loss/accumulation_steps
+
             GLoss.append(g_loss)               
 
             # Backward and optimize
@@ -96,8 +98,9 @@ def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, l
             fake_loss = criterion(discriminator( generator(in_images) ), fake)
             
             d_loss = real_loss + fake_loss
-            DLoss.append(d_loss)
+            d_loss = d_loss / accumulation_steps
 
+            DLoss.append(d_loss)
             
             d_loss.backward()
 
@@ -458,7 +461,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 20
+num_epochs = 3
 learning_rate = 1e-5
 learning_rate_decay = 0.7
 reg = 0.001
