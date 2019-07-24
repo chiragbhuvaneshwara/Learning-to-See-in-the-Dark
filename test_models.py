@@ -136,7 +136,7 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
 
 
 #############################################################################################################
-generator = unet_in_generator()
+generator = unet_in_generator(device)
 testModelOnAllSets(path, device, 'bestESModel_gan.ckpt', generator, train_loader, val_loader, test_loader)
 
 # model = simpleUNET()
