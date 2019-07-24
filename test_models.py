@@ -128,14 +128,17 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_
 
 #############################################################################################################
 
-# generator = unet_in_generator(device)
-# testModelOnAllSets(path, device, 'bestESModel_gan.ckpt', generator, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
+generator = unet_in_generator(device)
+testModelOnAllSets(path, device, 'bestESModel_gan_mse_loss.ckpt', generator, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
+
+generator = unet_in_generator(device)
+testModelOnAllSets(path, device, 'bestESModel_gan_perceptual_loss.ckpt', generator, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = simpleUNET()
 # testModelOnAllSets(path, device, 'bestESModel_simpleUNET.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
-model = unet()
-testModelOnAllSets(path, device, 'bestESModel_unet.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
+# model = unet()
+# testModelOnAllSets(path, device, 'bestESModel_unet.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = unet_bn()
 # testModelOnAllSets(path, device, 'bestESModel_unet_bn.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
