@@ -462,7 +462,7 @@ num_validation = 200
 num_test = 397
 
 num_epochs = 3
-learning_rate = 1e-5
+learning_rate = 1e-4
 learning_rate_decay = 0.7
 reg = 0.001
 batch_size = 1
@@ -486,10 +486,10 @@ val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=batch_s
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
-name = 'gan_perceptual_loss'
-model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = True)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+# name = 'gan_perceptual_loss'
+# model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = True)
+# print('Testing ..............................')
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################################')
 
