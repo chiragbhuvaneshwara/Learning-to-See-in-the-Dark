@@ -287,7 +287,7 @@ num_epochs = 20
 learning_rate = 1e-5
 learning_rate_decay = 0.7
 reg = 0.001
-batch_size = 2
+batch_size = 1
 
 # ### dev params
 # num_training= 20
