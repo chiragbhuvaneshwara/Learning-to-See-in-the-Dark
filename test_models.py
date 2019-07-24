@@ -16,7 +16,7 @@ from datasetLoader import SeeingIntTheDarkDataset
 from perceptual_loss_models import VggModelFeatures
 trans = transforms.ToPILImage()
 
-def testModel(path, device, nameOfSavedModel, model, subset_loader):
+def testModel(path, device, nameOfSavedModel, model, subset_loader, subset):
 
     model.load_state_dict(torch.load(path+'models/'+nameOfSavedModel))
     model.to(device)
@@ -46,7 +46,7 @@ def testModel(path, device, nameOfSavedModel, model, subset_loader):
 
             overallSSIM += SSIM
 
-        total = len(test_dataset)
+        total = len(subset)
         
         avgMSE = MSE/total
         avgSSIM = overallSSIM/total
@@ -57,19 +57,19 @@ def testModel(path, device, nameOfSavedModel, model, subset_loader):
 
     return avgMSE, avgSSIM
 
-def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_loader, test_loader):
+def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset):
     
     print('###############################################################')
     print('Train Set:')
-    MSE1, SSIM1 = testModel(path, device, nameOfSavedModel, generator, train_loader)
+    MSE1, SSIM1 = testModel(path, device, nameOfSavedModel, generator, train_loader, train_dataset)
 
     print('###############################################################')
     print('Validation Set:')
-    MSE2, SSIM2 = testModel(path, device, nameOfSavedModel, generator, val_loader)
+    MSE2, SSIM2 = testModel(path, device, nameOfSavedModel, generator, val_loader, val_dataset)
 
     print('###############################################################')
     print('Test Set')
-    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, generator, test_loader)
+    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, generator, test_loader, test_dataset)
 
     print('###############################################################')
     print('Overall: ')
@@ -122,38 +122,30 @@ val_dataset = torch.utils.data.Subset(sitd_dataset, mask)
 mask = list(range(num_training + num_validation, num_training + num_validation + num_test))
 test_dataset = torch.utils.data.Subset(sitd_dataset, mask)
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
-                                           batch_size=batch_size,
-                                           shuffle=True)
-
-val_loader = torch.utils.data.DataLoader(dataset=val_dataset,
-                                           batch_size=batch_size,
-                                           shuffle=False)
-
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
-                                          batch_size=batch_size,
-                                          shuffle=False)
-
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_size=batch_size,shuffle=True)
+val_loader = torch.utils.data.DataLoader(dataset=val_dataset,batch_size=batch_size,shuffle=False)
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_size,shuffle=False)
 
 #############################################################################################################
-generator = unet_in_generator(device)
-testModelOnAllSets(path, device, 'bestESModel_gan.ckpt', generator, train_loader, val_loader, test_loader)
+
+# generator = unet_in_generator(device)
+# testModelOnAllSets(path, device, 'bestESModel_gan.ckpt', generator, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = simpleUNET()
-# testModelOnAllSets(path, device, 'bestESModel_simpleUNET.ckpt', model, train_loader, val_loader, test_loader)
+# testModelOnAllSets(path, device, 'bestESModel_simpleUNET.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
-# model = unet()
-# testModelOnAllSets(path, device, 'bestESModel_unet.ckpt', model, train_loader, val_loader, test_loader)
+model = unet()
+testModelOnAllSets(path, device, 'bestESModel_unet.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = unet_bn()
-# testModelOnAllSets(path, device, 'bestESModel_unet_bn.ckpt', model, train_loader, val_loader, test_loader)
+# testModelOnAllSets(path, device, 'bestESModel_unet_bn.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = unet_in()
-# testModelOnAllSets(path, device, 'bestESModel_unet_in.ckpt', model, train_loader, val_loader, test_loader)
+# testModelOnAllSets(path, device, 'bestESModel_unet_in.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = unet_d()
-# testModelOnAllSets(path, device, 'bestESModel_unet_d.ckpt', model, train_loader, val_loader, test_loader)
+# testModelOnAllSets(path, device, 'bestESModel_unet_d.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
 # model = FPN(Bottleneck, [2,2,2,2])
-# testModelOnAllSets(path, device, 'bestESModel_FPN.ckpt', model, train_loader, val_loader, test_loader)
+# testModelOnAllSets(path, device, 'bestESModel_FPN.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
 
