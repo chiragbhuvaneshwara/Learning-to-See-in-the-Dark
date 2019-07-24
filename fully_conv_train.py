@@ -11,8 +11,8 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 from skimage.measure import compare_ssim
 
-from models_pytorch import *
-from datasetLoader_pytorch import SeeingIntTheDarkDataset
+from fully_conv_models import *
+from datasetLoader import SeeingIntTheDarkDataset
 
 trans = transforms.ToPILImage()
 

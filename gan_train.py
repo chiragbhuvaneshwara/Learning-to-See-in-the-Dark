@@ -10,7 +10,7 @@ import torchvision.utils as vutils
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
 # from gan_models import *
-from datasetLoader_pytorch import SeeingIntTheDarkDataset
+from datasetLoader import SeeingIntTheDarkDataset
 from perceptual_loss_models import VggModelFeatures
 trans = transforms.ToPILImage()
 
@@ -295,7 +295,13 @@ def trainAndTestModel(name):
             gen_images_vgg_features = vgg_feature_extractor(gen_images)
             exp_images_vgg_features = vgg_feature_extractor(exp_images)
 
-            g_loss = criterion(discriminator(gen_images), valid) + criterion_2(gen_images_vgg_features, exp_images_vgg_features)
+            g_loss =  (criterion(discriminator(gen_images), valid) 
+                + criterion_2(gen_images_vgg_features.relu1_2, exp_images_vgg_features.relu1_2)
+                + criterion_2(gen_images_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
+                + criterion_2(gen_images_vgg_features.relu3_3, exp_images_vgg_features.relu3_3)
+                + criterion_2(gen_images_vgg_features.relu4_3, exp_images_vgg_features.relu4_3)    
+            )          
+            
             GLoss.append(g_loss)               
 
             # Backward and optimize

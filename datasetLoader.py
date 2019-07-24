@@ -1,22 +1,28 @@
 import os
-import torch
-import torch.nn as nn
 from skimage import io
-import numpy as np
-from torch.utils.data import Dataset, DataLoader
-from torchvision.transforms import transforms
-from torch.autograd import Variable
-import torch.nn.functional as F
+# from torch.utils.data import Dataset, DataLoader
+# from torchvision.transforms import transforms
+# from torch.autograd import Variable
+# import torch.nn.functional as F
+
+def get_png(directory_name):
+    correct_files = []
+    for file in os.listdir(directory_name):
+        if file.endswith(".png"):
+            correct_files.append(file)
+    return correct_files
 
 class SeeingIntTheDarkDataset(Dataset):
 
     def __init__(self, x_dir, y_dir, transform=None):
 
         self.x_dir =  x_dir
-        self.x_dir_files = sorted(os.listdir(x_dir))[1:]
+        # self.x_dir_files = sorted(os.listdir(x_dir))[1:]
+        self.x_dir_files = get_png(x_dir)
 
         self.y_dir = y_dir
-        self.y_dir_files = sorted(os.listdir(y_dir))[1:]
+        # self.y_dir_files = sorted(os.listdir(y_dir))[1:]
+        self.y_dir_files = get_png(y_dir)
 
         self.transform = transform
 

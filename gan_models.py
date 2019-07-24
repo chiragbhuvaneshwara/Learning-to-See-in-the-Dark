@@ -54,69 +54,73 @@ class up_in(nn.Module):
     def forward(self, x1, x2):
         x1 = self.up(x1)
         
-        # input is CHW
         diffY = x2.size()[2] - x1.size()[2]
         diffX = x2.size()[3] - x1.size()[3]
 
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
-        
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
 
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
 
+class GaussianNoise(nn.Module):
+
+    def __init__(self, sigma=1, is_relative_detach=True):
+        super().__init__(device)
+        self.sigma = sigma
+        self.device = device
+    def forward(self, x):
+        if self.training and self.sigma != 0:
+            sampled_noise = torch.rand(x.size()).to(self.device) * self.sigma
+            x = x + sampled_noise
+        return x 
 
 class unet_in_generator(nn.Module):
 
     def __init__(self):
-        super(unet_in_generator,self).__init__()
+        super(unet_in_generator,self).__init__(device)
         
         # self.train = train
+        self.device = device
 
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_in(3, 64)
         self.down1 = down_in(64, 128)
         self.down2 = down_in(128, 256)
         self.down3 = down_in(256, 512)
         self.down4 = down_in(512, 512)
+        self.noise = GaussianNoise(self.device)
         self.up1 = up_in(1024, 256)
         self.up2 = up_in(512, 128)
         self.up3 = up_in(256, 64)
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
-        #self.out2 = DepthToSpace(2)
 
-    def forward(self,x, z):
+        # self.sigmoid = nn.Sigmoid()	
+        self.tanh = nn.Tanh()
+
+    def forward(self,x):
         
-        #print('#################################')
-        #print(x.size())
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
         x5 = self.down4(x4)
 
-        x5 += z
-        # if self.train == True:
-        #     x5 += torch.rand(x5.size())
-
         x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.out1(x)
-        #x = self.out2(x)
-        #print(x.size())
+
+        # x = self.sigmoid(x)
+        x = self.tanh(x)
 
         return x
 ##################################################################################################
 
 class Discriminator(nn.Module):
-    def __init__(self):
+    def __init__(self, inImage_xdim, inImage_ydim):
         super(Discriminator, self).__init__()
 
         def discriminator_block(in_filters, out_filters, bn=True):
@@ -132,11 +136,13 @@ class Discriminator(nn.Module):
             *discriminator_block(64, 128)
         )
 
-        self.adv_layer = nn.Sequential(nn.Linear(12*8 , 1), nn.Sigmoid())
+        self.adv_layer = nn.Sequential(nn.Linear( (inImage_xdim * inImage_ydim)//2 , 1), nn.Sigmoid())
 
     def forward(self, img):
         out = self.model(img)
         out = out.view(out.shape[0], -1)
         validity = self.adv_layer(out)
 
-        return validity
+        return validity 
+
+##################################################################################################
