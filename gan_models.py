@@ -78,8 +78,8 @@ class GaussianNoise(nn.Module):
 
 class unet_in_generator(nn.Module):
 
-    def __init__(self):
-        super(unet_in_generator,self).__init__(device)
+    def __init__(self, device):
+        super(unet_in_generator,self).__init__()
         
         # self.train = train
         self.device = device
@@ -120,8 +120,11 @@ class unet_in_generator(nn.Module):
 ##################################################################################################
 
 class Discriminator(nn.Module):
-    def __init__(self, inImage_xdim, inImage_ydim):
+    def __init__(self, inImageSize):
         super(Discriminator, self).__init__()
+
+        inImage_xdim = int(inImageSize[1])
+        inImage_ydim = int(inImageSize[2]) 
 
         def discriminator_block(in_filters, out_filters, bn=True):
             block = [nn.Conv2d(in_filters, out_filters, 3, 1, 1), nn.MaxPool2d(2,2), nn.LeakyReLU(0.2, inplace=True), nn.Dropout2d(0.25)]

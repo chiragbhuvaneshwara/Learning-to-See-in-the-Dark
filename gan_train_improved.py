@@ -17,11 +17,8 @@ from utils_train import weights_init, update_lr
 
 def trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize,train_loader, val_loader, use_perceptual_loss = True):
     
-    inImage_xdim = int(inImageSize[1])
-    inImage_ydim = int(inImageSize[2])  
-
     generator = unet_in_generator(device)
-    discriminator = Discriminator(inImage_xdim, inImage_ydim)
+    discriminator = Discriminator(inImageSize)
 
     generator.to(device)
     discriminator.to(device)
