@@ -1,6 +1,6 @@
 import os
 from skimage import io
-# from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader
 # from torchvision.transforms import transforms
 # from torch.autograd import Variable
 # import torch.nn.functional as F
