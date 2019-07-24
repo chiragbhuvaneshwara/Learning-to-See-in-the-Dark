@@ -66,8 +66,8 @@ class up_in(nn.Module):
 
 class GaussianNoise(nn.Module):
 
-    def __init__(self, sigma=1, is_relative_detach=True):
-        super().__init__(device)
+    def __init__(self, device, sigma=1):
+        super().__init__()
         self.sigma = sigma
         self.device = device
     def forward(self, x):
