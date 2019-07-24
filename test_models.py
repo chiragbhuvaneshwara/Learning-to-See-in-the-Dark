@@ -61,15 +61,15 @@ def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_
     
     print('###############################################################')
     print('Train Set:')
-    MSE1, SSIM1 = testModel(path, device, nameOfSavedModel, generator, train_loader, train_dataset)
+    MSE1, SSIM1 = testModel(path, device, nameOfSavedModel, model, train_loader, train_dataset)
 
     print('###############################################################')
     print('Validation Set:')
-    MSE2, SSIM2 = testModel(path, device, nameOfSavedModel, generator, val_loader, val_dataset)
+    MSE2, SSIM2 = testModel(path, device, nameOfSavedModel, model, val_loader, val_dataset)
 
     print('###############################################################')
     print('Test Set')
-    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, generator, test_loader, test_dataset)
+    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, model, test_loader, test_dataset)
 
     print('###############################################################')
     print('Overall: ')
