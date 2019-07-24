@@ -313,6 +313,6 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch
 # parameters to select different models ==> Just change here. 
 name = 'gan'
 
-model, list_valSSIM = trainGanModel(name, path, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, use_perceptual_loss = True)
+model, list_valSSIM = trainGanModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, use_perceptual_loss = True)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader)
