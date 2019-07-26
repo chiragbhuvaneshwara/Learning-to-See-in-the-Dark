@@ -51,7 +51,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
     model.apply(weights_init)
 
     # Print the model we just instantiated
-    print(model)
+    # print(model)
 
     model.to(device)
     
@@ -84,9 +84,9 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 # Vgg Features
                 mode = 'bilinear'
                 p2_exp = exp_images
-                p3_exp = F.interpolate(exp_images, size=(inImage_xdim/8,inImage_ydim/8), mode=mode, align_corners=False)
-                p4_exp = F.interpolate(exp_images, size=(inImage_xdim/16,inImage_ydim/16), mode=mode, align_corners=False)
-                p5_exp = F.interpolate(exp_images, size=(inImage_xdim/32,inImage_ydim/32), mode=mode, align_corners=False)
+                p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
+                p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,inImage_ydim//32), mode=mode, align_corners=False)
 
                 p2_out = outputs[0]
                 p3_out = outputs[1]
@@ -116,9 +116,9 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             elif (name == 'FPN') and (use_perceptual_loss == False ): # using simple MSE Loss for FPN
                 mode = 'bilinear'
                 p2_exp = exp_images
-                p3_exp = F.interpolate(exp_images, size=(inImage_xdim/8,inImage_ydim/8), mode=mode, align_corners=False)
-                p4_exp = F.interpolate(exp_images, size=(inImage_xdim/16,inImage_ydim/16), mode=mode, align_corners=False)
-                p5_exp = F.interpolate(exp_images, size=(inImage_xdim/32,inImage_ydim/32), mode=mode, align_corners=False)
+                p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
+                p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,inImage_ydim//32), mode=mode, align_corners=False)
 
                 p2_out = outputs[0]
                 p3_out = outputs[1]
