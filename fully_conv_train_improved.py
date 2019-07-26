@@ -94,18 +94,6 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 p4_out = outputs[2]
                 p5_out = outputs[3]
 
-                # print(p2_exp.size())
-                # print(p2_out.size())
-
-                # print(p3_exp.size())
-                # print(p3_out.size())
-
-                # print(p4_exp.size())
-                # print(p4_out.size())
-
-                print(p5_exp.size())
-                print(p5_out.size())
-
                 outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
                 loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
@@ -492,7 +480,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 2
+num_epochs = 25
 learning_rate = 1e-4
 learning_rate_decay = 0.9
 reg = 0.005
@@ -523,6 +511,35 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_
 # name = 'unet_bn'
 # name = 'unet_in'
 # name = 'unet_d'
+print('##########################################################################################################################')
+name = 'unet'
+print(name)
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+print('Testing ..............................')
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+
+print('##########################################################################################################################')
+name = 'unet_in'
+print(name)
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+print('Testing ..............................')
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+
+print('##########################################################################################################################')
+name = 'unet_bn'
+print(name)
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+print('Testing ..............................')
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+
+print('##########################################################################################################################')
+name = 'unet_d'
+print(name)
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+print('Testing ..............................')
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+
+print('##########################################################################################################################')
 name = 'FPN'
 print(name)
 model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
