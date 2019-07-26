@@ -87,7 +87,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 p2_exp = exp_images
                 p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
                 p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
-                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.floor(inImage_ydim/32)), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.ceil(inImage_ydim/32)), mode=mode, align_corners=False)
 
                 p2_out = outputs[0]
                 p3_out = outputs[1]
@@ -103,8 +103,8 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 # print(p4_exp.size())
                 # print(p4_out.size())
 
-                # print(p5_exp.size())
-                # print(p5_out.size())
+                print(p5_exp.size())
+                print(p5_out.size())
 
                 outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
@@ -131,7 +131,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 p2_exp = exp_images
                 p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
                 p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
-                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.floor(inImage_ydim/32)), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.ceil(inImage_ydim/32)), mode=mode, align_corners=False)
 
                 p2_out = outputs[0]
                 p3_out = outputs[1]
