@@ -450,7 +450,7 @@ num_epochs = 2
 learning_rate = 1e-4
 learning_rate_decay = 0.9
 reg = 0.005
-batch_size = 3
+batch_size = 2
 
 # ### dev params
 # num_training= 20
@@ -473,11 +473,12 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_
 ###############################################################################################################################################
 # parameters to select different models ==> Just change here. 
 # name = 'simpleUNET'
-name = 'unet'
+# name = 'unet'
 # name = 'unet_bn'
 # name = 'unet_in'
 # name = 'unet_d'
-# name = 'FPN'
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = True)
+name = 'FPN'
+print(name)
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=5, use_perceptual_loss = True)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
