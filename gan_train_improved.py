@@ -15,7 +15,7 @@ from datasetLoader import SeeingIntTheDarkDataset
 from perceptual_loss_models import VggModelFeatures
 from utils_train import weights_init, update_lr
 
-def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize,train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = True):
+def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize,train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=5, use_perceptual_loss = True):
     
     print('Effective Batch Size :',batch_size*accumulation_steps)
 
@@ -487,14 +487,16 @@ val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=batch_s
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 ###############################################################################################################################################
 #parameters to select different models ==> Just change here. 
-name = 'gan_perceptual_loss'
-model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = True)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+# name = 'gan_perceptual_loss'
+# print(name)
+# model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = True)
+# print('Testing ..............................')
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################################')
 
 name = 'gan_mse_loss'
-model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=10, use_perceptual_loss = False)
+print(name)
+model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, inImageSize, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=5, use_perceptual_loss = False)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
