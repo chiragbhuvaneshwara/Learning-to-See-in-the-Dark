@@ -583,10 +583,10 @@ class FPN(nn.Module):
         p5 = self.reduce_channels_1(p5)
         p5 = self.reduce_channels_2(p5)
 
-        print('p2:', p2.size())
-        print('p3:', p3.size())
-        print('p4:', p4.size())
-        print('p5:', p5.size())
+        # print('p2:', p2.size())
+        # print('p3:', p3.size())
+        # print('p4:', p4.size())
+        # print('p5:', p5.size())
 
         return p2, p3, p4, p5
         # return p2
