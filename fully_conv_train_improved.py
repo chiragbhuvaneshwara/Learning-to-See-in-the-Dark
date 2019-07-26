@@ -18,7 +18,7 @@ from perceptual_loss_models import VggModelFeatures
 from utils_train import weights_init, update_lr
 # trans = transforms.ToPILImage()
 
-def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, accumulation_steps=5, use_perceptual_loss = True):
+def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True):
 
     inImage_xdim = int(inImageSize[1])
     inImage_ydim = int(inImageSize[2])
