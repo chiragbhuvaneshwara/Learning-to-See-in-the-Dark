@@ -496,9 +496,15 @@ class FPN(nn.Module):
 
         # Top layer
         self.toplayer = nn.Conv2d(2048, 256, kernel_size=1, stride=1, padding=0)  # Reduce channels
-        # self.toplayer2 = nn.Conv2d(256, 64, kernel_size=1, stride=1, padding=0)  # Reduce channels
-        # self.toplayer3 = nn.Conv2d(64,3,kernel_size=1,stride=1,padding=0)
-        # self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+
+        # up channels for outputs
+        self.up_p2_1 = nn.Conv2d(256, 64, kernel_size=1, stride=1, padding=0)  # Reduce channels
+        self.up_p2_2 = nn.Conv2d(64,3,kernel_size=1,stride=1,padding=0)
+        self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+
+        # reduce channels for p3, p4 and p5
+        self.reduce_channels_1 = nn.Conv2d(256, 64, kernel_size=1, stride=1, padding=0)
+        self.reduce_channels_2 = nn.Conv2d(64,3,kernel_size=1,stride=1,padding=0)
 
         # Smooth layers
         self.smooth1 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
@@ -563,10 +569,19 @@ class FPN(nn.Module):
         p3 = self.smooth2(p3)
         p2 = self.smooth3(p2)
 
-        # p2 = self.toplayer2(p2)
-        # p2 = self.up(p2)
-        # p2 = self.toplayer3(p2)
-        # p2 = self.up(p2)
+        p2 = self.up_p2_1(p2)
+        p2 = self.up(p2)
+        p2 = self.up_p2_2(p2)
+        p2 = self.up(p2)
+
+        p3 = self.reduce_channels_1(p3)
+        p3 = self.reduce_channels_2(p3)
+
+        p4 = self.reduce_channels_1(p4)
+        p4 = self.reduce_channels_2(p4)
+
+        p5 = self.reduce_channels_1(p5)
+        p5 = self.reduce_channels_2(p5)
 
         print('p2:', p2.size())
         print('p3:', p3.size())

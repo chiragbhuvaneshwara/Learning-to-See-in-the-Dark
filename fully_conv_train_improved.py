@@ -242,6 +242,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
 
             if name != 'FPN' and use_perceptual_loss:
                 # Vgg Features
+                print(outputs.size())
                 outputs_vgg_features = vgg_feature_extractor(outputs)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
                 loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
