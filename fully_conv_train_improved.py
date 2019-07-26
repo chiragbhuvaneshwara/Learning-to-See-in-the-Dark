@@ -217,7 +217,10 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
 
     return model, valSSIM
 
-def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, use_perceptual_loss = True):
+def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = True):
+
+    inImage_xdim = int(inImageSize[1])
+    inImage_ydim = int(inImageSize[2])
 
     # Initialize the model for this run
     if name == 'simpleUNET':
@@ -272,18 +275,32 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
 
             # Forward pass
             outputs = model(in_images)
-
-            if name != 'FPN' and use_perceptual_loss:
+            # print('Here.............',outputs.size())
+            if name == 'FPN' and use_perceptual_loss:
                 # Vgg Features
-                
-                outputs_vgg_features = vgg_feature_extractor(outputs)
+                mode = 'bilinear'
+                p2_exp = exp_images
+                p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
+                p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.ceil(inImage_ydim/32)), mode=mode, align_corners=False)
+
+                p2_out = outputs[0]
+                p3_out = outputs[1]
+                p4_out = outputs[2]
+                p5_out = outputs[3]
+
+                outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
                 loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  )
+                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  
+                        + criterion(p3_out, p3_exp)
+                        + criterion(p4_out, p4_exp)
+                        + criterion(p5_out, p5_exp)
+                        )
 
-            elif name == 'FPN' and use_perceptual_loss:
+            elif name != 'FPN' and use_perceptual_loss:
                 # Vgg Features
                 outputs_vgg_features = vgg_feature_extractor(outputs)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
@@ -293,11 +310,25 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  )
 
             elif (name == 'FPN') and (use_perceptual_loss == False ): # using simple MSE Loss for FPN
-                loss = criterion(outputs, exp_images)
+                mode = 'bilinear'
+                p2_exp = exp_images
+                p3_exp = F.interpolate(exp_images, size=(inImage_xdim//8,inImage_ydim//8), mode=mode, align_corners=False)
+                p4_exp = F.interpolate(exp_images, size=(inImage_xdim//16,inImage_ydim//16), mode=mode, align_corners=False)
+                p5_exp = F.interpolate(exp_images, size=(inImage_xdim//32,math.ceil(inImage_ydim/32)), mode=mode, align_corners=False)
+
+                p2_out = outputs[0]
+                p3_out = outputs[1]
+                p4_out = outputs[2]
+                p5_out = outputs[3]
+
+                loss = (    criterion(p2_out, p2_exp)
+                            +criterion(p3_out, p3_exp)
+                            +criterion(p4_out, p4_exp)
+                            +criterion(p5_out, p5_exp)   )
             
             else:  # using simple MSE Loss for all unet models
                 loss = criterion(outputs, exp_images)
-
+            
             Loss.append(loss)               
 
             # Backward and optimize
@@ -305,7 +336,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
             loss.backward()
             optimizer.step()
 
-            if (i+1) % 20 == 0:
+            if (i+1) % 200 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                     .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
         
@@ -514,34 +545,39 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_
 print('##########################################################################################################################')
 name = 'unet'
 print(name)
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################')
 name = 'unet_in'
 print(name)
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################')
 name = 'unet_bn'
 print(name)
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################')
 name = 'unet_d'
 print(name)
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################')
 name = 'FPN'
 print(name)
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
