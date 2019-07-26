@@ -93,6 +93,18 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 p4_out = outputs[2]
                 p5_out = outputs[3]
 
+                print(p2_exp.size())
+                print(p2_out.size())
+
+                print(p3_exp.size())
+                print(p3_out.size())
+
+                print(p4_exp.size())
+                print(p4_out.size())
+
+                print(p5_exp.size())
+                print(p5_out.size())
+
                 outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
                 loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
