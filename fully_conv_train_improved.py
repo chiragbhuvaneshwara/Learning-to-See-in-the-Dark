@@ -96,10 +96,10 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
 
                 outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
-                loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
+                loss = (  criterion(outputs_vgg_features.relu1_2, exp_images_vgg_features.relu1_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  
+                        + criterion(outputs_vgg_features.relu3_3, exp_images_vgg_features.relu3_3)
+                        + criterion(outputs_vgg_features.relu4_3, exp_images_vgg_features.relu4_3)  
                         + criterion(p3_out, p3_exp)
                         + criterion(p4_out, p4_exp)
                         + criterion(p5_out, p5_exp)
@@ -109,10 +109,10 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 # Vgg Features
                 outputs_vgg_features = vgg_feature_extractor(outputs)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
-                loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
+                loss = (  criterion(outputs_vgg_features.relu1_2, exp_images_vgg_features.relu1_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  )
+                        + criterion(outputs_vgg_features.relu3_3, exp_images_vgg_features.relu3_3)
+                        + criterion(outputs_vgg_features.relu4_3, exp_images_vgg_features.relu4_3)  )
 
             elif (name == 'FPN') and (use_perceptual_loss == False ): # using simple MSE Loss for FPN
                 mode = 'bilinear'
@@ -291,10 +291,10 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
 
                 outputs_vgg_features = vgg_feature_extractor(p2_out)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
-                loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
+                loss = (  criterion(outputs_vgg_features.relu1_2, exp_images_vgg_features.relu1_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  
+                        + criterion(outputs_vgg_features.relu3_3, exp_images_vgg_features.relu3_3)
+                        + criterion(outputs_vgg_features.relu4_3, exp_images_vgg_features.relu4_3)  
                         + criterion(p3_out, p3_exp)
                         + criterion(p4_out, p4_exp)
                         + criterion(p5_out, p5_exp)
@@ -304,10 +304,10 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
                 # Vgg Features
                 outputs_vgg_features = vgg_feature_extractor(outputs)
                 exp_images_vgg_features = vgg_feature_extractor(exp_images)              
-                loss = (  criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
+                loss = (  criterion(outputs_vgg_features.relu1_2, exp_images_vgg_features.relu1_2)
                         + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)
-                        + criterion(outputs_vgg_features.relu2_2, exp_images_vgg_features.relu2_2)  )
+                        + criterion(outputs_vgg_features.relu3_3, exp_images_vgg_features.relu3_3)
+                        + criterion(outputs_vgg_features.relu4_3, exp_images_vgg_features.relu4_3)  )
 
             elif (name == 'FPN') and (use_perceptual_loss == False ): # using simple MSE Loss for FPN
                 mode = 'bilinear'
@@ -511,11 +511,11 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 25
+num_epochs = 20
 learning_rate = 1e-4
 learning_rate_decay = 0.9
 reg = 0.005
-batch_size = 2
+batch_size = 3
 
 # ### dev params
 # num_training= 20
@@ -558,13 +558,13 @@ model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, 
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
-print('##########################################################################################################################')
-name = 'unet_bn'
-print(name)
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+# print('##########################################################################################################################')
+# name = 'unet_bn'
+# print(name)
+# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+# # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+# print('Testing ..............................')
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
 
 print('##########################################################################################################################')
 name = 'unet_d'
