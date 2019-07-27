@@ -248,7 +248,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
     model.apply(weights_init)
 
     # Print the model we just instantiated
-    print(model)
+    # print(model)
 
     model.to(device)
     
