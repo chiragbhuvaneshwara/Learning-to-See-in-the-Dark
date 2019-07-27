@@ -133,6 +133,8 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             
             else:  # using simple MSE Loss for all unet models
                 loss = criterion(outputs, exp_images)
+            
+            loss = loss/accumulation_steps
 
             Loss.append(loss)               
 
@@ -181,13 +183,15 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             current_SSIM = overallSSIM/total
 
             current_MSE = MSE/total
+            valSSIM.append(current_SSIM)
+            valMSE.append(current_MSE)
+
 
             # if current_MSE <= np.amin(valMSE):
             if current_SSIM >= np.amax(valSSIM):
                 torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
             
-            valSSIM.append(current_SSIM)
-            valMSE.append(current_MSE)
+
             print('Results on Validation set of {} images:'.format(total))
             print('Avg Validation MSE : {} '.format(current_MSE))
             print('Avg Validation SSIM: {} '.format(current_SSIM))
@@ -380,14 +384,12 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
             
 
             current_MSE = MSE/total
-            
+            valSSIM.append(current_SSIM)
+            valMSE.append(current_MSE)
 
             # if current_MSE <= np.amin(valMSE):
             if current_SSIM >= np.amax(valSSIM):
                 torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
-
-            valSSIM.append(current_SSIM)
-            valMSE.append(current_MSE)
 
             print('Results on Validation set of {} images:'.format(total))
             print('Avg Validation MSE : {} '.format(current_MSE))
