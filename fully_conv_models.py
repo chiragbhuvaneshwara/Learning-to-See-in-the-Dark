@@ -516,6 +516,8 @@ class FPN(nn.Module):
         self.latlayer2 = nn.Conv2d( 512, 256, kernel_size=1, stride=1, padding=0)
         self.latlayer3 = nn.Conv2d( 256, 256, kernel_size=1, stride=1, padding=0)
 
+        self.tanh = nn.Tanh()
+
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
@@ -573,16 +575,19 @@ class FPN(nn.Module):
         p2 = self.up(p2)
         p2 = self.up_p2_2(p2)
         p2 = self.up(p2)
+        p2 = self.tanh(p2)
 
         p3 = self.reduce_channels_1(p3)
         p3 = self.reduce_channels_2(p3)
+        p3 = self.tanh(p3)
 
         p4 = self.reduce_channels_1(p4)
         p4 = self.reduce_channels_2(p4)
+        p4 = self.tanh(p4)
 
         p5 = self.reduce_channels_1(p5)
         p5 = self.reduce_channels_2(p5)
-
+        p5 = self.tanh(p5)
         # print('p2:', p2.size())
         # print('p3:', p3.size())
         # print('p4:', p4.size())
