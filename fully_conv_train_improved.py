@@ -72,7 +72,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
     total_step = len(train_loader)
 
     for epoch in range(num_epochs):
-        optimizer.zero_grad()
+        model.zero_grad()
         for i, (in_images, exp_images) in enumerate(train_loader):
             # Move tensors to the configured device
             in_images = in_images.type(torch.FloatTensor).to(device)
@@ -141,7 +141,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
 
             if (i+1) % accumulation_steps == 0:  
                 optimizer.step()
-                optimizer.zero_grad()
+                model.zero_grad()
             
             if (i+1) % 200 == 0:
                 print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
@@ -158,7 +158,12 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             for in_images, exp_images in val_loader:
                 in_images = in_images.to(device)
                 exp_images = exp_images.to(device)
-                outputs = model(in_images)
+
+                if name != 'FPN':
+                    outputs = model(in_images)
+
+                elif name == 'FPN':
+                    outputs = model(in_images)[0]
                 
                 MSE += torch.sum((outputs - exp_images) ** 2)
                 
@@ -351,7 +356,12 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
             for in_images, exp_images in val_loader:
                 in_images = in_images.to(device)
                 exp_images = exp_images.to(device)
-                outputs = model(in_images)
+                
+                if name != 'FPN':
+                    outputs = model(in_images)
+
+                elif name == 'FPN':
+                    outputs = model(in_images)[0]
                 
                 MSE += torch.sum((outputs - exp_images) ** 2)
                 
@@ -410,7 +420,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
 
     return model, valSSIM
 
-def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, test_dataset):
+def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, test_dataset, use_perceptual_loss = True):
 
     best_id = np.argmax(valSSIM)
     bestESmodel = model
@@ -429,8 +439,11 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
             
             in_images = in_images.to(device)
             exp_images = exp_images.to(device)
+            if name != 'FPN':
+                outputs = bestESmodel(in_images)
 
-            outputs = bestESmodel(in_images)
+            elif name == 'FPN':
+                outputs = bestESmodel(in_images)[0]
 
             MSE += torch.sum((outputs - exp_images) ** 2)
             
@@ -452,11 +465,11 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
                 plt.title(title)
                 plt.imshow(np.transpose( vutils.make_grid([in_images[i], outputs[i], exp_images[i]], padding=5, normalize=True).cpu() , (1,2,0)))
                 plt.tight_layout()
-                plt.savefig(path+'images/'+name+'_%d.png'%(count))
+                plt.savefig(path+'images/'+name+str(use_perceptual_loss)+'_%d.png'%(count))
                 plt.close()
                 
-                plt.savefig(path+'images/'+name+'_%d.png'%(count))
-                plt.close()
+                # plt.savefig(path+'images/'+name+'_%d.png'%(count))
+                # plt.close()
 
                 if count % 100 == 0:
                     print('Saving image_%d.png'%(count))
@@ -511,9 +524,9 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 20
+num_epochs = 25
 learning_rate = 1e-4
-learning_rate_decay = 0.9
+learning_rate_decay = 0.95
 reg = 0.005
 batch_size = 2
 
@@ -545,39 +558,44 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_
 print('##########################################################################################################################')
 name = 'unet'
 print(name)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+ploss = False
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
+# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
 
 print('##########################################################################################################################')
 name = 'unet_in'
 print(name)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
+ploss = False
+model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
+# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
 
 # print('##########################################################################################################################')
 # name = 'unet_bn'
 # print(name)
-# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
-# # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+# ploss = False
+# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 # print('Testing ..............................')
-# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, ploss)
 
 print('##########################################################################################################################')
 name = 'unet_d'
 print(name)
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+ploss = False
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
 
 print('##########################################################################################################################')
 name = 'FPN'
 print(name)
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = False)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = True)
+ploss = False
+model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset)
+testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
