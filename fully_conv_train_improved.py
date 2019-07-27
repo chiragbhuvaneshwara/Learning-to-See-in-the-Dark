@@ -253,7 +253,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
     model.apply(weights_init)
 
     # Print the model we just instantiated
-    print(model)
+    # print(model)
 
     model.to(device)
     
@@ -487,7 +487,7 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
 
         print("Best Epoch wrt Avg Validation SSIM: ", best_id+1)
 
-    torch.save(bestESmodel.state_dict(), path+'models/bestESModel_'+name+'.ckpt')
+    torch.save(bestESmodel.state_dict(), path+'models/bestESModel_'+name+str(use_perceptual_loss)+'.ckpt')
 ###############################################################################################################################################
 
 path = ''
@@ -527,11 +527,19 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
+<<<<<<< HEAD
 num_epochs = 20
 learning_rate = 1e-4
 learning_rate_decay = 0.9
 reg = 0.001
 batch_size = 3
+=======
+num_epochs = 10
+learning_rate = 1e-5
+learning_rate_decay = 0.8
+reg = 0.005
+batch_size = 2
+>>>>>>> 44b44dc3d94fe441ec7ca69b836289d1045559d0
 
 # ### dev params
 # num_training= 20
