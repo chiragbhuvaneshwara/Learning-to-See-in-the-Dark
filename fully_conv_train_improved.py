@@ -494,7 +494,7 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
 
 path = ''
 
-n = 1234
+n = 123
 np.random.seed(n)
 torch.cuda.manual_seed_all(n)
 torch.manual_seed(n)
