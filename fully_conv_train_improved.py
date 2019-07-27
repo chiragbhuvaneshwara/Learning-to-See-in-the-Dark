@@ -179,15 +179,15 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             
             total = len(val_dataset)
             current_SSIM = overallSSIM/total
-            valSSIM.append(current_SSIM)
 
             current_MSE = MSE/total
-            valMSE.append(current_MSE)
 
             # if current_MSE <= np.amin(valMSE):
             if current_SSIM >= np.amax(valSSIM):
                 torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
-
+            
+            valSSIM.append(current_SSIM)
+            valMSE.append(current_MSE)
             print('Results on Validation set of {} images:'.format(total))
             print('Avg Validation MSE : {} '.format(current_MSE))
             print('Avg Validation SSIM: {} '.format(current_SSIM))
@@ -377,14 +377,17 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
             
             total = len(val_dataset)
             current_SSIM = overallSSIM/total
-            valSSIM.append(current_SSIM)
+            
 
             current_MSE = MSE/total
-            valMSE.append(current_MSE)
+            
 
             # if current_MSE <= np.amin(valMSE):
             if current_SSIM >= np.amax(valSSIM):
                 torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
+
+            valSSIM.append(current_SSIM)
+            valMSE.append(current_MSE)
 
             print('Results on Validation set of {} images:'.format(total))
             print('Avg Validation MSE : {} '.format(current_MSE))
@@ -479,8 +482,8 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
         total = len(test_dataset)
         
         print('Results on Test set of {} images:'.format(total))
-        print('Avg Validation MSE : {} '.format(MSE/total))
-        print('Avg Validation SSIM: {} '.format(overallSSIM/total))
+        print('Avg Test MSE : {} '.format(MSE/total))
+        print('Avg Test SSIM: {} '.format(overallSSIM/total))
 
         print("Best Epoch wrt Avg Validation SSIM: ", best_id+1)
 
@@ -524,11 +527,11 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 25
+num_epochs = 20
 learning_rate = 1e-4
-learning_rate_decay = 0.95
-reg = 0.005
-batch_size = 2
+learning_rate_decay = 0.9
+reg = 0.001
+batch_size = 3
 
 # ### dev params
 # num_training= 20
@@ -564,38 +567,38 @@ model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, l
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
 
-print('##########################################################################################################################')
-name = 'unet_in'
-print(name)
-ploss = False
-model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
-# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
+# print('##########################################################################################################################')
+# name = 'unet_in'
+# print(name)
+# ploss = False
+# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
+# # model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# print('Testing ..............................')
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
+
+# # print('##########################################################################################################################')
+# # name = 'unet_bn'
+# # print(name)
+# # ploss = False
+# # model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# # # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
+# # print('Testing ..............................')
+# # testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, ploss)
 
 # print('##########################################################################################################################')
-# name = 'unet_bn'
+# name = 'unet_d'
 # print(name)
 # ploss = False
 # model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
 # # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 # print('Testing ..............................')
-# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, ploss)
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
 
-print('##########################################################################################################################')
-name = 'unet_d'
-print(name)
-ploss = False
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
-
-print('##########################################################################################################################')
-name = 'FPN'
-print(name)
-ploss = False
-model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
-# model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
-print('Testing ..............................')
-testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
+# print('##########################################################################################################################')
+# name = 'FPN'
+# print(name)
+# ploss = False
+# model, list_valSSIM = trainModel(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, use_perceptual_loss = ploss)
+# # model, list_valSSIM = trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
+# print('Testing ..............................')
+# testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
