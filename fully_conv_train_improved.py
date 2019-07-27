@@ -146,7 +146,7 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
                 model.zero_grad()
             
             if (i+1) % 200 == 0:
-                print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+                print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.6f}'
                     .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
         
         # Code to update the lr
@@ -193,8 +193,8 @@ def trainModel_withGradAccum(name, path, device, num_epochs, learning_rate, lear
             
 
             print('Results on Validation set of {} images:'.format(total))
-            print('Avg Validation MSE : {} '.format(current_MSE))
-            print('Avg Validation SSIM: {} '.format(current_SSIM))
+            print('Avg Validation MSE : {:.6f} '.format(current_MSE))
+            print('Avg Validation SSIM: {:.6f} '.format(current_SSIM))
 
     # Training loss and Val MSE curves
     plt.plot(valMSE)
@@ -346,7 +346,7 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
             optimizer.step()
 
             if (i+1) % 200 == 0:
-                print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+                print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.6f}'
                     .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
         
         # Code to update the lr
@@ -392,8 +392,8 @@ def trainModel(name, path, device, num_epochs, learning_rate, learning_rate_deca
                 torch.save(model.state_dict(),path+'models/ESmodel'+str(epoch+1)+'.ckpt')
 
             print('Results on Validation set of {} images:'.format(total))
-            print('Avg Validation MSE : {} '.format(current_MSE))
-            print('Avg Validation SSIM: {} '.format(current_SSIM))
+            print('Avg Validation MSE : {:.6f} '.format(current_MSE))
+            print('Avg Validation SSIM: {:.6f} '.format(current_SSIM))
 
     # Training loss and Val MSE curves
     plt.plot(valMSE)
@@ -484,8 +484,8 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
         total = len(test_dataset)
         
         print('Results on Test set of {} images:'.format(total))
-        print('Avg Test MSE : {} '.format(MSE/total))
-        print('Avg Test SSIM: {} '.format(overallSSIM/total))
+        print('Avg Test MSE : {:.6f} '.format(MSE/total))
+        print('Avg Test SSIM: {:.6f} '.format(overallSSIM/total))
 
         print("Best Epoch wrt Avg Validation SSIM: ", best_id+1)
 
