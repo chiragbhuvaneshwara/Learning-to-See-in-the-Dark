@@ -41,10 +41,19 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
+forwardTransform = transforms.Compose([     transforms.ToTensor(),
+                                            transforms.Normalize(  mean = [ 0.5, 0.5, 0.5], std = [ 0.5, 0.5, 0.5]  )   ])
+
 #sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', transforms.ToTensor())
-sitd_dataset = SeeingIntTheDarkDataset(path+'dataset_local/Sony/short_down/', path+'dataset_local/Sony/long_down/', transforms.ToTensor())
-print('Input Image Size:')
-print(sitd_dataset[0][0].size())
+# sitd_dataset = SeeingIntTheDarkDataset(path+'dataset_local/Sony/short_down/', path+'dataset_local/Sony/long_down/', transforms.ToTensor())
+sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
+print('Input Image Size:', sitd_dataset[0][0].size())
+print('#################################################')
+print('Min image value: ',int(torch.min(sitd_dataset[0][0])) )
+print('Max image value: ',int(torch.max(sitd_dataset[0][0])) )
+inImageSize = sitd_dataset[0][0].size()
+inImage_xdim = int(inImageSize[1])
+inImage_ydim = int(inImageSize[2])
 
 #--------------------------------
 # Device configuration
