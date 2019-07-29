@@ -91,7 +91,7 @@ def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, l
             if (i+1) % accumulation_steps == 0:  
                 
                 optimizer_G.step()
-                unet_in_generator.zero_grad()
+                generator.zero_grad()
 
             ###############################
             # Discriminator update
