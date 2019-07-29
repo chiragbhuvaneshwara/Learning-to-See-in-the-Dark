@@ -48,7 +48,7 @@ def trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, l
     total_step = len(train_loader)
 
     for epoch in range(num_epochs):
-        unet_in_generator.zero_grad()
+        generator.zero_grad()
         discriminator.zero_grad()
         for i, (in_images, exp_images) in enumerate(train_loader):
             generator.train()
