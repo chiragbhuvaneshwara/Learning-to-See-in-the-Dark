@@ -493,7 +493,7 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch
 print('##########################################################################################################################################')
 name = 'gan_'
 ploss = False
-print(name+ploss)
+print(name+str(ploss))
 model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
@@ -503,7 +503,7 @@ testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, te
 print('##########################################################################################################################################')
 name = 'gan_'
 ploss = True
-print(name+ploss)
+print(name+str(ploss))
 model, list_valSSIM = trainGanModel_withGradAccum(name, path, device, num_epochs, learning_rate, learning_rate_decay, reg, train_loader, val_loader, train_dataset, val_dataset, inImageSize, accumulation_steps=5, use_perceptual_loss = ploss)
 print('Testing ..............................')
 testModelAndSaveOutputs(name, path, device, model, list_valSSIM, test_loader, test_dataset, use_perceptual_loss = ploss)
