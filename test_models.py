@@ -9,15 +9,23 @@ from skimage.measure import compare_ssim
 import torchvision.utils as vutils
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
-# from gan_models import *
+
+# tanh models
 from gan_models import unet_in_generator, Discriminator
-from fully_conv_models import simpleUNET, unet, unet_bn, unet_d, unet_in, FPN, Bottleneck
+from fully_conv_models import simpleUNET, unet, unet_bn, unet_d, unet_in, FPN 
+
+# sigmoid models
+from fully_conv_models_sigmoid import unet, unet_d, unet_in as old_unet
+from fully_conv_models_sigmoid import unet_d as old_unet_d
+from fully_conv_models_sigmoid import unet_in as old_unet_in
+
 from datasetLoader import SeeingIntTheDarkDataset
 from perceptual_loss_models import VggModelFeatures
-trans = transforms.ToPILImage()
+# trans = transforms.ToPILImage()
 
-def testModel(path, device, nameOfSavedModel, model, subset_loader, subset):
+def testModel(path, device, nameOfSavedModel, model, subset_loader, subset, save_images = False):
 
+    name = nameOfSavedModel[:-5]
     model.load_state_dict(torch.load(path+'models/'+nameOfSavedModel))
     model.to(device)
 
@@ -46,6 +54,25 @@ def testModel(path, device, nameOfSavedModel, model, subset_loader, subset):
 
             overallSSIM += SSIM
 
+            if save_images:
+                # Visualize the output of the best model against ground truth
+                reqd_size = int(in_images.size()[0])
+                for i in range(reqd_size):
+                    count += 1 
+
+                    title = '###Input### vs ###Model_Output### vs ###Ground_truth###'
+                    plt.title(title)
+                    plt.imshow(np.transpose( vutils.make_grid([in_images[i], outputs[i], exp_images[i]], padding=5, normalize=True).cpu() , (1,2,0)))
+                    plt.tight_layout()
+                    plt.savefig(path+'images/'+name+'_%d.png'%(count))
+                    plt.close()
+                    
+                    # plt.savefig(path+'images/'+name+'_%d.png'%(count))
+                    # plt.close()
+
+                    if count % 100 == 0:
+                        print('Saving image_%d.png'%(count))
+
         total = len(subset)
         
         avgMSE = MSE/total
@@ -57,7 +84,7 @@ def testModel(path, device, nameOfSavedModel, model, subset_loader, subset):
 
     return avgMSE, avgSSIM
 
-def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset):
+def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset, save_images=False):
     
     print('###############################################################')
     print('Train Set:')
@@ -69,7 +96,7 @@ def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_
 
     print('###############################################################')
     print('Test Set')
-    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, model, test_loader, test_dataset)
+    MSE3, SSIM3 = testModel(path, device, nameOfSavedModel, model, test_loader, test_dataset, save_images)
 
     print('###############################################################')
     print('Overall: ')
@@ -78,7 +105,6 @@ def testModelOnAllSets(path, device, nameOfSavedModel, model, train_loader, val_
     print('Avg MSE : {}'.format(overallMSE))
     print('Avg SSIM: {}'.format(overallSSIM))
 
-# path = '/media/chirag/Chirag/Learning-to-See-in-the-Dark/'
 path = ''
 #--------------------------------
 # Device configuration
@@ -92,41 +118,67 @@ if torch.cuda.is_available():
 
 print('Using device: %s'%device)
 
-forwardTransform = transforms.Compose([  transforms.ToTensor(),
-                                         transforms.Normalize(  mean = [ 0.5, 0.5, 0.5],
-                                                                std = [ 0.5, 0.5, 0.5]    )
-                                    ])
 
-# sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_temp_down/', path+'dataset/Sony/long_temp_down/', forwardTransform)
-sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
-print('Input Image Size: ',sitd_dataset[0][0].size())
-print('Min image value: ',int(torch.min(sitd_dataset[0][0])) )
-print('Max image value: ',int(torch.max(sitd_dataset[0][0])) )
+def prepare_data(forwardTransform):
+    
+    sitd_dataset = SeeingIntTheDarkDataset(path+'dataset/Sony/short_down/', path+'dataset/Sony/long_down/', forwardTransform)
+    print('Input Image Size: ',sitd_dataset[0][0].size())
+    print('Min image value: ',int(torch.min(sitd_dataset[0][0])) )
+    print('Max image value: ',int(torch.max(sitd_dataset[0][0])) )
 
-inImageSize = sitd_dataset[0][0].size()
-inImage_xdim = int(inImageSize[1])
-inImage_ydim = int(inImageSize[2])
+    inImageSize = sitd_dataset[0][0].size()
+    inImage_xdim = int(inImageSize[1])
+    inImage_ydim = int(inImageSize[2])
 
-#### final params
-num_training= 2100
-num_validation = 200
-num_test = 397
-batch_size = 5
+    #### final params
+    num_training= 2100
+    num_validation = 200
+    num_test = 397
+    batch_size = 5
 
-mask = list(range(num_training))
-train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
+    mask = list(range(num_training))
+    train_dataset = torch.utils.data.Subset(sitd_dataset, mask)
 
-mask = list(range(num_training, num_training + num_validation))
-val_dataset = torch.utils.data.Subset(sitd_dataset, mask)
+    mask = list(range(num_training, num_training + num_validation))
+    val_dataset = torch.utils.data.Subset(sitd_dataset, mask)
 
-mask = list(range(num_training + num_validation, num_training + num_validation + num_test))
-test_dataset = torch.utils.data.Subset(sitd_dataset, mask)
+    mask = list(range(num_training + num_validation, num_training + num_validation + num_test))
+    test_dataset = torch.utils.data.Subset(sitd_dataset, mask)
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_size=batch_size,shuffle=True)
-val_loader = torch.utils.data.DataLoader(dataset=val_dataset,batch_size=batch_size,shuffle=False)
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_size,shuffle=False)
+    train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_size=batch_size,shuffle=True)
+    val_loader = torch.utils.data.DataLoader(dataset=val_dataset,batch_size=batch_size,shuffle=False)
+    test_loader = torch.utils.data.DataLoader(dataset=test_dataset,batch_size=batch_size,shuffle=False)
+
+    return train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset
 
 #############################################################################################################
+# Results from models before presentation
+
+forwardTransform = transforms.Compose([  transforms.ToTensor(),
+                                        #  transforms.Normalize(  mean = [ 0.5, 0.5, 0.5],
+                                        #                          std = [ 0.5, 0.5, 0.5]    )
+                                    ])
+
+train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset = prepare_data(forwardTransform)
+
+model = old_unet()
+testModelOnAllSets(path, device, 'old_bestESModel_unet.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset, save_images= True)
+
+model = old_unet_in()
+testModelOnAllSets(path, device, 'old_bestESModel_unet_in.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset, save_images= True)
+
+model = old_unet_d()
+testModelOnAllSets(path, device, 'old_bestESModel_unet_d.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset, save_images= True)
+
+#############################################################################################################
+# Results from new models after presentation
+
+forwardTransform = transforms.Compose([  transforms.ToTensor(),
+                                         transforms.Normalize(  mean = [ 0.5, 0.5, 0.5],
+                                                                 std = [ 0.5, 0.5, 0.5]    )
+                                    ])
+
+train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset = prepare_data(forwardTransform)
 
 generator = unet_in_generator(device)
 testModelOnAllSets(path, device, 'bestESModel_gan_mse_loss.ckpt', generator, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
@@ -151,4 +203,3 @@ testModelOnAllSets(path, device, 'bestESModel_gan_perceptual_loss.ckpt', generat
 
 # model = FPN(Bottleneck, [2,2,2,2])
 # testModelOnAllSets(path, device, 'bestESModel_FPN.ckpt', model, train_loader, val_loader, test_loader, train_dataset, val_dataset, test_dataset)
-

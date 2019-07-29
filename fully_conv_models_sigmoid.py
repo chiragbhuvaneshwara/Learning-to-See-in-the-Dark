@@ -62,41 +62,18 @@ class up(nn.Module):
 
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
-        
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
 
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
 
 
-class DepthToSpace(nn.Module):
-    def __init__(self, block_size):
-        super(DepthToSpace, self).__init__()
-        self.block_size = block_size
-        self.block_size_sq = block_size*block_size
-
-    def forward(self, input):
-        output = input.permute(0, 2, 3, 1)
-        (batch_size, d_height, d_width, d_depth) = output.size()
-        s_depth = int(d_depth / self.block_size_sq)
-        s_width = int(d_width * self.block_size)
-        s_height = int(d_height * self.block_size)
-        t_1 = output.reshape(batch_size, d_height, d_width, self.block_size_sq, s_depth)
-        spl = t_1.split(self.block_size, 3)
-        stack = [t_t.reshape(batch_size, d_height, s_width, s_depth) for t_t in spl]
-        output = torch.stack(stack,0).transpose(0,1).permute(0,2,1,3,4).reshape(batch_size, s_height, s_width, s_depth)
-        output = output.permute(0, 3, 1, 2)
-        return output
 
 class unet(nn.Module):
 
     def __init__(self):
         super(unet,self).__init__()
         
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv(3, 64)
         self.down1 = down(64, 128)
         self.down2 = down(128, 256)
@@ -179,10 +156,6 @@ class up_bn(nn.Module):
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
         
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
-
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
@@ -193,7 +166,6 @@ class unet_bn(nn.Module):
     def __init__(self):
         super(unet_bn,self).__init__()
         
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_bn(3, 64)
         self.down1 = down_bn(64, 128)
         self.down2 = down_bn(128, 256)
@@ -204,7 +176,6 @@ class unet_bn(nn.Module):
         self.up3 = up_bn(256, 64)
         self.up4 = up_bn(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
-        #self.out2 = DepthToSpace(2)
 
     def forward(self,x):
         
@@ -281,10 +252,6 @@ class up_in(nn.Module):
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
         
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
-
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
@@ -295,7 +262,6 @@ class unet_in(nn.Module):
     def __init__(self):
         super(unet_in,self).__init__()
         
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_in(3, 64)
         self.down1 = down_in(64, 128)
         self.down2 = down_in(128, 256)
@@ -306,7 +272,6 @@ class unet_in(nn.Module):
         self.up3 = up_in(256, 64)
         self.up4 = up_in(128, 64)
         self.out1 = nn.Conv2d(64, 3, 3, padding=1)
-        #self.out2 = DepthToSpace(2)
 
     def forward(self,x):
         
@@ -377,10 +342,6 @@ class up_d(nn.Module):
 
         x1 = F.pad(x1, (diffX // 2, diffX - diffX//2,
                         diffY // 2, diffY - diffY//2))
-        
-        # for padding issues, see 
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
 
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
@@ -392,7 +353,6 @@ class unet_d(nn.Module):
     def __init__(self):
         super(unet_d,self).__init__()
         
-        # https://github.com/alishdipani/U-net-Pytorch/blob/master/train_Unet.py
         self.inc = double_conv_d(3, 64)
         self.down1 = down_d(64, 128)
         self.down2 = down_d(128, 256)
@@ -458,7 +418,6 @@ class simpleUNET(nn.Module):
 
         # 32 channel output of pool2 is concatenated
         
-        #https://www.quora.com/How-do-you-calculate-the-output-dimensions-of-a-deconvolution-network-layer
         #Input Tensor Dimensions = 64x64x96
         #De Convolution 1
         self.deconv1=nn.ConvTranspose2d(in_channels=96,out_channels=32,kernel_size=3,padding=1) ##
