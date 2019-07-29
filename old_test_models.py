@@ -11,9 +11,9 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
 # from gan_models import *
 from gan_models import unet_in_generator, Discriminator
-from fully_conv_models import simpleUNET, unet, unet_bn, unet_d, unet_in, FPN, Bottleneck
+from old_fully_conv_models import unet, unet_d, unet_in
 from datasetLoader import SeeingIntTheDarkDataset
-from perceptual_loss_models import VggModelFeatures
+# from perceptual_loss_models import VggModelFeatures
 trans = transforms.ToPILImage()
 
 def testModel(path, device, nameOfSavedModel, model, subset_loader, subset, save_images = False):
