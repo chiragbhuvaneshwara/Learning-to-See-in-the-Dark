@@ -1,0 +1,138 @@
+Input Image Size: torch.Size([3, 480, 720])
+#################################################
+Min image value:  -1
+Max image value:  1
+Initial GPU: 0
+Selected GPU: 1
+Using device: cuda
+##########################################################################################################################
+unet
+Effective Batch Size : 15
+Epoch [1/20], Step [200/700], Loss: 0.021973
+Epoch [1/20], Step [400/700], Loss: 0.029407
+Epoch [1/20], Step [600/700], Loss: 0.020958
+Results on Validation set of 200 images:
+Avg Validation MSE : 168281.859375 
+Avg Validation SSIM: 0.466797 
+Epoch [2/20], Step [200/700], Loss: 0.059205
+Epoch [2/20], Step [400/700], Loss: 0.024192
+Epoch [2/20], Step [600/700], Loss: 0.043125
+Results on Validation set of 200 images:
+Avg Validation MSE : 170776.000000 
+Avg Validation SSIM: 0.470818 
+Epoch [3/20], Step [200/700], Loss: 0.013335
+Epoch [3/20], Step [400/700], Loss: 0.035876
+Epoch [3/20], Step [600/700], Loss: 0.021535
+Results on Validation set of 200 images:
+Avg Validation MSE : 167478.203125 
+Avg Validation SSIM: 0.466291 
+Epoch [4/20], Step [200/700], Loss: 0.048807
+Epoch [4/20], Step [400/700], Loss: 0.033410
+Epoch [4/20], Step [600/700], Loss: 0.042206
+Results on Validation set of 200 images:
+Avg Validation MSE : 167380.781250 
+Avg Validation SSIM: 0.466724 
+Epoch [5/20], Step [200/700], Loss: 0.026072
+Epoch [5/20], Step [400/700], Loss: 0.024083
+Epoch [5/20], Step [600/700], Loss: 0.030700
+Results on Validation set of 200 images:
+Avg Validation MSE : 167785.953125 
+Avg Validation SSIM: 0.468966 
+Epoch [6/20], Step [200/700], Loss: 0.021245
+Epoch [6/20], Step [400/700], Loss: 0.032151
+Epoch [6/20], Step [600/700], Loss: 0.031247
+Results on Validation set of 200 images:
+Avg Validation MSE : 168234.203125 
+Avg Validation SSIM: 0.470390 
+Epoch [7/20], Step [200/700], Loss: 0.012808
+Epoch [7/20], Step [400/700], Loss: 0.029577
+Epoch [7/20], Step [600/700], Loss: 0.046924
+Results on Validation set of 200 images:
+Avg Validation MSE : 167157.125000 
+Avg Validation SSIM: 0.467297 
+Epoch [8/20], Step [200/700], Loss: 0.049305
+Epoch [8/20], Step [400/700], Loss: 0.031291
+Epoch [8/20], Step [600/700], Loss: 0.021090
+Results on Validation set of 200 images:
+Avg Validation MSE : 167280.125000 
+Avg Validation SSIM: 0.468357 
+Epoch [9/20], Step [200/700], Loss: 0.018012
+Epoch [9/20], Step [400/700], Loss: 0.024012
+Epoch [9/20], Step [600/700], Loss: 0.026865
+Results on Validation set of 200 images:
+Avg Validation MSE : 167423.343750 
+Avg Validation SSIM: 0.469086 
+Epoch [10/20], Step [200/700], Loss: 0.029382
+Epoch [10/20], Step [400/700], Loss: 0.024226
+Epoch [10/20], Step [600/700], Loss: 0.040200
+Results on Validation set of 200 images:
+Avg Validation MSE : 169384.218750 
+Avg Validation SSIM: 0.472655 
+Epoch [11/20], Step [200/700], Loss: 0.018115
+Epoch [11/20], Step [400/700], Loss: 0.043651
+Epoch [11/20], Step [600/700], Loss: 0.044050
+Results on Validation set of 200 images:
+Avg Validation MSE : 167167.671875 
+Avg Validation SSIM: 0.468399 
+Epoch [12/20], Step [200/700], Loss: 0.021684
+Epoch [12/20], Step [400/700], Loss: 0.020739
+Epoch [12/20], Step [600/700], Loss: 0.025969
+Results on Validation set of 200 images:
+Avg Validation MSE : 171716.921875 
+Avg Validation SSIM: 0.474446 
+Epoch [13/20], Step [200/700], Loss: 0.015729
+Epoch [13/20], Step [400/700], Loss: 0.024993
+Epoch [13/20], Step [600/700], Loss: 0.020753
+Results on Validation set of 200 images:
+Avg Validation MSE : 168609.390625 
+Avg Validation SSIM: 0.471735 
+Epoch [14/20], Step [200/700], Loss: 0.019815
+Epoch [14/20], Step [400/700], Loss: 0.018929
+Epoch [14/20], Step [600/700], Loss: 0.025342
+Results on Validation set of 200 images:
+Avg Validation MSE : 168426.593750 
+Avg Validation SSIM: 0.471472 
+Epoch [15/20], Step [200/700], Loss: 0.026847
+Epoch [15/20], Step [400/700], Loss: 0.016858
+Epoch [15/20], Step [600/700], Loss: 0.015794
+Results on Validation set of 200 images:
+Avg Validation MSE : 170216.656250 
+Avg Validation SSIM: 0.473404 
+Epoch [16/20], Step [200/700], Loss: 0.024840
+Epoch [16/20], Step [400/700], Loss: 0.027139
+Epoch [16/20], Step [600/700], Loss: 0.022628
+Results on Validation set of 200 images:
+Avg Validation MSE : 171307.031250 
+Avg Validation SSIM: 0.474220 
+Epoch [17/20], Step [200/700], Loss: 0.049034
+Epoch [17/20], Step [400/700], Loss: 0.043046
+Epoch [17/20], Step [600/700], Loss: 0.028485
+Results on Validation set of 200 images:
+Avg Validation MSE : 168450.734375 
+Avg Validation SSIM: 0.471498 
+Epoch [18/20], Step [200/700], Loss: 0.018863
+Epoch [18/20], Step [400/700], Loss: 0.016922
+Epoch [18/20], Step [600/700], Loss: 0.030429
+Results on Validation set of 200 images:
+Avg Validation MSE : 167596.562500 
+Avg Validation SSIM: 0.470004 
+Epoch [19/20], Step [200/700], Loss: 0.026023
+Epoch [19/20], Step [400/700], Loss: 0.017464
+Epoch [19/20], Step [600/700], Loss: 0.022668
+Results on Validation set of 200 images:
+Avg Validation MSE : 167287.625000 
+Avg Validation SSIM: 0.469378 
+Epoch [20/20], Step [200/700], Loss: 0.034321
+Epoch [20/20], Step [400/700], Loss: 0.019281
+Epoch [20/20], Step [600/700], Loss: 0.022988
+Results on Validation set of 200 images:
+Avg Validation MSE : 168378.859375 
+Avg Validation SSIM: 0.471352 
+Testing ..............................
+Saving image_100.png
+Saving image_200.png
+Saving image_300.png
+Results on Test set of 397 images:
+Avg Test MSE : 151342.953125 
+Avg Test SSIM: 0.503076 
+Best Epoch wrt Avg Validation SSIM:  12

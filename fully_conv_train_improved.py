@@ -494,7 +494,7 @@ def testModelAndSaveOutputs(name, path, device, model, valSSIM, test_loader, tes
 
 path = ''
 
-n = 123
+n = 3 #2 ,1, 9,13, 123, 1234
 np.random.seed(n)
 torch.cuda.manual_seed_all(n)
 torch.manual_seed(n)
@@ -529,7 +529,7 @@ num_training= 2100
 num_validation = 200
 num_test = 397
 
-num_epochs = 20
+num_epochs = 15
 learning_rate = 1e-4
 learning_rate_decay = 0.9
 reg = 0.001
